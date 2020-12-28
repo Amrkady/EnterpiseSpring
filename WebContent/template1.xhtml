@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" lang="en">
+
+<h:head>
+	<f:facet name="first">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta name="viewport"
+			content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+	</f:facet>
+	<title><ui:insert name="title"></ui:insert></title>
+
+
+
+	<script type="application/javascript"
+		src="#{facesContext.externalContext.requestContextPath}/resources/js/dynamsoft.webtwain.config.js"></script>
+	<script type="application/javascript"
+		src="#{facesContext.externalContext.requestContextPath}/resources/js/dynamsoft.webtwain.initiate.js"></script>
+	<script src="Resources/addon/dynamsoft.webtwain.addon.pdf.js"></script>
+	<script type="application/javascript"
+		src="#{facesContext.externalContext.requestContextPath}/resources/js/scanContent.js"></script>
+
+	<link rel="stylesheet" type="text/css"
+		href="#{facesContext.externalContext.requestContextPath}/resources/css/ds.demo.css" />
+	<h:outputStylesheet name="css/fonts.css" library="serenity-layout"></h:outputStylesheet>
+	<h:outputStylesheet name="css/ripple.css" library="serenity-layout"></h:outputStylesheet>
+	<h:outputScript name="js/nanoscroller.js" library="serenity-layout" />
+	<h:outputScript name="js/layout.js" library="serenity-layout" />
+	<h:outputScript name="js/ripple.js" library="serenity-layout" />
+
+
+	<link rel="stylesheet" type="text/css"
+		href="#{facesContext.externalContext.requestContextPath}/resources/css/mycss.css" />
+
+	<link rel="stylesheet" type="text/css"
+		href="#{facesContext.externalContext.requestContextPath}/resources/jqueryCalendarsIslam/jquery.calendars.picker.css"></link>
+	<script type="text/javascript"
+		src="#{facesContext.externalContext.requestContextPath}/resources/jqueryCalendarsIslam/jquery.calendars.min.js"></script>
+	<script type="text/javascript"
+		src="#{facesContext.externalContext.requestContextPath}/resources/jqueryCalendarsIslam/jquery.plugin.js"></script>
+	<script type="text/javascript"
+		src="#{facesContext.externalContext.requestContextPath}/resources/jqueryCalendarsIslam/jquery.calendars.picker.js"></script>
+	<script type="text/javascript"
+		src="#{facesContext.externalContext.requestContextPath}/resources/jqueryCalendarsIslam/jquery.calendars.plus.js"></script>
+	<script type="text/javascript"
+		src="#{facesContext.externalContext.requestContextPath}/resources/jqueryCalendarsIslam/convertHG.js"></script>
+	<script type="text/javascript"
+		src="#{facesContext.externalContext.requestContextPath}/resources/jqueryCalendarsIslam/jquery.calendars.ummalqura.js"></script>
+	<script type="text/javascript"
+		src="#{facesContext.externalContext.requestContextPath}/resources/jqueryCalendarsIslam/jquery.calendars.ummalqura-ar.js"></script>
+
+
+
+	<ui:insert name="head" />
+	<style>
+.ui-selectonemenu .ui-selectonemenu-label {
+	text-align: right;
+}
+
+.ui-selectonemenu-panel .ui-selectonemenu-list-item {
+	text-align: right;
+}
+
+body .ui-panel .ui-panel-content {
+	height: 100%;
+	box-sizing: border-box;
+	padding: 8px 14px;
+	padding: 0px;
+}
+
+.ui-datatable .ui-datatable-header, .ui-datatable .ui-datatable-footer {
+	text-align: center;
+	padding: 4px 10px;
+	background: transparent;
+	height: 50px;
+	color: black;
+}
+
+body .ui-datatable .ui-datatable-header .ui-inputfield, body .ui-datatable .ui-datatable-footer .ui-inputfield
+	{
+	color: #7e7676;
+}
+
+th {
+	background-color: #1565C0 !important;
+	color: white
+}
+label {
+	font-size:16px;
+}
+h1{
+	font-size:24px;
+}
+</style>
+</h:head>
+
+<h:body>
+	<p:dialog id="inputHiden" header="تنبيه" widgetVar="alertExpire"
+		onShow="startIdleMonitor()">
+		<h:outputText value="جلسة عمل المتصفح الخاص بك تنتهي في " />
+		<h:outputText id="dialog-countdown" style="font-weight: bold;" />
+		<h:outputText value=" ثواني" />
+		<br />
+		<h:outputText value="هل ترغب في الاستمرار في جلسة العمل الخاصة بك؟" />
+		<h:form>
+			<p:commandButton value="نعم" process="@this" update="inputHiden"
+				onclick="stopCount()" />
+			<br />
+			<p:remoteCommand name="logout" action="#{loginBean.logout}"
+				immediate="true" />
+		</h:form>
+
+		<script>
+			PrimeFaces.locales['ar'] = {
+				closeText : 'إغلق',
+				prevText : 'إلى الخلف',
+				nextText : 'إلى الأمام',
+				currentText : 'بداية',
+				monthNames : [ 'يناير', 'فبراير', 'مارس', 'ابريل', 'مايو',
+						'يونيو', 'يوليو', 'أغسطس', 'سبتمبر', 'أكتوبر',
+						'نوفمبر', 'ديسمبر' ],
+				monthNamesShort : [ 'يناير', 'فبراير', 'مارس', 'ابريل', 'مايو',
+						'يونيو', 'يوليو', 'أغسطس', 'سبتمبر', 'أكتوبر',
+						'نوفمبر', 'ديسمبر' ],
+				dayNames : [ 'يوم الأحد‎', 'يوم الإثنين‎', 'يوم الثلاثاء‎',
+						'‏يوم الأَرْبعاء‎', '‏يوم الخَمِيس‎',
+						'يوم الجُمْعَة‎‎', 'يوم السَّبْت' ],
+				dayNamesShort : [ 'أحد‎', 'إثنين‎', 'ثلاثاء‎', 'أَرْبعاء‎',
+						'خَمِيس‎', 'جُمْعَة‎‎', 'سَّبْت' ],
+				dayNamesMin : [ 'أحد‎', 'إثنين‎', 'ثلاثاء‎', 'أَرْبعاء‎',
+						'خَمِيس‎', 'جُمْعَة‎‎', 'سَّبْت' ],
+				weekHeader : 'الأسبوع',
+				firstDay : 1,
+				isRTL : false,
+				showMonthAfterYear : false,
+				yearSuffix : '',
+				timeOnlyTitle : 'الوقت فقط',
+				timeText : 'الوقت',
+				hourText : 'ساعة',
+				minuteText : 'دقيقة',
+				secondText : 'ثانية',
+				ampm : false,
+				month : 'الشهر',
+				week : 'الأسبوع',
+				day : 'اليوم',
+				allDayText : 'سا ئراليوم'
+			};
+			function openPopup() {
+				document.getElementById('time2').value = null
+				document.getElementById('time3').value = null
+				$('#myScaleModal').modal('show');
+			}
+			function closePopup() {
+				$('#myScaleModal').modal('hide');
+			}
+		</script>
+		<script type="text/javascript">
+			var TIME = 1000; // in seconds
+			var countTimer = TIME;
+			var processTimer;
+			var timer_is_on = 0;
+			var countDownDiv = "dialog-countdown";
+			var txtCountDown = null;
+			if (!txtCountDown)
+				txtCountDown = document.getElementById(countDownDiv);
+			function startIdleMonitor() {
+				countTimer = TIME;
+				txtCountDown.innerHTML = countTimer;
+				doTimer();
+			}
+			function timedCount() {
+				txtCountDown.innerHTML = countTimer;
+				if (countTimer == 0) {
+					stopCount();
+					logout();
+					return;
+				}
+				countTimer = countTimer - 1;
+				processTimer = setTimeout("timedCount()", 1000);
+			}
+			function doTimer() {
+				if (!timer_is_on) {
+					timer_is_on = 1;
+					timedCount();
+				}
+			}
+			function stopCount() {
+				clearTimeout(processTimer);
+				timer_is_on = 0;
+			}
+		</script>
+	</p:dialog>
+	<div class="layout-wrapper layout-rtl">
+		<ui:include src="sidebar.xhtml" />
+
+
+		<div class="layout-main">
+			<p:idleMonitor timeout="300000" onidle="PF('alertExpire').show();">
+			</p:idleMonitor>
+			<ui:include src="topbar.xhtml" />
+
+			<div class="layout-breadcrumb">
+				<ul>
+				</ul>
+			</div>
+			<div class="layout-content " style="background-color: white;">
+				<ui:insert name="content" />
+			</div>
+			<ui:include src="footer1.xhtml" />
+		</div>
+	</div>
+	<p:ajaxStatus
+		style="width:32px;height:32px;position:fixed;right:7px;bottom:7px">
+		<f:facet name="start">
+			<i class="fa fa-circle-o-notch fa-spin ajax-loader"
+				aria-hidden="true"></i>
+		</f:facet>
+
+		<f:facet name="complete">
+			<h:outputText value="" />
+		</f:facet>
+	</p:ajaxStatus>
+
+	<p:ajaxStatus onstart="PF('statusDialog').show()"
+		onsuccess="PF('statusDialog').hide()"
+		oncomplete="PF('statusDialog').hide()"
+		onerror="PF('statusDialog').hide()">
+		<p:dialog widgetVar="statusDialog" modal="true" draggable="false"
+			closable="false" resizable="false" showHeader="false" width="20%"
+			height="20%">
+			<p:graphicImage name="/images/loading.gif" width="100%" />
+		</p:dialog>
+
+	</p:ajaxStatus>
+
+	<h:outputStylesheet name="css/nanoscroller.css"
+		library="serenity-layout" />
+	<h:outputStylesheet name="css/layout-moody.css"
+		library="serenity-layout" />
+	<h:outputScript name="js/calender-ar-layout.js"
+		library="serenity-layout" />
+</h:body>
+
+</html>

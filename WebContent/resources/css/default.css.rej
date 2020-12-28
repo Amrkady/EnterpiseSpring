@@ -1,0 +1,21 @@
+--- default.css
++++ default.css
+@@ -21,7 +21,7 @@
+ .ui-button:hover, button.ui-button.ui-state-hover, .ui-button.ui-state-hover{
+     color: #fff;
+      text-shadow: -1px 1px #417cb8;
+-    background-color: #488451 !important;;
++    background-color: #36633D !important;;
+     text-shadow: -1px 1px #27496d;
+ 
+ 
+@@ -96,8 +96,7 @@
+ /**********************CHANGING SYSTEM FONT***********************/
+ .ui-widget{
+     font-family: kufi !important;
+-    
+-    
++
+ }
+ 
+ .ui-tabs .ui-tabs-nav.ui-widget-header li a {

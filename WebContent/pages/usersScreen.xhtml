@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title></title>
+
+</head>
+<h:body>
+	<ui:composition template="/template1.xhtml">
+		<ui:define name="content">
+			<h:form dir="rtl" id="form">
+				<p:messages id="msg" autoUpdate="true" closable="true"></p:messages>
+				<h1 style="color: #1565C0; text-align: center;">المستخدمين</h1>
+
+				<div class="image-box-footer" align="left">
+
+					<p:commandButton id="cBadd" value="اضافة مستخدم"
+						icon="ui-icon ui-icon-plus" action="#{userBean.showdlAdd}">
+					</p:commandButton>
+				</div>
+				<br />
+				<br />
+				<p:dataTable id="myTable" var="user" value="#{userBean.users}"
+					emptyMessage="لايوجد بيانات" rowIndexVar="rowIndex"
+					 paginatorPosition="bottom" editable="true"
+					paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+					paginator="true" rows="10">
+					
+					<p:ajax event="rowEdit" listener="#{userBean.onRowEdit}"
+						update=":form:msg  :form:myTable" />
+					<p:ajax event="rowEditCancel" listener="#{userBean.onRowCancel}"
+						update=":form:msg" />
+
+					<p:column headerText="رقم" style="width: 5%">
+						<h:outputText value="#{rowIndex+1}" />
+					</p:column>
+					<p:column headerText="الأسم" style="width: 20%"
+						filterBy="#{user.name}" filterMatchMode="contains">
+						
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{user.name}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText id="nameInput" value="#{user.name}"
+									style="width:100%" />
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+					<p:column headerText="رمز الدخول" filterBy="#{user.loginName}"
+						filterMatchMode="contains" style="width: 15%">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{user.loginName}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{user.loginName}" style="width:100%" />
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+					<p:column headerText="الجوال" filterBy="#{user.phone}"
+						filterMatchMode="contains" style="width: 15%">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{user.phone}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{user.phone}" style="width:100%" />
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+					<p:column headerText="العنوان" filterBy="#{user.address}"
+						filterMatchMode="contains" style="width: 15%">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{user.address}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{user.address}" style="width:100%" />
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+					<p:column headerText="تعديل" style="width:5%">
+						<p:rowEditor />
+					</p:column>
+					<p:column headerText="حذف" style="width:5%">
+						<p:commandButton update=":form:myTable" style="background-color:red" icon="ui-icon ui-icon-remove"
+							title="حذف" action="#{userBean.deleteUser(user)}">
+
+						</p:commandButton>
+					</p:column>
+				</p:dataTable>
+			</h:form>
+			<h:form>
+			<p:dialog position="center" widgetVar="whsdlAdd" responsive="true"
+				hideEffect="explode" showEffect="explode" width="70%" 
+				closable="true" dir="rtl" resizable="true" modal="true">
+				
+				<h:panelGroup id="panelGroupAdd" width="70%">
+				<p:fieldset legend="بيانات المستخدم">	
+						<div class="ui-g">
+							<div class="ui-g-2">
+								<p:outputLabel value=" الاسم" />
+							</div>
+							<div class="ui-g-4">
+								<p:inputText required="true" value="#{userBean.usr.name}" />
+							</div>
+						</div>
+
+						<div class="ui-g">
+							<div class="ui-g-2">
+								<p:outputLabel value="رمز الدخول" />
+							</div>
+							<div class="ui-g-4">
+								<p:inputText  value="#{userBean.usr.loginName}" required="true"
+									requiredMessage="ادخل رمز الدخول">
+								</p:inputText>
+							</div>
+							<div class="ui-g-2">
+								<p:outputLabel value="الرقم السري " />
+							</div>
+							<div class="ui-g-4">
+								<p:password  validatorMessage="يجب ان يحتوي الرقم السري علي ارقام وحروف كبيرة وصغيرة وعلامات خاصة" value="#{userBean.usr.password}" required="true"
+									requiredMessage="ادخل الرقم السري ">
+<!-- 									<f:validateRegex pattern="((?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^*()_]).{8,20})"></f:validateRegex> -->
+									
+								</p:password>
+							</div>
+
+						</div>
+						<div class="ui-g">
+							<div class="ui-g-2">
+								<p:outputLabel value="رقم الجوال " />
+							</div>
+							<div class="ui-g-4">
+								<p:inputText value="#{userBean.usr.phone}" />
+							</div>
+							<div class="ui-g-2">
+								<p:outputLabel value="العنوان" />
+							</div>
+							<div class="ui-g-4">
+								<p:inputText value="#{userBean.usr.address}" />
+							</div>
+						</div>
+						<div class="ui-g">
+							<div class="ui-g-2">
+								<p:outputLabel value="هل مدير" />
+							</div>
+							<div class="ui-g-4">
+								<p:selectBooleanCheckbox value="#{userBean.MNG}" />
+							</div>
+						</div>
+
+						<div class="iamge-box-footer" align="left">
+							<p:commandButton  update="form panelGroupAdd" value="حفظ" icon="ui-icon ui-icon-save"
+								process="@all" action="#{userBean.addUser}">
+							</p:commandButton>
+							<p:spacer height="4"></p:spacer>
+							<p:commandButton   styleClass="orange-btn" value="عودة"
+								icon="ui-icon ui-icon-arrow-back" immediate="true"
+								onclick="PF('whsdlAdd').hide();" />
+						</div>
+					</p:fieldset>
+				</h:panelGroup>
+			</p:dialog>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</h:body>
+
+</html>

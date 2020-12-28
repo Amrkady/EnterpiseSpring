@@ -1,0 +1,141 @@
+
+body {
+    background-color: #ffffff;
+    font-family: sans-serif !important;
+
+    color: #000000;  
+    margin:  0;
+    font-size: small;
+    padding-left: 0; padding-right: 0;
+    padding: 0;
+
+}
+/**********************BUTTON STYLE***********************/
+.ui-button, button.ui-button.ui-state-default, .ui-button.ui-state-default{
+    color: #fff;
+    background: #36633D !important;;
+    text-shadow: -1px 1px #417cb8;
+    border: none;
+    
+}
+.ui-button:hover, button.ui-button.ui-state-hover, .ui-button.ui-state-hover{
+    color: #fff;
+     text-shadow: -1px 1px #417cb8;
+    background-color: #488451 !important;;
+    text-shadow: -1px 1px #27496d;
+
+
+}
+
+
+
+h1 {
+    font-family: Arial, "Arial CE", "Lucida Grande CE", lucida, "Helvetica CE", sans-serif;
+    border-bottom: 1px solid #AFAFAF; 
+    font-size:  13px;
+    font-weight: bold;
+    margin: 0px;
+    padding: 0px;
+    color: #D20005;
+}
+
+a:link, a:visited {
+    color: #045491;
+    font-weight : bold;
+    text-decoration: none;
+}
+
+a:link:hover, a:visited:hover  {
+    color: #045491;
+    font-weight : bold;
+    text-decoration : underline;
+}
+/*
+.ui-widget-header ,.ui-tabs-nav ,.ui-state-default, .ui-widget-content ,.ui-state-default, .ui-widget-header, .ui-state-default{
+    background-image: none !important ;
+    border-radius: 0px;
+}
+.ui-button ,.ui-button-text {
+font-weight: bold;
+}
+*/
+.ui-corner-all {
+    border-radius: 0px;
+}
+
+.ui-dialog-title{
+    font-size: large;
+    overflow: auto;
+    direction: rtl;
+}
+.ui-dialog{
+    direction: rtl;
+}
+.ui-autocomplete-panel .ui-autocomplete-list {
+
+    width: 500px !important;
+    font-size: medium;
+    height: 400px;
+}
+.ui-paginator .ui-paginator-next .ui-icon, .ui-paginator .ui-paginator-prev .ui-icon, 
+.ui-paginator .ui-paginator-first .ui-icon, .ui-paginator .ui-paginator-last .ui-icon {
+    overflow: auto;
+}
+.ui-paginator .ui-paginator-page, .ui-paginator .ui-paginator-next, .ui-paginator .ui-paginator-last,
+.ui-paginator .ui-paginator-first, .ui-paginator .ui-paginator-prev {
+    overflow: auto;
+}
+.ui-paginator .ui-paginator-page, .ui-paginator .ui-paginator-next, .ui-paginator .ui-paginator-last,
+.ui-paginator .ui-paginator-first, .ui-paginator .ui-paginator-next {
+    overflow: auto;
+}
+.ui-paginator .ui-paginator-page, .ui-paginator .ui-paginator-next, .ui-paginator .ui-paginator-last,
+.ui-paginator .ui-paginator-first, .ui-paginator .ui-paginator-end {
+    overflow: auto;
+}
+/**********************CHANGING SYSTEM FONT***********************/
+.ui-widget{
+    font-family: kufi !important;
+    
+    
+}
+
+.ui-tabs .ui-tabs-nav.ui-widget-header li a {
+    font-size: small;
+    font-weight: bold;
+}
+.ui-selectmanycheckbox label, .ui-selectoneradio label {
+    font-size: medium;
+}
+.ui-button-text-icon-left .ui-button-text {
+    font-size: small;
+    font-weight: bold;
+}
+.ui-selectonemenu-panel .ui-selectonemenu-table td {
+    font-size: small;
+}
+.ui-dialog.ui-widget-content .ui-dialog-titlebar{
+    background-color: rgba(0, 0, 0, 0.05);
+    color: black;
+}
+.ui-fileupload-files {
+    font-size: small;
+}
+.ui-fileupload-content .ui-progressbar {
+    width: 50px !important;
+}
+.ui-dialog .ui-dialog-titlebar-maximize {
+    float: left;
+}
+@font-face {
+    font-family: 'kufi';
+    font-style: normal;
+    font-weight: normal;
+    src:  url(../fonts/DroidKufi-Regular.ttf) format('truetype');
+}
+@font-face {
+    font-family: 'naskh';
+    font-style: normal;
+    font-weight: normal;
+    src:  url(../fonts/naskh.ttf) format('truetype');
+}

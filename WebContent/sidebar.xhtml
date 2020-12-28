@@ -1,0 +1,54 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pm="http://primefaces.org/serenity"
+	xmlns:secc="http://www.springframework.org/security/tags">
+
+	<div class="layout-sidebar layout-sidebar-dark}">
+		<div class="sidebar-logo" align="center">
+			<p:graphicImage style="width:40%" name="images/login/logo.png"
+				library="serenity-layout" />
+			<!--                 <span class="app-name">#{msg['municipality']}</span> -->
+			<a href="#" class="sidebar-anchor" title="Toggle Menu"></a>
+		</div>
+
+		<div class="nano">
+			<div class="nano-content sidebar-scroll-content">
+				<div class="layout-menu-container">
+					<h:form id="menuform">
+
+
+						<pm:menu>
+							<p:menuitem value="الرئيسية" outcome="success"
+								icon="ui-icon ui-icon-home" />
+							<p:submenu label="الحسابات"
+								icon="ui-icon ui-icon-account-balance">
+								<p:menuitem value="ايرادات " icon="ui-icon ui-icon-attach-money"
+									/>
+								<p:menuitem value="مصروفات " icon="ui-icon ui-icon-exposure"
+									 />
+							</p:submenu>
+							<p:submenu label="الاعدادات"
+								icon="ui-icon ui-icon-settings-applications">
+								<p:menuitem value="المستخدمين" icon="ui-icon ui-icon-people"
+									outcome="users" />
+							</p:submenu>
+
+						</pm:menu>
+
+
+
+
+					</h:form>
+				</div>
+			</div>
+		</div>
+	</div>
+</ui:composition>
+
+
+
+
+

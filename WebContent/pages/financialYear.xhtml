@@ -1,0 +1,473 @@
+<?xml version="1.0" encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:secc="http://www.springframework.org/security/tags">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title></title>
+
+</head>
+<h:body>
+	<ui:composition template="/template2.xhtml">
+		<ui:define name="content">
+			<h:form dir="rtl" id="form" prependId="false">
+				<p:messages autoUpdate="true" closable="true"></p:messages>
+				<h1 style="color: #1565C0; text-align: center;">القوائم المالية</h1>
+
+				<br />
+				<div class="ui-g">
+					<div class="ui-g-1">
+						<p:outputLabel value="اختر السنة"></p:outputLabel>
+					</div>
+					<div class="ui-g-3">
+						<p:selectOneMenu style="width:70%" value="#{financailBean.year}">
+							<f:selectItem itemLabel="اختر السنة" noSelectionValue="true"></f:selectItem>
+							<f:selectItems value="#{financailBean.years}"></f:selectItems>
+							<p:ajax listener="#{financailBean.loadData}" update="@form"
+								process="@this"></p:ajax>
+						</p:selectOneMenu>
+					</div>
+				</div>
+				<br />
+				<p:accordionPanel dir="ltr" style="width:95% ;">
+					<p:tab title="اليومية والاستاذ العام">
+						<br />
+						<div class="ui-g">
+							<p:dataTable var="rev" value="#{financailBean.sndList}"
+								emptyMessage="لايوجد بيانات" rowIndexVar="rowIndex"
+								sortOrder="descending" paginatorPosition="bottom"
+								sortBy="#{rev.sndDate}"
+								paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+								paginator="true" rows="5">
+								<p:columnGroup type="header">
+									<p:row>
+										<p:column rowspan="2" headerText="التاريخ" />
+										<p:column colspan="2" headerText="الصندوق" />
+										<p:column colspan="2" headerText="البنك" />
+										<p:column colspan="2" headerText="المبيعات" />
+									</p:row>
+									<p:row>
+										<p:column headerText="مدين" />
+										<p:column headerText="دائن" />
+										<p:column headerText="مدين" />
+										<p:column headerText="دائن" />
+										<p:column headerText="مدين" />
+										<p:column headerText="دائن" />
+										<!-- 										<p:column headerText="مدين" /> -->
+									</p:row>
+
+								</p:columnGroup>
+								<p:column headerText="التاريخ" style="width: 15%">
+									<h:outputText value="#{rev.sndDate}">
+										<f:convertDateTime pattern="dd/MM/yyyy" />
+									</h:outputText>
+								</p:column>
+								<p:column style="width: 15%">
+									<h:outputText
+										value="#{(rev.sndType == 1 and rev.payType == '2') ? rev.amount : ' ' }">
+										<f:convertNumber pattern="##################.##" />
+									</h:outputText>
+								</p:column>
+								<p:column style="width: 15%">
+									<h:outputText
+										value="#{(rev.sndType == 2 and rev.payType == '2') ? rev.amount : ' ' }">
+										<f:convertNumber pattern="##################.##" />
+									</h:outputText>
+								</p:column>
+								<p:column style="width: 15%">
+									<h:outputText
+										value="#{(rev.sndType == 1 and rev.payType == '1') ? rev.amount : ' ' }">
+										<f:convertNumber pattern="##################.##" />
+									</h:outputText>
+								</p:column>
+								<p:column style="width: 15%">
+									<h:outputText
+										value="#{(rev.sndType == 2 and rev.payType == '1') ? rev.amount : ' ' }">
+										<f:convertNumber pattern="##################.##" />
+									</h:outputText>
+								</p:column>
+								<p:column style="width: 5%">
+									<h:outputText value=" ">
+
+									</h:outputText>
+								</p:column>
+								<p:column style="width: 15%">
+									<h:outputText value="#{(rev.sndType == 1) ? rev.amount : ' ' }">
+										<f:convertNumber pattern="##################.##" />
+									</h:outputText>
+								</p:column>
+								<p:columnGroup type="footer">
+									<p:row>
+										<p:column style="text-align:center ; FONT-WEIGHT:bold ;"
+											footerText="الاجمالى">
+										</p:column>
+										<p:column
+											footerText="#{financailBean.sndList.stream().filter(fdet->fdet.sndType == 1 and fdet.payType == '2').map(fdet->fdet.amount).sum()}"
+											style="FONT-WEIGHT:bold ;color : #F85F3E ;text-align:center " />
+
+										<p:column
+											footerText="#{financailBean.sndList.stream().filter(fdet->fdet.sndType == 2 and fdet.payType == '2').map(fdet->fdet.amount).sum()}"
+											style="FONT-WEIGHT:bold ;color : #F85F3E ;text-align:center " />
+
+										<p:column
+											footerText="#{financailBean.sndList.stream().filter(fdet->fdet.sndType == 1 and fdet.payType == '1').map(fdet->fdet.amount).sum()}"
+											style="FONT-WEIGHT:bold ;color : #F85F3E ;text-align:center " />
+
+
+										<p:column
+											footerText="#{financailBean.sndList.stream().filter(fdet->fdet.sndType == 2 and fdet.payType == '1').map(fdet->fdet.amount).sum()}"
+											style="FONT-WEIGHT:bold ;color : #F85F3E ;text-align:center " />
+
+										<p:column colspan="2"
+											footerText="#{financailBean.sndList.stream().filter(fdet->fdet.sndType == 1).map(fdet->fdet.amount).sum()}"
+											style="FONT-WEIGHT:bold ;color : #F85F3E ; text-align:center; " />
+									</p:row>
+								</p:columnGroup>
+							</p:dataTable>
+						</div>
+						<br />
+						<br />
+						<div class="ui-g">
+							<p:dataTable var="rev" value="#{financailBean.sndList}"
+								emptyMessage="لايوجد بيانات" rowIndexVar="rowIndex"
+								paginatorPosition="bottom" sortBy="#{rev.sndDate}"
+								sortOrder="descending"
+								paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+								paginator="true" rows="5">
+								<p:columnGroup type="header">
+									<p:row>
+										<p:column rowspan="2" headerText="التاريخ" />
+										<p:column colspan="3" headerText="المصروفات" />
+										<p:column colspan="2" headerText="الموردين" />
+										<p:column colspan="3" headerText="الاصول الثابته" />
+
+									</p:row>
+									<p:row>
+										<p:column headerText="نوع المصروفات" />
+										<p:column headerText="مدين" />
+										<p:column headerText="دائن" />
+
+										<p:column headerText="مدين" />
+										<p:column headerText="دائن" />
+
+										<p:column headerText="نوع الاصول الثابتة" />
+										<p:column headerText="مدين" />
+										<p:column headerText="دائن" />
+									</p:row>
+
+								</p:columnGroup>
+								<p:column headerText="التاريخ" style="width: 15%">
+									<h:outputText value="#{rev.sndDate}">
+										<f:convertDateTime pattern="dd/MM/yyyy" />
+									</h:outputText>
+								</p:column>
+								<p:column style="width: 5%">
+									<h:outputText
+										value="#{rev.expensisTypesId == -1 ? 'مصروفات عمومية وادارية' :rev.expensisTypesName}">
+
+									</h:outputText>
+								</p:column>
+								<p:column style="width: 15%">
+									<h:outputText value="#{(rev.sndType == 2) ? rev.amount : ' ' }">
+										<f:convertNumber pattern="##################.##" />
+									</h:outputText>
+								</p:column>
+
+								<p:column style="width: 5%">
+									<h:outputText value=" ">
+
+									</h:outputText>
+								</p:column>
+
+								<p:column style="width: 15%">
+									<h:outputText
+										value="#{(rev.sndType == 2 and rev.expensisTypesId == 1) ? rev.amount : ' ' }">
+										<f:convertNumber pattern="##################.##" />
+									</h:outputText>
+								</p:column>
+								<p:column style="width: 5%">
+									<h:outputText value=" ">
+
+									</h:outputText>
+								</p:column>
+								<p:column style="width: 5%">
+									<h:outputText value="#{rev.asoulName}">
+
+									</h:outputText>
+								</p:column>
+								<p:column style="width: 5%">
+									<h:outputText value=" ">
+
+									</h:outputText>
+								</p:column>
+								<p:column style="width: 15%">
+									<h:outputText
+										value="#{(rev.expensisTypesId == 9) ? rev.amount : ' ' }">
+										<f:convertNumber pattern="##################.##" />
+									</h:outputText>
+								</p:column>
+								<p:columnGroup type="footer">
+									<p:row>
+										<p:column style="text-align:center ; FONT-WEIGHT:bold ;"
+											footerText="الاجمالى">
+										</p:column>
+										<p:column colspan="3"
+											footerText="#{financailBean.sndList.stream().filter(fdet->fdet.sndType == 2).map(fdet->fdet.amount).sum()}"
+											style="FONT-WEIGHT:bold ;color : #F85F3E ;text-align:center " />
+
+										<p:column colspan="2"
+											footerText="#{financailBean.sndList.stream().filter(fdet->fdet.sndType == 2 and fdet.expensisTypesId == 1).map(fdet->fdet.amount).sum()}"
+											style="FONT-WEIGHT:bold ;color : #F85F3E ;text-align:center " />
+
+										<p:column colspan="3"
+											footerText="#{financailBean.sndList.stream().filter(fdet->fdet.expensisTypesId == 9).map(fdet->fdet.amount).sum()}"
+											style="FONT-WEIGHT:bold ;color : #F85F3E ; text-align:center; " />
+									</p:row>
+								</p:columnGroup>
+							</p:dataTable>
+						</div>
+					</p:tab>
+					<p:tab title="ميزان المراجعة ">
+						<div class="ui-g">
+							<div class="ui-g-1">
+								<h4 style="color: #1565C0; text-align: center;">
+									<p:outputLabel value="الصندوق" />
+								</h4>
+							</div>
+							<div class="ui-g-2">
+								<p:outputLabel value="#{financailBean.totalBoxSum}">
+									<f:convertNumber pattern="##################.##" />
+								</p:outputLabel>
+							</div>
+							<div class="ui-g-1">
+								<h4 style="color: #1565C0; text-align: center;">
+									<p:outputLabel value="البنك" />
+								</h4>
+							</div>
+							<div class="ui-g-2">
+								<p:outputLabel value="#{financailBean.totalBankSum}">
+									<f:convertNumber pattern="##################.##" />
+								</p:outputLabel>
+							</div>
+							<div class="ui-g-1">
+								<h4 style="color: #1565C0; text-align: center;">
+									<p:outputLabel value="المبيعات" />
+								</h4>
+							</div>
+							<div class="ui-g-2">
+								<p:outputLabel value="#{financailBean.paysTotalSum}">
+									<f:convertNumber pattern="##################.##" />
+								</p:outputLabel>
+							</div>
+							<div class="ui-g-1">
+								<h4 style="color: #1565C0; text-align: center;">
+									<p:outputLabel value="المصروفات" />
+								</h4>
+							</div>
+							<div class="ui-g-2">
+								<p:outputLabel value="#{financailBean.expensisTotalSum}">
+									<f:convertNumber pattern="##################.##" />
+								</p:outputLabel>
+							</div>
+						</div>
+						<br />
+						<div class="image-box-footer" align="left">
+							<p:commandButton class="bb" value="طباعة"
+								rendered="#{financailBean.enablePrint}"
+								style="width:10%; align:left" icon="ui-icon ui-icon-print "
+								onclick="this.form.target='_blank'" ajax="false"
+								action="#{financailBean.printReviewSystem}">
+							</p:commandButton>
+
+						</div>
+					</p:tab>
+					<p:tab title="قائمة الدخل ">
+						<br />
+						<div class="ui-g">
+							<p:dataTable id="ble" var="rev" value="#{financailBean.revList}"
+								emptyMessage="لايوجد بيانات" rowIndexVar="rowIndex"
+								paginatorPosition="bottom" sortBy="#{rev.stationId}"
+								paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+								paginator="true" rows="10">
+								<p:column headerText="رقم" style="width: 5%">
+									<h:outputText value="#{rowIndex+1}" />
+								</p:column>
+								<p:column headerText="المحطة" style="width: 15%">
+									<h:outputText value="#{rev.stationName}" />
+								</p:column>
+								<p:column headerText="الايرادات " style="width: 15%">
+									<h:outputText value="#{rev.revAmount}">
+										<f:convertNumber pattern="##################.##" />
+									</h:outputText>
+								</p:column>
+								<p:column headerText="المصروفات" style="width: 15%">
+									<h:outputText value="#{rev.expAmount}">
+										<f:convertNumber pattern="##################.##" />
+									</h:outputText>
+								</p:column>
+								<p:column headerText="قيمة الضريبة المضافة" style="width: 10%">
+									<h:outputText value="#{rev.taxs}" />
+								</p:column>
+								<p:column headerText="ضريبة الذكاه" style="width: 10%">
+									<p:inputNumber value="#{rev.zakah}">
+										<f:convertNumber pattern="##################.##">
+										</f:convertNumber>
+										<p:ajax event="blur"
+											listener="#{financailBean.calcFineValSum(rev)}"
+											update="total ble" />
+									</p:inputNumber>
+								</p:column>
+								<p:column headerText="صافى الربح" style="width: 10%">
+									<h:outputText id="total" value="#{rev.profit}" />
+								</p:column>
+								<p:summaryRow>
+									<p:column colspan="6"
+										style="text-align:left ; FONT-WEIGHT:bold ;">
+										<h:outputText value="صافى الربح" />
+									</p:column>
+									<p:column>
+										<h:outputText style="text-align:left ; FONT-WEIGHT:bold ;"
+											id="pro"
+											value="#{financailBean.revList.stream().map(fdet->fdet.profit).sum()}">
+											<f:convertNumber pattern="##################.##" />
+										</h:outputText>
+									</p:column>
+								</p:summaryRow>
+							</p:dataTable>
+						</div>
+						<br />
+						<div class="image-box-footer" align="left">
+							<p:commandButton class="bb" value="طباعة"
+								rendered="#{financailBean.enablePrint}"
+								style="width:10%; align:left" icon="ui-icon ui-icon-print "
+								onclick="this.form.target='_blank'" ajax="false"
+								action="#{financailBean.printIcomeMenu}">
+							</p:commandButton>
+
+						</div>
+					</p:tab>
+					<p:tab title="الميزانية العمومية " style="font-width : bold;">
+						<div class="ui-g">
+							<div class="ui-g-3">
+								<h2 style="color: #1565C0;">
+									<p:outputLabel value="الاصول الثابته" />
+								</h2>
+							</div>
+						</div>
+						<div class="ui-g">
+							<div class="ui-g-4">
+								<p:dataTable var="rev" value="#{financailBean.asoulList}"
+									emptyMessage="لايوجد بيانات" rowIndexVar="rowIndex"
+									paginatorPosition="bottom" sortBy="#{rev.expensisTypesId}"
+									paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+									paginator="true" rows="10">
+									<p:column headerText="رقم" style="width: 5%">
+										<h:outputText value="#{rowIndex+1}" />
+									</p:column>
+									<p:column headerText="نوع الاصول الثابته" style="width: 25%">
+										<h:outputText value="#{rev.asoulName}" />
+									</p:column>
+									<p:column headerText="القيمة " style="width: 15%">
+										<h:outputText value="#{rev.amount}">
+											<f:convertNumber pattern="##################.##" />
+										</h:outputText>
+									</p:column>
+
+									<p:summaryRow>
+										<p:column colspan="2"
+											style="text-align:left ; FONT-WEIGHT:bold ;color : #F85F3E">
+											<h:outputText value="الاجمالى" />
+										</p:column>
+										<p:column>
+											<h:outputText
+												style="text-align:left ; FONT-WEIGHT:bold ;color : #F85F3E"
+												value="#{financailBean.asoulList.stream().map(fdet->fdet.amount).sum()}">
+												<f:convertNumber pattern="##################.##" />
+											</h:outputText>
+										</p:column>
+									</p:summaryRow>
+								</p:dataTable>
+							</div>
+						</div>
+						<div class="ui-g-8"></div>
+						<div class="ui-g">
+							<div class="ui-g-4">
+								<h2 style="color: #1565C0;">
+									<p:outputLabel value="الاصول المتداولة" />
+								</h2>
+							</div>
+						</div>
+						<div class="ui-g">
+							<div class="ui-g-2">
+								<p:outputLabel value="الصندوق" />
+							</div>
+							<div class="ui-g-3">
+								<h:outputText value="#{financailBean.totalBoxSum}">
+									<f:convertNumber pattern="##################.##" />
+								</h:outputText>
+							</div>
+						</div>
+						<div class="ui-g">
+							<div class="ui-g-2">
+								<p:outputLabel value="البنك" />
+							</div>
+
+							<div class="ui-g-3">
+								<h:outputText value="#{financailBean.totalBankSum}">
+									<f:convertNumber pattern="##################.##" />
+								</h:outputText>
+							</div>
+						</div>
+						<div class="ui-g">
+							<div class="ui-g-2">
+								<p:outputLabel value="الاجمالى" />
+							</div>
+							<div class="ui-g-3">
+								<h:outputText
+									value="#{financailBean.totalBoxSum + financailBean.totalBankSum}">
+									<f:convertNumber pattern="##################.##" />
+								</h:outputText>
+							</div>
+						</div>
+						<div class="image-box-footer" align="left">
+							<p:commandButton class="bb" value="طباعة"
+								rendered="#{financailBean.enablePrint}"
+								style="width:10%; align:left" icon="ui-icon ui-icon-print "
+								onclick="this.form.target='_blank'" ajax="false"
+								action="#{financailBean.printGenaralMouzna}">
+							</p:commandButton>
+
+						</div>
+					</p:tab>
+					<p:tab title="الخصوم المتداولة" style="font-width : bold;">
+						<!-- 						<h:form id="asd"> -->
+						<div class="ui-g">
+							<div class="ui-g-2">
+								<p:outputLabel value="جارى الشريك" />
+							</div>
+							<div class="ui-g-3">
+								<h:panelGroup id="tot">
+									<h:outputText
+										value="#{financailBean.revList.stream().map(fdet->fdet.profit).sum()}">
+										<f:convertNumber pattern="##################.##" />
+									</h:outputText>
+								</h:panelGroup>
+							</div>
+						</div>
+						
+						<!-- 						</h:form> -->
+					</p:tab>
+				</p:accordionPanel>
+
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</h:body>
+
+</html>

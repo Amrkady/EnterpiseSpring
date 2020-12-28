@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Bills_snad" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="b3d43872-09ef-4080-8e66-7a23b6142bd2">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<parameter name="custName" class="java.lang.String"/>
+	<parameter name="reyal" class="java.lang.Integer"/>
+	<parameter name="for" class="java.lang.String"/>
+	<parameter name="payType" class="java.lang.String"/>
+	<parameter name="date" class="java.lang.String"/>
+	<parameter name="dateH" class="java.lang.String"/>
+	<parameter name="costByLet" class="java.lang.Double"/>
+	<parameter name="halaa" class="java.lang.Integer"/>
+	<parameter name="header" class="java.lang.String"/>
+	<parameter name="tax" class="java.lang.Float"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT  s.station_name stationName 
+ FROM thorape3_bnzena.stations  s
+where s.id =2;]]>
+	</queryString>
+	<field name="stationName" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="88">
+			<rectangle>
+				<reportElement x="0" y="0" width="553" height="80" uuid="220731d0-4658-4f71-8a14-b5cd7cbb6776"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="356" y="20" width="194" height="40" forecolor="#0000FF" uuid="e1f83c71-3cf0-4547-9eb8-b987b0d5b3ee"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="34" isBold="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[مجموعة ذرا]]></text>
+			</staticText>
+			<image hAlign="Center">
+				<reportElement x="275" y="2" width="86" height="77" uuid="b5abcd5a-c848-44a6-8c14-4506dcadaad8"/>
+				<imageExpression><![CDATA[$P{header}]]></imageExpression>
+			</image>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="475" splitType="Stretch">
+			<rectangle>
+				<reportElement x="180" y="0" width="200" height="40" backcolor="#0000FF" uuid="c62a744f-4319-4278-ba30-1d5537aa07e0"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="183" y="0" width="194" height="40" forecolor="#FFFFFF" backcolor="#4C21D9" uuid="b32037af-8378-43dc-991a-99174e6d8c3e"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="27" isBold="false" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[سند صرف]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="0" y="60" width="552" height="393" uuid="c4227f7e-a9f5-413a-b179-33ba29fbd165"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="84" y="68" width="76" height="19" uuid="49dc73b6-f72d-4301-b2a5-a3ea180319ad"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="10" y="68" width="75" height="19" uuid="8cfcb0b9-0772-4dce-8012-3bb5762aa21c"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="85" y="87" width="75" height="19" uuid="2251eb3a-7d14-419a-92ba-c31c518c4738"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="10" y="87" width="75" height="19" uuid="20ad4b67-48ac-4fc3-888c-1edcf32ee257"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="85" y="68" width="75" height="18" forecolor="#0000FF" uuid="e7c71f2c-93dd-448d-83c1-8703360ead9f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[هللة]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="69" width="74" height="17" forecolor="#0000FF" uuid="99408281-788e-48c8-adb8-51aaae988d55"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ريال]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="460" y="127" width="80" height="18" forecolor="#0000FF" uuid="ab11d974-202f-41d6-bca1-87e4ad9a3780"/>
+				<textElement textAlignment="Right" verticalAlignment="Top">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[اصرفوا الى المكرم ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="470" y="158" width="70" height="18" forecolor="#0000FF" uuid="12bbafcd-a31e-408b-bc42-6644d230ecd4"/>
+				<textElement textAlignment="Right" verticalAlignment="Top">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[المبــــــلغ       ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="470" y="226" width="70" height="18" forecolor="#0000FF" uuid="f9af14c3-c0a2-4706-9c0d-be0046c322b8"/>
+				<textElement textAlignment="Right" verticalAlignment="Top">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[وذلك مقابل    ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="470" y="195" width="70" height="18" forecolor="#0000FF" uuid="abc09c1a-37c5-4c0e-a0f1-ccb6a8bd63da"/>
+				<textElement textAlignment="Right" verticalAlignment="Top">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[طريقة الدفع     ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="470" y="298" width="70" height="18" forecolor="#0000FF" uuid="850ccb38-2c37-46af-9123-413dce88a377"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[التـاريخ         ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="224" y="299" width="60" height="18" forecolor="#0000FF" uuid="1e6949f9-d92c-459f-9daa-a1c8a64bc22f"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA[الموافق]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="97" y="127" width="360" height="18" forecolor="#000000" uuid="5125ba9c-a3e6-4450-bafc-b0c69e511989"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{custName}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="257" y="359" width="60" height="18" forecolor="#0000FF" uuid="b828518b-894a-4468-9095-bf045bb02058"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[المحاسب]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="460" y="360" width="70" height="18" forecolor="#0000FF" uuid="2deeaf50-3b2a-4545-b7e1-b20c27b67943"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[توقيع المستلم]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="210" y="398" width="150" height="18" forecolor="#020203" uuid="59a5243d-55c0-4ae8-88eb-bb1fcd37d41a"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="10" isBold="false"/>
+				</textElement>
+				<text><![CDATA[..........................................................................]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="420" y="398" width="130" height="18" forecolor="#020203" uuid="fced86e8-4a72-41a7-82e2-1fc173b1f270"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="10" isBold="false"/>
+				</textElement>
+				<text><![CDATA[..............................................................]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="398" width="140" height="18" forecolor="#020203" uuid="f9ec06ab-0203-4927-a2e8-19aedd41d9b7"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="10" isBold="false"/>
+				</textElement>
+				<text><![CDATA[..............................................................]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="74" y="240" width="384" height="10" uuid="2a0a77e7-0087-49e7-add6-5a2f43a74472"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[...............................................................................................................................................................................]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="78" y="168" width="381" height="10" uuid="3b579585-3cf6-4724-ac43-043e0ff16d78"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[...............................................................................................................................................................................]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="50" y="138" width="411" height="10" uuid="954023df-f35d-4401-95f6-a15864ca8962"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[...........................................................................................................................................................................................................................................]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="360" y="308" width="116" height="10" forecolor="#020203" uuid="01275750-a153-426b-a035-5e8c7cd4df1d"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[...............................................................................................................................................................................]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="104" y="308" width="120" height="10" forecolor="#020203" uuid="3cd54aff-5c79-4f21-aa83-4f398336be66"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[...............................................................................................................................................................................]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="13" y="158" width="74" height="18" forecolor="#0000FF" uuid="2212c8f1-6257-4065-b52f-60d5eae70664"/>
+				<textElement textAlignment="Right" verticalAlignment="Top">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[فقط لا غير ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="45" y="362" width="60" height="18" forecolor="#0000FF" uuid="e0d08d6f-2904-413b-8e97-f2926c9b0763"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[المدير]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="316" y="204" width="144" height="10" uuid="732a5683-cd62-4e3d-a9ca-2cb1f3147303"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[...............................................................................................................................................................................]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="245" y="196" width="70" height="18" forecolor="#0000FF" uuid="f091d143-8e29-46ff-9ae1-2c8923269ff3"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[على بنك]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="135" y="206" width="109" height="10" uuid="fd06f4aa-aeb5-47a3-8933-5c6bb676a847"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[...............................................................................................................................................................................]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="95" y="197" width="40" height="18" forecolor="#0000FF" uuid="cfabea71-8c05-4454-a385-d50434fe0cef"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[بتاريخ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="85" y="296" width="30" height="18" forecolor="#0000FF" uuid="a7f6d319-0ca1-4015-9881-b20800c4699e"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA[م]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="334" y="298" width="30" height="18" forecolor="#0000FF" uuid="878caccf-8122-49d1-b95b-dccc256d8958"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA[ه]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="85" y="88" width="75" height="18" forecolor="#000000" uuid="366cf93a-70f9-4ca5-9333-92fe67752079"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="11" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($P{halaa}== 00)?"۰۰":(""+$P{halaa}).replaceAll("0", "\\\u0660").replaceAll("1", "\\\u0661")
+                .replaceAll("2", "\\\u0662").replaceAll("3", "\\\u0663").replaceAll("4", "\\\u0664").replaceAll("5", "\\\u0665")
+                .replaceAll("6", "\\\u0666").replaceAll("7", "\\\u0667").replaceAll("8", "\\\u0668").replaceAll("9", "\\\u0669")]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="10" y="88" width="75" height="18" forecolor="#000000" uuid="fc436de7-e337-4a95-bc11-b9c02f02f032"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="11" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($P{reyal}== null)?"۰۰":(""+$P{reyal}).replaceAll("0", "\\\u0660").replaceAll("1", "\\\u0661")
+                .replaceAll("2", "\\\u0662").replaceAll("3", "\\\u0663").replaceAll("4", "\\\u0664").replaceAll("5", "\\\u0665")
+                .replaceAll("6", "\\\u0666").replaceAll("7", "\\\u0667").replaceAll("8", "\\\u0668").replaceAll("9", "\\\u0669")]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="340" y="153" width="121" height="18" forecolor="#000000" uuid="6b1aba8a-b4cf-474e-b699-93b3fa87222f"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($P{costByLet}== null)?"۰۰":(""+$P{costByLet}).replaceAll("0", "\\\u0660").replaceAll("1", "\\\u0661")
+                .replaceAll("2", "\\\u0662").replaceAll("3", "\\\u0663").replaceAll("4", "\\\u0664").replaceAll("5", "\\\u0665")
+                .replaceAll("6", "\\\u0666").replaceAll("7", "\\\u0667").replaceAll("8", "\\\u0668").replaceAll("9", "\\\u0669")]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="360" y="191" width="100" height="18" forecolor="#000000" uuid="9ca40f36-2ac8-4d04-aeb7-bf4530fef18a"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{payType}.equalsIgnoreCase( "1" ) ? "بنك":"نقدا"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="100" y="225" width="360" height="18" forecolor="#000000" uuid="f8bd4a93-4af3-48d0-be5e-de9c7c634208"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{for}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="367" y="296" width="100" height="18" forecolor="#000000" uuid="9beaacd4-f880-4de9-9b90-0191d621c0c4"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{dateH}.replaceAll("0", "\\\u0660").replaceAll("1", "\\\u0661")
+                .replaceAll("2", "\\\u0662").replaceAll("3", "\\\u0663").replaceAll("4", "\\\u0664").replaceAll("5", "\\\u0665")
+                .replaceAll("6", "\\\u0666").replaceAll("7", "\\\u0667").replaceAll("8", "\\\u0668").replaceAll("9", "\\\u0669")]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="112" y="296" width="115" height="18" forecolor="#000000" uuid="01fd0b5f-c2f5-4e0b-bd65-094479f666d6"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{date}.replaceAll("0", "\\\u0660").replaceAll("1", "\\\u0661")
+                .replaceAll("2", "\\\u0662").replaceAll("3", "\\\u0663").replaceAll("4", "\\\u0664").replaceAll("5", "\\\u0665")
+                .replaceAll("6", "\\\u0666").replaceAll("7", "\\\u0667").replaceAll("8", "\\\u0668").replaceAll("9", "\\\u0669")]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="66" splitType="Stretch">
+			<rectangle>
+				<reportElement x="0" y="6" width="554" height="50" backcolor="#6148AB" uuid="9a47938d-d835-4656-81a3-6b41b42317d2"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="15" y="16" width="530" height="30" forecolor="#FFFCFC" uuid="d315d795-50be-42fc-a819-c836f6c329b5"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<font fontName="Arial" size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[المملكة العربية السعودية - القصيم - البكيرية - ت :  0163364455  ]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="39"/>
+	</summary>
+</jasperReport>
