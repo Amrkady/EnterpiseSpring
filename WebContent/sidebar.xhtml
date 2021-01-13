@@ -8,8 +8,8 @@
 
 	<div class="layout-sidebar layout-sidebar-dark}">
 		<div class="sidebar-logo" align="center">
-			<p:graphicImage style="width:40%" name="images/login/logo.png"
-				library="serenity-layout" />
+			<!-- 			<p:graphicImage style="width:40%" name="images/login/logo.png" -->
+			<!-- 				library="serenity-layout" /> -->
 			<!--                 <span class="app-name">#{msg['municipality']}</span> -->
 			<a href="#" class="sidebar-anchor" title="Toggle Menu"></a>
 		</div>
@@ -23,16 +23,29 @@
 						<pm:menu>
 							<p:menuitem value="الرئيسية" outcome="success"
 								icon="ui-icon ui-icon-home" />
-							<p:submenu label="الحسابات"
-								icon="ui-icon ui-icon-account-balance">
+							<p:submenu label="الحسابات" icon="ui-icon ui-icon-view-list">
 								<p:menuitem value="ايرادات " icon="ui-icon ui-icon-attach-money"
-									/>
+									outcome="revenues" />
 								<p:menuitem value="مصروفات " icon="ui-icon ui-icon-exposure"
-									 />
+									outcome="expenses" />
+								<p:menuitem value="التعاقدات" icon="ui-icon ui-icon-collections"
+									outcome="contracts" />
+								<p:menuitem value="القوئم المالية"
+									icon="ui-icon ui-icon-account-balance" outcome="financialYear" />
+								<p:menuitem value="ملف المرتبات"
+									icon="ui-icon ui-icon-attach-money" outcome="employeesSalary" />
 							</p:submenu>
 							<p:submenu label="الاعدادات"
 								icon="ui-icon ui-icon-settings-applications">
-								<p:menuitem value="المستخدمين" icon="ui-icon ui-icon-people"
+								<p:menuitem value="الشركات المتعاقدة"
+									icon="ui-icon ui-icon-location-city" outcome="company" />
+								<p:menuitem value="الموظفين" icon="ui-icon ui-icon-people"
+									outcome="employees" />
+								<p:menuitem value="الاجازات" icon="fa fa-fw fa-bed"
+									outcome="vacations" />
+								<p:menuitem value="انواع المصروفات"
+									icon="ui-icon ui-icon-exposure" outcome="expensisType" />
+								<p:menuitem value="المستخدمين" icon="ui-icon ui-icon-person-add"
 									outcome="users" />
 							</p:submenu>
 

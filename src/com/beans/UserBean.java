@@ -1,5 +1,6 @@
 package com.beans;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -25,7 +26,8 @@ public class UserBean {
 	private UserService userServiceImpl;
 	@ManagedProperty(value = "#{departmentServiceImpl}")
 	private DepartmentService departmentServiceImpl;
-	private List<Users> users;
+	private List<Users> users = new ArrayList<>();
+	private List<Users> usersFilter;
 	private Users user;
 	private Users currUser;
 	private Users usr = new Users();
@@ -47,7 +49,7 @@ public class UserBean {
 				usr.setRoleId(Constant.ROLE_ADMIN);
 			} else {
 				usr.setManager(0);
-				usr.setRoleId(Constant.ROLE_USER);
+				usr.setRoleId(Constant.ROLE_ACCOUNTANT);
 			}
 			usr.setLoginName(usr.getLoginName().toUpperCase());
 			userServiceImpl.addUser(usr);
@@ -105,8 +107,7 @@ public class UserBean {
 	}
 
 	public void onRowCancel(RowEditEvent event) {
-		FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, Utils.loadMessagesFromFile("error.update"),
-				"");
+		FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, Utils.loadMessagesFromFile("error.update"), "");
 		FacesContext.getCurrentInstance().addMessage(null, msg);
 
 	}
@@ -189,6 +190,14 @@ public class UserBean {
 
 	public void setCurrUser(Users currUser) {
 		this.currUser = currUser;
+	}
+
+	public List<Users> getUsersFilter() {
+		return usersFilter;
+	}
+
+	public void setUsersFilter(List<Users> usersFilter) {
+		this.usersFilter = usersFilter;
 	}
 
 }

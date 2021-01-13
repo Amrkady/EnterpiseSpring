@@ -18,6 +18,26 @@
 			<var>msg</var>
 		</resource-bundle>
 	</application>
+	<managed-bean>
+		<managed-bean-name>employeesBean</managed-bean-name>
+		<managed-bean-class>com.beans.EmployeesBean</managed-bean-class>
+		<managed-bean-scope>view</managed-bean-scope>
+		<managed-property>
+			<property-name>departmentServiceImpl</property-name>
+			<property-class>com.services.DepartmentServiceImpl</property-class>
+			<value>#{departmentServiceImpl}</value>
+		</managed-property>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>revenueBean</managed-bean-name>
+		<managed-bean-class>com.beans.RevenueBean</managed-bean-class>
+		<managed-bean-scope>view</managed-bean-scope>
+		<managed-property>
+			<property-name>departmentServiceImpl</property-name>
+			<property-class>com.services.DepartmentServiceImpl</property-class>
+			<value>#{departmentServiceImpl}</value>
+		</managed-property>
+	</managed-bean>
 	<navigation-rule>
 		<from-view-id>*</from-view-id>
 		<navigation-case>
@@ -50,7 +70,7 @@
 			<redirect />
 		</navigation-case>
 	</navigation-rule>
-		<navigation-rule>
+	<navigation-rule>
 		<from-view-id>*</from-view-id>
 		<navigation-case>
 			<from-outcome>financialYear</from-outcome>
@@ -58,5 +78,78 @@
 			<redirect />
 		</navigation-case>
 	</navigation-rule>
+	<navigation-rule>
+		<from-view-id>*</from-view-id>
+		<navigation-case>
+			<from-outcome>expensisType</from-outcome>
+			<to-view-id>/pages/expensisTypeScreen.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+	</navigation-rule>
+	<navigation-rule>
+		<from-view-id>*</from-view-id>
+		<navigation-case>
+			<from-outcome>addEditEmp</from-outcome>
+			<to-view-id>/pages/addEditEmp.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+	</navigation-rule>
 
+	<navigation-rule>
+		<from-view-id>*</from-view-id>
+		<navigation-case>
+			<from-outcome>employees</from-outcome>
+			<to-view-id>/pages/employees.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+	</navigation-rule>
+	<navigation-rule>
+		<from-view-id>*</from-view-id>
+		<navigation-case>
+			<from-outcome>company</from-outcome>
+			<to-view-id>/pages/company.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+	</navigation-rule>
+	<navigation-rule>
+		<from-view-id>*</from-view-id>
+		<navigation-case>
+			<from-outcome>contracts</from-outcome>
+			<to-view-id>/pages/contracts.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+	</navigation-rule>
+	<navigation-rule>
+		<from-view-id>*</from-view-id>
+		<navigation-case>
+			<from-outcome>vacations</from-outcome>
+			<to-view-id>/pages/vacations.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+	</navigation-rule>
+	<navigation-rule>
+		<from-view-id>*</from-view-id>
+		<navigation-case>
+			<from-outcome>expenses</from-outcome>
+			<to-view-id>/pages/expenses.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+	</navigation-rule>
+	<navigation-rule>
+		<from-view-id>*</from-view-id>
+		<navigation-case>
+			<from-outcome>revenues</from-outcome>
+			<to-view-id>/pages/revenues.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+	</navigation-rule>
+	<navigation-rule>
+		<from-view-id>*</from-view-id>
+		<navigation-case>
+			<from-outcome>employeesSalary</from-outcome>
+			<to-view-id>/pages/employeesSalary.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+	</navigation-rule>
 </faces-config>
+

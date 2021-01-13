@@ -17,7 +17,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public boolean addUser(Users user) {
+	public Integer addUser(Users user) {
 		return commonDao.saveObject(user);
 
 	}

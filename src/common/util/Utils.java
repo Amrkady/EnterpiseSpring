@@ -1029,4 +1029,111 @@ public class Utils {
 		}
 
 	}
+
+	private static String convertLessThanOneThousand(int number) {
+		String[] tensNames = { "", " ÚÔÑÉ", "  ÚÔÑæä", "  ËáÇËæä", " ÇÑÈÚæä", " ÎãÓæä", " ÓÊæä", " ÓÈÚæä", " ËãÇäæä",
+				" ÊÓÚæä" };
+
+		String[] numNames = { "", " æÇÍÏ", " ÇËäíä", " ËáÇËÉ ", " ÇÑÈÚÉ", " ÎãÓÉ", " ÓÊÉ ", " ÓÈÚÉ", " ËãÇäíÉ", " ÊÓÚÉ",
+				" ÚÔÑÉ", " ÇÍÏ ÚÔÑ", " ÇËäÊí ÚÔÑ", " ËáÇËÉ ÚÔÑ", " ÇÑÈÚÉ ÚÔÑ", " ÎãÓÉ ÚÔÑ", " ÓÊÉ ÚÔÑ", " ÓÈÚÉ ÚÔÑ",
+				" ËãÇäíÉ ÚÔÑ", " ÊÓÚÉ ÚÔÑ" };
+
+		String soFar;
+
+		if (number % 100 < 20) {
+			soFar = numNames[number % 100];
+			number /= 100;
+		} else {
+			soFar = numNames[number % 10];
+			number /= 10;
+			if (tensNames[number % 10] == null) {
+				soFar = soFar + tensNames[number % 10];
+			} else {
+				soFar = soFar + " æ " + tensNames[number % 10];
+			}
+			number /= 10;
+		}
+		if (number == 0) {
+			return soFar;
+		}
+		if (number == 1) {
+			return "  ãÇÆÉ" + soFar;
+		}
+		if (number == 2) {
+			return "  ãÇÆÊíä " + soFar;
+		}
+		return numNames[number] + " ãÇÆÉ " + soFar;
+	}
+
+	public static String convertNumberToWords(long number) {
+		// 0 to 999 999 999 999
+		if (number == 0) {
+			return "ÕİÑ";
+		}
+
+		String snumber = Long.toString(number);
+
+		// pad with "0"
+		String mask = "000000000000";
+		DecimalFormat df = new DecimalFormat(mask);
+		snumber = df.format(number);
+
+		// XXXnnnnnnnnn
+		int billions = Integer.parseInt(snumber.substring(0, 3));
+		// nnnXXXnnnnnn
+		int millions = Integer.parseInt(snumber.substring(3, 6));
+		// nnnnnnXXXnnn
+		int hundredThousands = Integer.parseInt(snumber.substring(6, 9));
+		// nnnnnnnnnXXX
+		int thousands = Integer.parseInt(snumber.substring(9, 12));
+
+		String tradBillions;
+		switch (billions) {
+		case 0:
+			tradBillions = "";
+			break;
+		case 1:
+			tradBillions = " ãáíÇÑ ";
+			break;
+		default:
+			tradBillions = convertLessThanOneThousand(billions) + " ãáíÇÑ ";
+		}
+		String result = tradBillions;
+
+		String tradMillions;
+		switch (millions) {
+		case 0:
+			tradMillions = "";
+			break;
+		case 1:
+			tradMillions = " ãáíæä ";
+			break;
+		default:
+			tradMillions = convertLessThanOneThousand(millions) + " ãáíæä ";
+		}
+		result = tradMillions + result;
+
+		String tradHundredThousands;
+		switch (hundredThousands) {
+		case 0:
+			tradHundredThousands = "";
+			break;
+		case 1:
+			tradHundredThousands = " Çáİ ";
+			break;
+		case 2:
+			tradHundredThousands = " ÇáİÇä ";
+			break;
+		default:
+			tradHundredThousands = convertLessThanOneThousand(hundredThousands) + " Çáİ ";
+		}
+		result = result + tradHundredThousands;
+
+		String tradThousand;
+		tradThousand = convertLessThanOneThousand(thousands);
+		result = result + tradThousand;
+
+		// remove extra spaces!
+		return result.replaceAll("^\\s+", "").replaceAll("\\b\\s{2,}\\b", " ");
+	}
 }

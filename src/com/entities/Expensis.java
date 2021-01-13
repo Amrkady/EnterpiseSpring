@@ -8,7 +8,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.Formula;
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
@@ -24,26 +23,17 @@ public class Expensis {
 	@Column(name = "expensis_type")
 	private Integer expensisType;
 
-	@Column(name = "station_id")
-	private Integer stationId;
+	@Column(name = "company_id")
+	private Integer companyId;
 
 	@Column(name = "expensis_quantity")
 	private double expensisQuantity;
 
-	@Column(name = "month_date")
+	@Column(name = "month_mdate")
 	private Date monthDate;
 
-	@Formula("(select et.name from expensis_types et where et.id = expensis_type)")
-	private String expensisTypeName;
-
-	@Formula("(select s.station_name from stations s where s.id = station_id)")
-	private String stationName;
-
-	@Column(name = "asoulId")
-	private Integer asoulId;
-
-	@Formula("(select s.name from Constantsasoul s where s.id = asoulId)")
-	private String asoulName;
+	@Column(name = "month_hdate")
+	private String monthhDate;
 
 	public Integer getId() {
 		return id;
@@ -77,44 +67,20 @@ public class Expensis {
 		this.monthDate = monthDate;
 	}
 
-	public Integer getStationId() {
-		return stationId;
+	public Integer getCompanyId() {
+		return companyId;
 	}
 
-	public void setStationId(Integer stationId) {
-		this.stationId = stationId;
+	public void setCompanyId(Integer companyId) {
+		this.companyId = companyId;
 	}
 
-	public String getExpensisTypeName() {
-		return expensisTypeName;
+	public String getMonthhDate() {
+		return monthhDate;
 	}
 
-	public void setExpensisTypeName(String expensisTypeName) {
-		this.expensisTypeName = expensisTypeName;
-	}
-
-	public String getStationName() {
-		return stationName;
-	}
-
-	public void setStationName(String stationName) {
-		this.stationName = stationName;
-	}
-
-	public Integer getAsoulId() {
-		return asoulId;
-	}
-
-	public void setAsoulId(Integer asoulId) {
-		this.asoulId = asoulId;
-	}
-
-	public String getAsoulName() {
-		return asoulName;
-	}
-
-	public void setAsoulName(String asoulName) {
-		this.asoulName = asoulName;
+	public void setMonthhDate(String monthhDate) {
+		this.monthhDate = monthhDate;
 	}
 
 }

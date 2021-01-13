@@ -1,0 +1,355 @@
+<?xml version="1.0" encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title></title>
+
+</head>
+<h:body>
+	<ui:composition template="/template1.xhtml">
+		<ui:define name="content">
+			<h:form dir="rtl" id="form">
+				<p:messages id="msg" autoUpdate="true" closable="true"></p:messages>
+				<h1 style="color: #1565C0; text-align: center;">الايرادات</h1>
+				<div class="image-box-footer" align="left">
+					<p:commandButton id="cBadd" value="اضافة ايراد وسند قبض"
+						immediate="true" icon="ui-icon ui-icon-plus"
+						onclick="PF('whsdlAdd').show();">
+					</p:commandButton>
+					<p:spacer width="10" height="10"></p:spacer>
+					<p:commandButton value="طباعة الايرادات"
+						icon="ui-icon ui-icon-print " immediate="true"
+						action="#{revenueBean.printAll}" styleClass="purple-btn"
+						onclick="this.form.target='_blank'" ajax="false">
+					</p:commandButton>
+				</div>
+				<br />
+				<h:panelGroup id="png">
+					<div class="ui-g">
+
+						<div class="ui-g-1">
+							<p:outputLabel value="الشركة" />
+						</div>
+						<div class="ui-g-3">
+							<p:selectOneMenu style="width:80%" filter="true"
+								filterMatchMode="contains" value="#{revenueBean.companyId}">
+								<f:selectItem itemLabel="الكل" noSelectionOption="true" />
+								<f:selectItems value="#{revenueBean.companiesList}" var="st"
+									itemLabel="#{st.name}" itemValue="#{st.id}" />
+								<p:ajax process="@this" listener="#{revenueBean.filter}"
+									update="myTable" />
+							</p:selectOneMenu>
+						</div>
+						<div class="ui-g-1">
+							<p:outputLabel value="حالة السداد" />
+						</div>
+						<div class="ui-g-3">
+							<p:selectOneMenu style="width:80%;" value="#{revenueBean.sadad}">
+								<f:selectItem itemLabel="الكل" noSelectionOption="true"></f:selectItem>
+								<f:selectItem itemLabel="مسدد" itemValue="1"></f:selectItem>
+								<f:selectItem itemLabel="غير مسدد" itemValue="3"></f:selectItem>
+								<p:ajax process="@this" listener="#{revenueBean.filter}"
+									update="myTable" />
+							</p:selectOneMenu>
+						</div>
+					</div>
+					<div class="ui-g">
+						<div class="ui-g-1">
+							<p:outputLabel value="من تاريخ"></p:outputLabel>
+						</div>
+						<div class="ui-g-3">
+							<p:calendar style="width:80%" id="dtfrom" pattern="yyyy-MM-dd"
+								value="#{revenueBean.dateFrom}">
+								<!-- 								<p:ajax process="@form" event="blur" immediate="true" delay="100" update="vcs:cnt,vcs:calc"  -->
+								<!-- 									listener="#{billReceiveBean.update}"></p:ajax> -->
+							</p:calendar>
+						</div>
+						<div class="ui-g-1">
+							<p:outputLabel value="الي تاريخ"></p:outputLabel>
+						</div>
+						<div class="ui-g-3">
+							<p:calendar style="width:80%" id="dtto" pattern="yyyy-MM-dd"
+								value="#{revenueBean.dateTo}">
+							</p:calendar>
+
+						</div>
+						<div class="ui-g-1">
+							<p:commandButton styleClass="green-btn" process="png"
+								action="#{revenueBean.filter}" value="استعلام" update="myTable">
+							</p:commandButton>
+						</div>
+
+					</div>
+					<!-- 						<div class="ui-g-1"> -->
+					<!-- 							<p:outputLabel value="المؤسسة" /> -->
+					<!-- 						</div> -->
+					<!-- 						<div class="ui-g-2"> -->
+					<!-- 							<p:selectOneMenu style="width:80%" -->
+					<!-- 								value="#{revenueBean.enterpriseId}"> -->
+					<!-- 								<f:selectItem itemLabel="الكل" noSelectionOption="true" /> -->
+					<!-- 								<f:selectItems value="#{revenueBean.enterpriseList}" var="st" -->
+					<!-- 									itemLabel="#{st.name}" itemValue="#{st.id}" /> -->
+					<!-- 								<p:ajax process="@this" listener="#{revenueBean.filter}" -->
+					<!-- 									update="myTable" /> -->
+					<!-- 							</p:selectOneMenu> -->
+					<!-- 						</div> -->
+
+
+				</h:panelGroup>
+				<div class="ui-g">
+					<div class="ui-g-1">
+						<p:outputLabel value="هجري" />
+					</div>
+					<div class="ui-g-4">
+						<p:selectBooleanCheckbox value="#{revenueBean.dateBoolean}">
+							<p:ajax process="@this" update="myTable"></p:ajax>
+						</p:selectBooleanCheckbox>
+					</div>
+				</div>
+				<p:dataTable id="myTable" var="exp" value="#{revenueBean.revList}"
+					emptyMessage="لايوجد بيانات" rowIndexVar="rowIndex" editable="true"
+					paginatorPosition="bottom" sortBy="#{exp.sndDate}"
+					sortOrder="descending"
+					paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+					paginator="true" rows="10">
+					<p:column headerText="رقم" style="width: 5%">
+						<h:outputText value="#{rowIndex+1}" />
+					</p:column>
+					<p:column headerText="التاريخ" style="width: 20%">
+						<h:outputText value="#{exp.sndDate}"
+							rendered="#{!revenueBean.dateBoolean}">
+							<f:convertDateTime pattern="dd/MM/yyyy" />
+						</h:outputText>
+						<h:outputText value="#{exp.monthhDate}"
+							rendered="#{revenueBean.dateBoolean}">
+							<f:convertDateTime pattern="yyyy/MM/dd" />
+						</h:outputText>
+					</p:column>
+					<!-- 					<p:column headerText="نوع المصروفات" style="width: 20%" -->
+					<!-- 						filterBy="#{exp.expensisTypesName}" filterMatchMode="contains"> -->
+					<!-- 						<h:outputText value="#{exp.expensisTypesName}" /> -->
+					<!-- 					</p:column> -->
+					<p:column headerText="الشركة" style="width: 20%"
+						filterBy="#{exp.comName}" filterMatchMode="contains">
+						<h:outputText value="#{exp.comName}" />
+					</p:column>
+
+					<p:column headerText="المبلغ" style="width: 20%"
+						filterBy="#{exp.amount}" filterMatchMode="contains">
+						<h:outputLabel value="#{exp.amount}">
+							<f:convertNumber pattern="##################.##"></f:convertNumber>
+						</h:outputLabel>
+					</p:column>
+					<p:column headerText="رقم الفاتورة" style="width:12%"
+						filterBy="#{exp.billNo}" filterMatchMode="contains">
+						<h:outputText value="#{exp.billNo}" />
+					</p:column>
+					<p:column headerText="طباعة فاتورة" style="width:9%">
+						<p:commandButton value="طباعة فاتورة" immediate="true"
+							styleClass="purple-btn" onclick="this.form.target='_blank'"
+							action="#{revenueBean.printBill(exp)}"
+							icon="ui-icon ui-icon-print" ajax="false">
+						</p:commandButton>
+					</p:column>
+					<p:column headerText="طباعة سند" style="width:9%">
+						<p:commandButton value="طباعة سند" immediate="true"
+							action="#{revenueBean.printSandQabd(exp)}"
+							styleClass="purple-btn" onclick="this.form.target='_blank'"
+							icon="ui-icon ui-icon-print" ajax="false">
+						</p:commandButton>
+					</p:column>
+					<p:column headerText="تعديل" style="width:5%">
+						<p:commandButton update="dlgfrom:panelGroupAdd"
+							style="background-color:green" icon="ui-icon ui-icon-edit"
+							title="تعديل" action="#{revenueBean.update(exp)}">
+						</p:commandButton>
+					</p:column>
+
+					<p:column headerText="حذف" style="width:5%">
+						<p:commandButton update=":form:myTable"
+							style="background-color:red" icon="ui-icon ui-icon-remove"
+							title="حذف" action="#{revenueBean.deleteCompany(exp)}">
+						</p:commandButton>
+					</p:column>
+					<p:columnGroup type="footer">
+						<p:row>
+							<p:column colspan="3" footerText="اجمالى الايرادات"
+								style="FONT-WEIGHT:bold ;color : #F85F3E " />
+							<p:column colspan="5"
+								style="FONT-WEIGHT:bold ;color : #F85F3E ; text-align: right; "
+								footerText="#{revenueBean.listTotalSumDecimal}" />
+						</p:row>
+					</p:columnGroup>
+
+				</p:dataTable>
+			</h:form>
+			<h:form id="dlgfrom">
+				<p:dialog position="center" height="400" widgetVar="whsdlAdd"
+					responsive="true" dynamic="true" hideEffect="explode"
+					showEffect="fade" width="80%" closable="true" resizable="true"
+					modal="true" dir="rtl">
+					<h:panelGroup id="panelGroupAdd" width="100%">
+						<p:fieldset legend="بيانات الايرادات وسند القبض " width="100%">
+							<div class="ui-g">
+								<div class="ui-g-2">
+									<p:outputLabel value="هجري" />
+								</div>
+								<div class="ui-g-3">
+									<p:selectBooleanCheckbox value="#{revenueBean.dateAddBoolean}">
+										<p:ajax process="@this" update="dlgfrom:strtDate"></p:ajax>
+									</p:selectBooleanCheckbox>
+								</div>
+								<!-- 								<div class="ui-g-2"> -->
+								<!-- 									<p:outputLabel value="المؤسسة" /> -->
+								<!-- 								</div> -->
+								<!-- 								<div class="ui-g-3"> -->
+								<!-- 									<p:selectOneMenu style="width:100%" -->
+								<!-- 										value="#{revenueBean.revAdd.enterpriseId}"> -->
+								<!-- 										<f:selectItem itemLabel="الكل" noSelectionOption="true" /> -->
+								<!-- 										<f:selectItems value="#{revenueBean.enterpriseList}" var="st" -->
+								<!-- 											itemLabel="#{st.name}" itemValue="#{st.id}" /> -->
+								<!-- 										<p:ajax process="@this" /> -->
+								<!-- 									</p:selectOneMenu> -->
+								<!-- 								</div> -->
+
+							</div>
+							<div class="ui-g">
+								<div class="ui-g-2">
+									<h:outputLabel value="التاريخ " />
+								</div>
+								<div class="ui-g-3">
+									<h:panelGroup id="strtDate">
+										<p:calendar style="width:100%" pattern="yyyy/MM/dd"
+											rendered="#{!revenueBean.dateAddBoolean}" required="true"
+											requiredMessage="ادخل التاريخ"
+											value="#{revenueBean.revAdd.sndDate}">
+										</p:calendar>
+										<p:inputText rendered="#{revenueBean.dateAddBoolean}"
+											value="#{revenueBean.revAdd.monthhDate}" required="true"
+											requiredMessage="ادخل التاريخ" onfocus="loadCalendar();"
+											styleClass="form-control form-controlCal" />
+									</h:panelGroup>
+								</div>
+								<p:spacer height="10" width="10"></p:spacer>
+								<div class="ui-g-2">
+									<p:outputLabel value="الشركة" />
+								</div>
+								<div class="ui-g-3">
+									<p:selectOneMenu style="width:100%" required="true"
+										requiredMessage="من فضلك اختر الشركة"
+										value="#{revenueBean.revAdd.companyId}">
+										<f:selectItem itemLabel=" اختر الشركة"
+											noSelectionOption="true" />
+										<f:selectItems value="#{revenueBean.companiesList}" var="st"
+											itemLabel="#{st.name}" itemValue="#{st.id}" />
+										<p:ajax process="@this" />
+									</p:selectOneMenu>
+								</div>
+							</div>
+							<div class="ui-g">
+								<div class="ui-g-2">
+									<h:outputLabel value="المبلغ" />
+								</div>
+								<div class="ui-g-3">
+									<p:inputText required="true" requiredMessage="ادخل المبلغ"
+										value="#{revenueBean.revAdd.amount}">
+										<p:ajax process="@this" update="dlgfrom:d2 dlgfrom:d3"
+											listener="#{revenueBean.updateCom}"></p:ajax>
+									</p:inputText>
+								</div>
+								<p:spacer height="10" width="10"></p:spacer>
+								<div class="ui-g-2">
+									<h:outputLabel value="استلم من" />
+								</div>
+								<div class="ui-g-3">
+									<p:inputText style="width:100%"
+										value="#{revenueBean.revAdd.name}">
+									</p:inputText>
+								</div>
+							</div>
+							<div class="ui-g">
+								<div class="ui-g-2">
+									<h:outputLabel value="طريقة الدفع" />
+								</div>
+								<div class="ui-g-3">
+									<p:selectOneMenu style="width:80%;" required="true"
+										requiredMessage="اختر طريقة الدفع"
+										value="#{revenueBean.revAdd.payType}">
+										<f:selectItem itemLabel="اختر طريقة الدفع"
+											noSelectionOption="true"></f:selectItem>
+										<f:selectItem itemLabel="بنك" itemValue="1"></f:selectItem>
+										<f:selectItem itemLabel="صندوق" itemValue="2"></f:selectItem>
+										<f:selectItem itemLabel="تحويل" itemValue="1"></f:selectItem>
+										<f:selectItem itemLabel="أجل" itemValue="3"></f:selectItem>
+										<p:ajax process="@this"></p:ajax>
+									</p:selectOneMenu>
+
+								</div>
+								<div class="ui-g-2">
+									<h:outputLabel value="ذلك مقابل" />
+								</div>
+								<div class="ui-g-5">
+									<p:inputTextarea style="width:100%" rows="3"
+										value="#{revenueBean.revAdd.forReason}">
+									</p:inputTextarea>
+								</div>
+							</div>
+							<div class="ui-g">
+								<div class="ui-g-2">
+									<p:outputLabel value="غير شامل الضريبة ؟"></p:outputLabel>
+								</div>
+								<div class="ui-g-3">
+									<p:selectBooleanCheckbox disabled="#{revenueBean.vatDisabled}"
+										value="#{revenueBean.vat}">
+										<p:ajax update="dlgfrom:d2 dlgfrom:d3"
+											listener="#{revenueBean.updateCom}" />
+									</p:selectBooleanCheckbox>
+								</div>
+								<div class="ui-g-2">
+									<p:outputLabel value="قيمة الضريبة"></p:outputLabel>
+								</div>
+								<div class="ui-g-3">
+									<p:outputLabel id="d2" value="#{revenueBean.revAdd.taxAmoun}"></p:outputLabel>
+								</div>
+							</div>
+							<div class="ui-g">
+								<div class="ui-g-2">
+									<p:outputLabel value="المبلغ الكلى"></p:outputLabel>
+								</div>
+								<div class="ui-g-3">
+									<p:outputLabel id="d3" value="#{revenueBean.totalValue}"></p:outputLabel>
+								</div>
+								<div class="ui-g-2">
+									<p:outputLabel value="رقم الفاتورة"></p:outputLabel>
+								</div>
+								<div class="ui-g-3">
+									<p:inputText value="#{revenueBean.revAdd.billNo}" />
+
+								</div>
+							</div>
+							<div class="iamge-box-footer" align="left">
+								<p:commandButton value="حفظ" onsuccess="PF('whsdlAdd').hide();"
+									icon="ui-icon ui-icon-save" process="@all"
+									oncomplete="PF('whsdlAdd').hide();"
+									action="#{revenueBean.addCompany}" update="form panelGroupAdd">
+								</p:commandButton>
+								<p:spacer height="4"></p:spacer>
+								<p:commandButton styleClass="orange-btn" value="عودة"
+									icon="ui-icon ui-icon-arrow-back" immediate="true"
+									onclick="PF('whsdlAdd').hide();" />
+							</div>
+						</p:fieldset>
+					</h:panelGroup>
+				</p:dialog>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

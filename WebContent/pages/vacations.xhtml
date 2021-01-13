@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title></title>
+
+</head>
+<h:body>
+	<ui:composition template="/template1.xhtml">
+		<ui:define name="content">
+			<h:form dir="rtl" id="form">
+				<p:messages id="msg" autoUpdate="true" closable="true"></p:messages>
+				<h1 style="color: #1565C0; text-align: center;">الاجازات</h1>
+				<div class="image-box-footer" align="left">
+					<p:commandButton value="اضافة" immediate="true"
+						icon="ui-icon ui-icon-plus" onclick="PF('whsdlAdd').show();">
+					</p:commandButton>
+				</div>
+				<div class="ui-g">
+					<div class="ui-g-1">
+						<p:outputLabel value="الموظفين" />
+					</div>
+					<div class="ui-g-2">
+						<p:selectOneMenu style="width:80%" filter="true"
+						filterMatchMode="contains" value="#{vacationBean.empId}">
+							<f:selectItem itemLabel="الكل" noSelectionOption="true" />
+							<f:selectItems value="#{vacationBean.employeesList}" var="st"
+								itemLabel="#{st.name} - #{st.empNo} " itemValue="#{st.id}" />
+							<p:ajax process="@this" listener="#{vacationBean.filter}"
+								update="myTable" />
+						</p:selectOneMenu>
+					</div>
+				</div>
+
+				<div class="ui-g">
+					<div class="ui-g-1">
+						<p:outputLabel value="هجري" />
+					</div>
+					<div class="ui-g-4">
+						<p:selectBooleanCheckbox value="#{vacationBean.dateBoolean}">
+							<p:ajax process="@this" update="myTable"></p:ajax>
+						</p:selectBooleanCheckbox>
+					</div>
+				</div>
+				<p:dataTable id="myTable" var="vac"
+					value="#{vacationBean.vacationsList}" emptyMessage="لايوجد بيانات"
+					rowIndexVar="rowIndex" editable="true" paginatorPosition="bottom"
+					paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+					paginator="true" rows="10">
+					<p:ajax event="rowEdit" listener="#{vacationBean.onRowEdit}"
+						update=":form:msg  :form:myTable" />
+					<p:ajax event="rowEditCancel"
+						listener="#{vacationBean.onRowCancel}" update=":form:msg" />
+					<p:column headerText="رقم" style="width: 5%">
+						<h:outputText value="#{rowIndex+1}" />
+					</p:column>
+					<p:column headerText="الموظف"
+						style="width: 10% ; text-align: center;" filterBy="#{vac.empName}"
+						filterMatchMode="contains">
+						<h:outputText value="#{vac.empName}" />
+					</p:column>
+					<p:column headerText="تاريخ البداية"
+						style="width: 10% ; text-align: center;">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{vac.vacmDate}"
+									rendered="#{!vacationBean.dateBoolean}">
+									<f:convertDateTime pattern="dd/MM/yyyy" />
+								</h:outputText>
+								<h:outputText value="#{vac.vachDate}"
+									rendered="#{vacationBean.dateBoolean}">
+									<f:convertDateTime pattern="yyyy/MM/dd" />
+								</h:outputText>
+							</f:facet>
+							<f:facet name="input">
+								<p:calendar style="width:100%" pattern="yyyy/MM/dd"
+									rendered="#{!vacationBean.dateBoolean}" value="#{vac.vacmDate}">
+								</p:calendar>
+								<p:inputText rendered="#{vacationBean.dateBoolean}"
+									value="#{vac.vachDate}" onfocus="loadCalendar();"
+									styleClass="form-control form-controlCal" />
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+					<p:column headerText="تاريخ النهاية"
+						style="width: 10% ; text-align: center;">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{vac.vacEndmDate}"
+									rendered="#{!vacationBean.dateBoolean}">
+									<f:convertDateTime pattern="dd/MM/yyyy" />
+								</h:outputText>
+								<h:outputText value="#{vac.vacEndhDate}"
+									rendered="#{vacationBean.dateBoolean}">
+									<f:convertDateTime pattern="yyyy/MM/dd" />
+								</h:outputText>
+							</f:facet>
+							<f:facet name="input">
+								<p:calendar style="width:100%" pattern="yyyy/MM/dd"
+									rendered="#{!vacationBean.dateBoolean}"
+									value="#{vac.vacEndmDate}">
+								</p:calendar>
+								<p:inputText rendered="#{vacationBean.dateBoolean}"
+									value="#{vac.vacEndhDate}" onfocus="loadCalendar();"
+									styleClass="form-control form-controlCal" />
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+					<p:column headerText="عدد الايام"
+						style="width: 10% ; text-align: center;" filterBy="#{vac.dayNo}"
+						filterMatchMode="contains">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{vac.dayNo}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{vac.dayNo}" style="width:100%" />
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+					<p:column headerText="تعديل" style="width:5% ; text-align: center;">
+						<p:rowEditor />
+					</p:column>
+					<p:column headerText="حذف" style="width:5% ;text-align: center;">
+						<p:commandButton update=":form:myTable"
+							style="background-color:red" icon="ui-icon ui-icon-remove"
+							title="حذف" action="#{vacationBean.deleteCompany(vac)}">
+						</p:commandButton>
+					</p:column>
+				</p:dataTable>
+			</h:form>
+			<h:form>
+				<p:dialog position="center" widgetVar="whsdlAdd" responsive="true"
+					dynamic="true" hideEffect="explode" showEffect="fade" width="60%"
+					closable="true" resizable="true" modal="true" dir="rtl">
+					<h:panelGroup id="panelGroupAdd" width="60%">
+						<p:fieldset legend="بيانات العقد" width="100%">
+							<div class="ui-g">
+								<div class="ui-g-2">
+									<p:outputLabel value="هجري" />
+								</div>
+								<div class="ui-g-4">
+									<p:selectBooleanCheckbox value="#{vacationBean.dateAddBoolean}">
+										<p:ajax process="@this" update="strtDate endDate"></p:ajax>
+									</p:selectBooleanCheckbox>
+								</div>
+							</div>
+							<div class="ui-g">
+								<div class="ui-g-2">
+									<p:outputLabel value="الموظف" />
+								</div>
+								<div class="ui-g-3">
+									<p:selectOneMenu style="width:80%" required="true"
+										requiredMessage="من فضلك اختر الموظف"
+										value="#{vacationBean.vacAdd.empId}">
+										<f:selectItem itemLabel="اختر الموظف" noSelectionOption="true" />
+										<f:selectItems value="#{vacationBean.employeesList}" var="st"
+											itemLabel="#{st.name}" itemValue="#{st.id}" />
+										<p:ajax process="@this" />
+									</p:selectOneMenu>
+								</div>
+								<p:spacer height="10" width="10"></p:spacer>
+								<div class="ui-g-2">
+									<h:outputLabel value="عدد الايام" />
+								</div>
+								<div class="ui-g-3">
+									<p:inputText value="#{vacationBean.vacAdd.dayNo}" />
+								</div>
+							</div>
+							<div class="ui-g">
+								<div class="ui-g-2">
+									<p:outputLabel value="تاريخ بداية الاجازة" />
+								</div>
+								<div class="ui-g-3">
+									<h:panelGroup id="strtDate">
+										<p:calendar style="width:100%" pattern="yyyy/MM/dd"
+											rendered="#{!vacationBean.dateAddBoolean}"
+											value="#{vacationBean.vacAdd.vacmDate}">
+										</p:calendar>
+										<p:inputText rendered="#{vacationBean.dateAddBoolean}"
+											value="#{vacationBean.vacAdd.vachDate}"
+											onfocus="loadCalendar();"
+											styleClass="form-control form-controlCal" />
+									</h:panelGroup>
+								</div>
+								<p:spacer height="10" width="10"></p:spacer>
+								<div class="ui-g-2">
+									<p:outputLabel value="تاريخ نهاية الاجازة " />
+								</div>
+								<div class="ui-g-3">
+									<h:panelGroup id="endDate">
+										<p:calendar style="width:100%" pattern="yyyy/MM/dd"
+											rendered="#{!vacationBean.dateAddBoolean}"
+											value="#{vacationBean.vacAdd.vacEndmDate}">
+										</p:calendar>
+										<p:inputText rendered="#{vacationBean.dateAddBoolean}"
+											value="#{vacationBean.vacAdd.vacEndhDate}"
+											onfocus="loadCalendar();"
+											styleClass="form-control form-controlCal" />
+									</h:panelGroup>
+								</div>
+							</div>
+
+							<br />
+							<div class="iamge-box-footer" align="left">
+								<p:commandButton value="حفظ" onsuccess="PF('whsdlAdd').hide();"
+									icon="ui-icon ui-icon-save" process="@all"
+									action="#{vacationBean.addCompany}" update="form panelGroupAdd">
+								</p:commandButton>
+								<p:spacer height="4"></p:spacer>
+								<p:commandButton styleClass="orange-btn" value="عودة"
+									icon="ui-icon ui-icon-arrow-back" immediate="true"
+									onclick="PF('whsdlAdd').hide();" />
+							</div>
+						</p:fieldset>
+					</h:panelGroup>
+				</p:dialog>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

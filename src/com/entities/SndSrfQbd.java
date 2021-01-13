@@ -21,17 +21,27 @@ public class SndSrfQbd {
 	@Column(name = "id")
 	private Integer id;
 
+	// 1 srf // 2 qabd
 	@Column(name = "snd_type")
 	private Integer sndType;
 
-	@Column(name = "station_id")
-	private Integer stationId;
+	@Column(name = "tax")
+	private Integer tax;
+
+	@Column(name = "company_Id")
+	private Integer companyId;
+
+	@Column(name = "enterprise_Id")
+	private Integer enterpriseId;
 
 	@Column(name = "expensis_types_id")
 	private Integer expensisTypesId;
 
-	@Column(name = "snd_date")
+	@Column(name = "snd_mdate")
 	private Date sndDate;
+
+	@Column(name = "snd_hdate")
+	private String monthhDate;
 
 	@Column(name = "pay_type")
 	private String payType;
@@ -48,14 +58,17 @@ public class SndSrfQbd {
 	@Formula("(select g.name from expensis_types g where g.id = expensis_types_id)")
 	private String expensisTypesName;
 
-	@Formula("(select s.station_name from stations s where s.id = station_id)")
-	private String stationName;
+	@Formula("(select s.name from companies s where s.id = company_Id)")
+	private String comName;
 
-	@Column(name = "asoulId")
-	private Integer asoulId;
+	@Formula("(select s.name from enterprise s where s.id = enterprise_Id)")
+	private String entName;
 
-	@Formula("(select s.name from Constantsasoul s where s.id = asoulId)")
-	private String asoulName;
+	@Column(name = "taxAmoun")
+	private Double taxAmoun;
+
+	@Column(name = "billNo")
+	private String billNo;
 
 	public Integer getId() {
 		return id;
@@ -71,14 +84,6 @@ public class SndSrfQbd {
 
 	public void setSndType(Integer sndType) {
 		this.sndType = sndType;
-	}
-
-	public Integer getStationId() {
-		return stationId;
-	}
-
-	public void setStationId(Integer stationId) {
-		this.stationId = stationId;
 	}
 
 	public Integer getExpensisTypesId() {
@@ -121,20 +126,20 @@ public class SndSrfQbd {
 		this.expensisTypesName = expensisTypesName;
 	}
 
-	public String getStationName() {
-		return stationName;
+	public Integer getCompanyId() {
+		return companyId;
 	}
 
-	public void setStationName(String stationName) {
-		this.stationName = stationName;
+	public void setCompanyId(Integer companyId) {
+		this.companyId = companyId;
 	}
 
-	public double getAmount() {
-		return amount;
+	public String getMonthhDate() {
+		return monthhDate;
 	}
 
-	public void setAmount(double amount) {
-		this.amount = amount;
+	public void setMonthhDate(String monthhDate) {
+		this.monthhDate = monthhDate;
 	}
 
 	public String getName() {
@@ -145,20 +150,60 @@ public class SndSrfQbd {
 		this.name = name;
 	}
 
-	public Integer getAsoulId() {
-		return asoulId;
+	public double getAmount() {
+		return amount;
 	}
 
-	public void setAsoulId(Integer asoulId) {
-		this.asoulId = asoulId;
+	public void setAmount(double amount) {
+		this.amount = amount;
 	}
 
-	public String getAsoulName() {
-		return asoulName;
+	public String getComName() {
+		return comName;
 	}
 
-	public void setAsoulName(String asoulName) {
-		this.asoulName = asoulName;
+	public void setComName(String comName) {
+		this.comName = comName;
+	}
+
+	public String getEntName() {
+		return entName;
+	}
+
+	public void setEntName(String entName) {
+		this.entName = entName;
+	}
+
+	public Integer getEnterpriseId() {
+		return enterpriseId;
+	}
+
+	public void setEnterpriseId(Integer enterpriseId) {
+		this.enterpriseId = enterpriseId;
+	}
+
+	public Integer getTax() {
+		return tax;
+	}
+
+	public void setTax(Integer tax) {
+		this.tax = tax;
+	}
+
+	public Double getTaxAmoun() {
+		return taxAmoun;
+	}
+
+	public void setTaxAmoun(Double taxAmoun) {
+		this.taxAmoun = taxAmoun;
+	}
+
+	public String getBillNo() {
+		return billNo;
+	}
+
+	public void setBillNo(String billNo) {
+		this.billNo = billNo;
 	}
 
 }

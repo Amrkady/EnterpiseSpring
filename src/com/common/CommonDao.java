@@ -5,14 +5,18 @@ import java.util.Date;
 import java.util.List;
 
 import com.entities.Attachment;
+import com.entities.Contracts;
+import com.entities.ContractsEmployees;
+import com.entities.EmployeesMovements;
 import com.entities.Expensis;
 import com.entities.ExpensisTypes;
 import com.entities.SndSrfQbd;
 import com.entities.Users;
+import com.entities.Vacations;
 
 public interface CommonDao {
 
-	public boolean saveObject(Object object);
+	public Integer saveObject(Object object);
 
 	List<Object> findAll(Class object);
 
@@ -35,5 +39,25 @@ public interface CommonDao {
 	public List<SndSrfQbd> LoadAllSands(Date dateFrom, Date dateTo, Integer sndType);
 
 	public List<SndSrfQbd> findGeneralSndByType(Integer type, Integer stationId);
+
+	public void saveContract(Contracts conAdd, List<String> empsAddIds);
+
+	public List<ContractsEmployees> findEmpsByConId(Integer conId);
+
+	public void deleteContract(Contracts con);
+
+	public List<EmployeesMovements> loadEmpMovements(Integer empId);
+
+	public void saveVacation(Vacations vacAdd);
+
+	public void deleteVacation(Vacations com);
+
+	public Contracts loadContractByCompanyId(Integer companyId);
+
+	public List<ContractsEmployees> loadEmpByContractId(Integer companyId);
+
+	public void deleteEmployeeFromContract(ContractsEmployees emp);
+
+	public void InsertEmpToContract(Contracts conAdd, List<String> empsAddIds);
 
 }

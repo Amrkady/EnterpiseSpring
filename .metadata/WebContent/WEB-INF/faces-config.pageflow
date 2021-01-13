@@ -1,29 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<pageflow:Pageflow xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pageflow="http://www.sybase.com/suade/pageflow" id="pf15838311149220" configfile="/engineeringOffice/WebContent/WEB-INF/faces-config.xml">
-  <nodes xsi:type="pageflow:PFPage" name="*" x="122" y="2482" id="pf15842964817750" referenceLink="//@navigationRule.2/@fromViewId|" outlinks="pf15903320966470 pf15903320966471 pf15979238894696 pf16043460428700 pf16091707677290" path="*"/>
-  <nodes xsi:type="pageflow:PFPage" name="pages/customers.xhtml" x="122" y="240" id="pf15842964817752" referenceLink="//@navigationRule.0/@navigationCase.0/@toViewId|" path="/pages/customers.xhtml"/>
-  <nodes xsi:type="pageflow:PFPage" name="pages/bill_sand.xhtml" x="122" y="687" id="pf15843936209531" referenceLink="//@navigationRule.1/@navigationCase.0/@toViewId|" path="/pages/bill_sand.xhtml"/>
-  <nodes xsi:type="pageflow:PFPage" name="pages/contract.xhtml" x="122" y="1135" id="pf15844722539511" referenceLink="//@navigationRule.2/@navigationCase.0/@toViewId|" path="/pages/contract.xhtml"/>
-  <nodes xsi:type="pageflow:PFPage" name="pages/login.xhtml" x="122" y="1583" id="pf15845609384471" referenceLink="//@navigationRule.3/@navigationCase.0/@toViewId|" path="/pages/login.xhtml"/>
-  <nodes xsi:type="pageflow:PFPage" name="index.xhtml" x="122" y="2032" id="pf15850091959101" referenceLink="//@navigationRule.4/@navigationCase.0/@toViewId|" path="/index.xhtml"/>
-  <nodes xsi:type="pageflow:PFPage" name="pages/transaction.xhtml" x="122" y="2866" id="pf15852636580071" referenceLink="//@navigationRule.5/@navigationCase.0/@toViewId|" path="/pages/transaction.xhtml"/>
-  <nodes xsi:type="pageflow:PFPage" name="pages/mails_view.xhtml" x="122" y="3250" id="pf15854972230331" referenceLink="//@navigationRule.6/@navigationCase.0/@toViewId|" path="/pages/mails_view.xhtml"/>
-  <nodes xsi:type="pageflow:PFPage" name="pages/departments.xhtml" x="122" y="3634" id="pf15892260260568" referenceLink="//@navigationRule.8/@navigationCase.0/@toViewId|" path="/pages/departments.xhtml"/>
-  <nodes xsi:type="pageflow:PFPage" name="pages/revenues.xhtml" x="122" y="4018" id="pf158922602605610" referenceLink="//@navigationRule.10/@navigationCase.0/@toViewId|" path="/pages/revenues.xhtml"/>
-  <nodes xsi:type="pageflow:PFPage" name="pages/contracts_view.xhtml" x="122" y="4402" id="pf158922602605611" referenceLink="//@navigationRule.11/@navigationCase.0/@toViewId|" path="/pages/contracts_view.xhtml"/>
-  <nodes xsi:type="pageflow:PFPage" name="pages/bills_received.xhtml" x="122" y="4786" id="pf158922602605612" referenceLink="//@navigationRule.12/@navigationCase.0/@toViewId|" path="/pages/bills_received.xhtml"/>
-  <nodes xsi:type="pageflow:PFPage" name="pages/bill_pay.xhtml" x="122" y="5170" id="pf158922602605613" referenceLink="//@navigationRule.13/@navigationCase.0/@toViewId|" path="/pages/bill_pay.xhtml"/>
-  <nodes xsi:type="pageflow:PFPage" name="pages/mails.xhtml" x="122" y="5554" id="pf158922642016215" referenceLink="//@navigationRule.7/@navigationCase.0/@toViewId|" path="/pages/mails.xhtml"/>
-  <nodes xsi:type="pageflow:PFPage" name="pages/financial_year.xhtml" x="122" y="5938" id="pf15893084512251" referenceLink="//@navigationRule.14/@navigationCase.0/@toViewId|" path="/pages/financial_year.xhtml"/>
-  <nodes xsi:type="pageflow:PFPage" name="login.xhtml" x="338" y="178" id="pf15903320966473" referenceLink="//@navigationRule.0/@navigationCase.0/@toViewId|" inlinks="pf15903320966470" path="login.xhtml"/>
-  <nodes xsi:type="pageflow:PFPage" name="pages/dashboard.xhtml" x="338" y="562" id="pf15903320966474" referenceLink="//@navigationRule.2/@navigationCase.0/@toViewId|" inlinks="pf15903320966471 pf16091707677290" path="/pages/dashboard.xhtml"/>
-  <nodes xsi:type="pageflow:PFPage" name="pages/user_operation.xhtml" x="122" y="6322" id="pf15903320966475" referenceLink="//@navigationRule.16/@navigationCase.0/@toViewId|" path="/pages/user_operation.xhtml"/>
-  <nodes xsi:type="pageflow:PFPage" name="pages/customerView.xhtml" x="122" y="6706" id="pf15903606529322" referenceLink="//@navigationRule.15/@navigationCase.0/@toViewId|" path="/pages/customerView.xhtml"/>
-  <nodes xsi:type="pageflow:PFPage" name="pages/usersScreen.xhtml" x="338" y="946" id="pf15979238894718" referenceLink="//@navigationRule.3/@navigationCase.0/@toViewId|" inlinks="pf15979238894696" path="/pages/usersScreen.xhtml"/>
-  <nodes xsi:type="pageflow:PFPage" name="pages/financialYear.xhtml" id="pf16043460428751" referenceLink="//@navigationRule.17/@navigationCase.0/@toViewId|" inlinks="pf16043460428700" path="/pages/financialYear.xhtml"/>
+<pageflow:Pageflow xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pageflow="http://www.sybase.com/suade/pageflow" id="pf15838311149220" configfile="/enterpriseMNGapp/WebContent/WEB-INF/faces-config.xml">
+  <nodes xsi:type="pageflow:PFPage" name="*" x="122" y="2098" id="pf15842964817750" referenceLink="//@navigationRule.13/@fromViewId|" outlinks="pf15903320966470 pf15903320966471 pf15979238894696 pf16043460428700 pf16091707677290 pf16092420068450 pf16094026646900 pf16094026646901 pf16094026646902 pf16094026646903 pf16094199097418 pf160944020698310 pf160944745569112 pf16095966399420" path="*"/>
+  <nodes xsi:type="pageflow:PFPage" name="pages/customers.xhtml" x="122" y="178" id="pf15842964817752" referenceLink="//@navigationRule.0/@navigationCase.0/@toViewId|" path="/pages/customers.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="pages/bill_sand.xhtml" x="122" y="562" id="pf15843936209531" referenceLink="//@navigationRule.1/@navigationCase.0/@toViewId|" path="/pages/bill_sand.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="pages/contract.xhtml" x="122" y="946" id="pf15844722539511" referenceLink="//@navigationRule.2/@navigationCase.0/@toViewId|" path="/pages/contract.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="pages/login.xhtml" x="122" y="1330" id="pf15845609384471" referenceLink="//@navigationRule.3/@navigationCase.0/@toViewId|" path="/pages/login.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="index.xhtml" x="122" y="1714" id="pf15850091959101" referenceLink="//@navigationRule.4/@navigationCase.0/@toViewId|" path="/index.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="pages/transaction.xhtml" x="122" y="2482" id="pf15852636580071" referenceLink="//@navigationRule.5/@navigationCase.0/@toViewId|" path="/pages/transaction.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="pages/mails_view.xhtml" x="122" y="2866" id="pf15854972230331" referenceLink="//@navigationRule.6/@navigationCase.0/@toViewId|" path="/pages/mails_view.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="pages/departments.xhtml" x="122" y="3250" id="pf15892260260568" referenceLink="//@navigationRule.8/@navigationCase.0/@toViewId|" path="/pages/departments.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="pages/revenues.xhtml" x="122" y="3634" id="pf158922602605610" referenceLink="//@navigationRule.12/@navigationCase.0/@toViewId|" inlinks="pf160944745569112" path="/pages/revenues.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="pages/contracts_view.xhtml" x="122" y="4018" id="pf158922602605611" referenceLink="//@navigationRule.11/@navigationCase.0/@toViewId|" path="/pages/contracts_view.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="pages/bills_received.xhtml" x="122" y="4402" id="pf158922602605612" referenceLink="//@navigationRule.12/@navigationCase.0/@toViewId|" path="/pages/bills_received.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="pages/bill_pay.xhtml" x="122" y="4786" id="pf158922602605613" referenceLink="//@navigationRule.13/@navigationCase.0/@toViewId|" path="/pages/bill_pay.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="pages/mails.xhtml" x="122" y="5170" id="pf158922642016215" referenceLink="//@navigationRule.7/@navigationCase.0/@toViewId|" path="/pages/mails.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="pages/financial_year.xhtml" x="122" y="5554" id="pf15893084512251" referenceLink="//@navigationRule.14/@navigationCase.0/@toViewId|" path="/pages/financial_year.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="login.xhtml" x="338" y="946" id="pf15903320966473" referenceLink="//@navigationRule.0/@navigationCase.0/@toViewId|" inlinks="pf15903320966470" path="login.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="pages/dashboard.xhtml" x="338" y="1330" id="pf15903320966474" referenceLink="//@navigationRule.2/@navigationCase.0/@toViewId|" inlinks="pf15903320966471 pf16091707677290" path="/pages/dashboard.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="pages/user_operation.xhtml" x="122" y="5938" id="pf15903320966475" referenceLink="//@navigationRule.16/@navigationCase.0/@toViewId|" path="/pages/user_operation.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="pages/customerView.xhtml" x="122" y="6322" id="pf15903606529322" referenceLink="//@navigationRule.15/@navigationCase.0/@toViewId|" path="/pages/customerView.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="pages/usersScreen.xhtml" x="338" y="1714" id="pf15979238894718" referenceLink="//@navigationRule.3/@navigationCase.0/@toViewId|" inlinks="pf15979238894696" path="/pages/usersScreen.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="pages/financialYear.xhtml" x="338" y="2098" id="pf16043460428751" referenceLink="//@navigationRule.4/@navigationCase.0/@toViewId|" inlinks="pf16043460428700" path="/pages/financialYear.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="pages/expensisTypeScreen.xhtml" x="338" y="2482" id="pf16092420068461" referenceLink="//@navigationRule.5/@navigationCase.0/@toViewId|" inlinks="pf16092420068450" path="/pages/expensisTypeScreen.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="pages/addEditEmp.xhtml" x="338" y="2866" id="pf16094026646924" referenceLink="//@navigationRule.6/@navigationCase.0/@toViewId|" inlinks="pf16094026646900" path="/pages/addEditEmp.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="pages/employees.xhtml" x="338" y="3250" id="pf16094026646925" referenceLink="//@navigationRule.7/@navigationCase.0/@toViewId|" inlinks="pf16094026646901" path="/pages/employees.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="pages/company.xhtml" x="338" y="3634" id="pf16094026646926" referenceLink="//@navigationRule.8/@navigationCase.0/@toViewId|" inlinks="pf16094026646902" path="/pages/company.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="pages/contracts.xhtml" id="pf16094026646927" referenceLink="//@navigationRule.9/@navigationCase.0/@toViewId|" inlinks="pf16094026646903" path="/pages/contracts.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="pages/vacations.xhtml" id="pf16094199097429" referenceLink="//@navigationRule.10/@navigationCase.0/@toViewId|" inlinks="pf16094199097418" path="/pages/vacations.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="pages/expenses.xhtml" id="pf160944020698311" referenceLink="//@navigationRule.11/@navigationCase.0/@toViewId|" inlinks="pf160944020698310" path="/pages/expenses.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="pages/employeesSalary.xhtml" id="pf16095966399461" referenceLink="//@navigationRule.13/@navigationCase.0/@toViewId|" inlinks="pf16095966399420" path="/pages/employeesSalary.xhtml"/>
   <links id="pf15903320966470" target="pf15903320966473" source="pf15842964817750" outcome="login" redirect="true"/>
   <links id="pf15903320966471" target="pf15903320966474" source="pf15842964817750" outcome="success" redirect="true"/>
   <links id="pf15979238894696" target="pf15979238894718" source="pf15842964817750" outcome="users" redirect="true"/>
   <links id="pf16043460428700" target="pf16043460428751" source="pf15842964817750" outcome="financialYear" redirect="true"/>
   <links id="pf16091707677290" target="pf15903320966474" source="pf15842964817750" outcome="home" redirect="true"/>
+  <links id="pf16092420068450" target="pf16092420068461" source="pf15842964817750" outcome="expensisType" redirect="true"/>
+  <links id="pf16094026646900" target="pf16094026646924" source="pf15842964817750" outcome="addEditEmp" redirect="true"/>
+  <links id="pf16094026646901" target="pf16094026646925" source="pf15842964817750" outcome="employees" redirect="true"/>
+  <links id="pf16094026646902" target="pf16094026646926" source="pf15842964817750" outcome="company" redirect="true"/>
+  <links id="pf16094026646903" target="pf16094026646927" source="pf15842964817750" outcome="contracts" redirect="true"/>
+  <links id="pf16094199097418" target="pf16094199097429" source="pf15842964817750" outcome="vacations" redirect="true"/>
+  <links id="pf160944020698310" target="pf160944020698311" source="pf15842964817750" outcome="expenses" redirect="true"/>
+  <links id="pf160944745569112" target="pf158922602605610" source="pf15842964817750" outcome="revenues" redirect="true"/>
+  <links id="pf16095966399420" target="pf16095966399461" source="pf15842964817750" outcome="employeesSalary" redirect="true"/>
 </pageflow:Pageflow>

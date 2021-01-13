@@ -13,30 +13,79 @@
 	<parameter name="header" class="java.lang.String"/>
 	<parameter name="tax" class="java.lang.Float"/>
 	<queryString language="SQL">
-		<![CDATA[SELECT  s.station_name stationName 
- FROM thorape3_bnzena.stations  s
-where s.id =2;]]>
+		<![CDATA[SELECT 1 from dual ;]]>
 	</queryString>
-	<field name="stationName" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
 	<pageHeader>
-		<band height="88">
+		<band height="149">
 			<rectangle>
-				<reportElement x="0" y="0" width="553" height="80" uuid="220731d0-4658-4f71-8a14-b5cd7cbb6776"/>
+				<reportElement x="-11" y="0" width="580" height="149" uuid="220731d0-4658-4f71-8a14-b5cd7cbb6776"/>
 			</rectangle>
 			<staticText>
-				<reportElement x="356" y="20" width="194" height="40" forecolor="#0000FF" uuid="e1f83c71-3cf0-4547-9eb8-b987b0d5b3ee"/>
+				<reportElement x="300" y="2" width="266" height="28" forecolor="#0000FF" uuid="e1f83c71-3cf0-4547-9eb8-b987b0d5b3ee"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Arial" size="34" isBold="true" isUnderline="false"/>
+					<font fontName="Arial" size="18" isBold="true" isUnderline="false"/>
 				</textElement>
-				<text><![CDATA[مجموعة ذرا]]></text>
+				<text><![CDATA[مؤسسة]]></text>
 			</staticText>
-			<image hAlign="Center">
-				<reportElement x="275" y="2" width="86" height="77" uuid="b5abcd5a-c848-44a6-8c14-4506dcadaad8"/>
-				<imageExpression><![CDATA[$P{header}]]></imageExpression>
-			</image>
+			<staticText>
+				<reportElement x="300" y="30" width="266" height="28" forecolor="#0000FF" uuid="d2c9e42e-70d9-4be4-b3b8-5a98482f1c0c"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="22" isBold="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[وليد محمد المطوع]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="300" y="58" width="266" height="28" forecolor="#0000FF" uuid="cd1749bd-9921-495c-8d8e-2d6e41b9118f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="18" isBold="false" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[صيانة ونظافة المبانى والمقاولات العامة]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="300" y="86" width="266" height="28" forecolor="#0000FF" uuid="ad636781-e12d-426c-b685-387225aa6a30"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="14" isBold="false" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[س . ت : ۱۱۳٦۰۰۰٦۹۷]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="300" y="115" width="266" height="28" forecolor="#0000FF" uuid="618bb424-8ec8-4346-8959-822112366ea8"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="14" isBold="false" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[ص . ب : ٥٥٤۹]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="-9" y="29" width="289" height="28" forecolor="#0000FF" uuid="053e2137-ae5d-4333-95b6-de6f93899c52"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="14" isBold="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[WALEED MOHAMED AL-MOTAWWA Est.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="-9" y="57" width="266" height="28" forecolor="#0000FF" uuid="74375661-e740-411f-a0a4-2da358891e6c"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="14" isBold="false" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[Maintenance Cleaning Building cont]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="-9" y="85" width="266" height="28" forecolor="#0000FF" uuid="9bfc5e3e-27e9-4c9c-8dd6-e61c0dbaf4f9"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="14" isBold="false" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[س . ت :1136000697]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="-9" y="114" width="266" height="28" forecolor="#0000FF" uuid="1739c485-7c68-478a-8b33-127f459d7011"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="14" isBold="false" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[ص . ب :5549]]></text>
+			</staticText>
 		</band>
 	</pageHeader>
 	<detail>
@@ -45,14 +94,14 @@ where s.id =2;]]>
 				<reportElement x="180" y="0" width="200" height="40" backcolor="#0000FF" uuid="c62a744f-4319-4278-ba30-1d5537aa07e0"/>
 			</rectangle>
 			<staticText>
-				<reportElement x="183" y="0" width="194" height="40" forecolor="#FFFFFF" backcolor="#4C21D9" uuid="b32037af-8378-43dc-991a-99174e6d8c3e"/>
+				<reportElement x="183" y="1" width="194" height="40" forecolor="#FFFFFF" backcolor="#4C21D9" uuid="b32037af-8378-43dc-991a-99174e6d8c3e"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Arial" size="27" isBold="false" isUnderline="true"/>
 				</textElement>
 				<text><![CDATA[سند صرف]]></text>
 			</staticText>
 			<rectangle>
-				<reportElement x="0" y="60" width="552" height="393" uuid="c4227f7e-a9f5-413a-b179-33ba29fbd165"/>
+				<reportElement x="-2" y="60" width="552" height="393" uuid="c4227f7e-a9f5-413a-b179-33ba29fbd165"/>
 			</rectangle>
 			<rectangle>
 				<reportElement x="84" y="68" width="76" height="19" uuid="49dc73b6-f72d-4301-b2a5-a3ea180319ad"/>
@@ -71,14 +120,14 @@ where s.id =2;]]>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Arial" size="11" isBold="true"/>
 				</textElement>
-				<text><![CDATA[هللة]]></text>
+				<text><![CDATA[هللة H]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="10" y="69" width="74" height="17" forecolor="#0000FF" uuid="99408281-788e-48c8-adb8-51aaae988d55"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Arial" size="11" isBold="true"/>
 				</textElement>
-				<text><![CDATA[ريال]]></text>
+				<text><![CDATA[ريال S.R]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="460" y="127" width="80" height="18" forecolor="#0000FF" uuid="ab11d974-202f-41d6-bca1-87e4ad9a3780"/>
@@ -92,7 +141,7 @@ where s.id =2;]]>
 				<textElement textAlignment="Right" verticalAlignment="Top">
 					<font fontName="Arial" size="12" isBold="true"/>
 				</textElement>
-				<text><![CDATA[المبــــــلغ       ]]></text>
+				<text><![CDATA[مبلغ وقدره]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="470" y="226" width="70" height="18" forecolor="#0000FF" uuid="f9af14c3-c0a2-4706-9c0d-be0046c322b8"/>
@@ -102,11 +151,11 @@ where s.id =2;]]>
 				<text><![CDATA[وذلك مقابل    ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="470" y="195" width="70" height="18" forecolor="#0000FF" uuid="abc09c1a-37c5-4c0e-a0f1-ccb6a8bd63da"/>
-				<textElement textAlignment="Right" verticalAlignment="Top">
+				<reportElement x="505" y="194" width="20" height="18" forecolor="#0000FF" uuid="abc09c1a-37c5-4c0e-a0f1-ccb6a8bd63da"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
 					<font fontName="Arial" size="12" isBold="true"/>
 				</textElement>
-				<text><![CDATA[طريقة الدفع     ]]></text>
+				<text><![CDATA[نقدا]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="470" y="298" width="70" height="18" forecolor="#0000FF" uuid="850ccb38-2c37-46af-9123-413dce88a377"/>
@@ -123,7 +172,7 @@ where s.id =2;]]>
 				<text><![CDATA[الموافق]]></text>
 			</staticText>
 			<textField isBlankWhenNull="true">
-				<reportElement x="97" y="127" width="360" height="18" forecolor="#000000" uuid="5125ba9c-a3e6-4450-bafc-b0c69e511989"/>
+				<reportElement x="94" y="127" width="360" height="18" forecolor="#000000" uuid="5125ba9c-a3e6-4450-bafc-b0c69e511989"/>
 				<textElement textAlignment="Right">
 					<font fontName="Arial" size="12"/>
 				</textElement>
@@ -134,7 +183,7 @@ where s.id =2;]]>
 				<textElement textAlignment="Center">
 					<font fontName="Arial" size="12" isBold="true"/>
 				</textElement>
-				<text><![CDATA[المحاسب]]></text>
+				<text><![CDATA[توقيع المحاسب]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="460" y="360" width="70" height="18" forecolor="#0000FF" uuid="2deeaf50-3b2a-4545-b7e1-b20c27b67943"/>
@@ -211,7 +260,7 @@ where s.id =2;]]>
 				<textElement textAlignment="Center">
 					<font fontName="Arial" size="12" isBold="true"/>
 				</textElement>
-				<text><![CDATA[المدير]]></text>
+				<text><![CDATA[توقيع المدير]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="316" y="204" width="144" height="10" uuid="732a5683-cd62-4e3d-a9ca-2cb1f3147303"/>
@@ -221,25 +270,18 @@ where s.id =2;]]>
 				<text><![CDATA[...............................................................................................................................................................................]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="245" y="196" width="70" height="18" forecolor="#0000FF" uuid="f091d143-8e29-46ff-9ae1-2c8923269ff3"/>
+				<reportElement x="193" y="200" width="70" height="18" forecolor="#0000FF" uuid="f091d143-8e29-46ff-9ae1-2c8923269ff3"/>
 				<textElement textAlignment="Center">
 					<font fontName="Arial" size="12" isBold="true"/>
 				</textElement>
-				<text><![CDATA[على بنك]]></text>
+				<text><![CDATA[بنك]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="135" y="206" width="109" height="10" uuid="fd06f4aa-aeb5-47a3-8933-5c6bb676a847"/>
+				<reportElement x="83" y="206" width="109" height="10" uuid="fd06f4aa-aeb5-47a3-8933-5c6bb676a847"/>
 				<textElement textAlignment="Center">
 					<font fontName="Arial" size="8" isBold="false"/>
 				</textElement>
 				<text><![CDATA[...............................................................................................................................................................................]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="95" y="197" width="40" height="18" forecolor="#0000FF" uuid="cfabea71-8c05-4454-a385-d50434fe0cef"/>
-				<textElement textAlignment="Center">
-					<font fontName="Arial" size="12" isBold="true"/>
-				</textElement>
-				<text><![CDATA[بتاريخ]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="85" y="296" width="30" height="18" forecolor="#0000FF" uuid="a7f6d319-0ca1-4015-9881-b20800c4699e"/>
@@ -274,7 +316,7 @@ where s.id =2;]]>
                 .replaceAll("6", "\\\u0666").replaceAll("7", "\\\u0667").replaceAll("8", "\\\u0668").replaceAll("9", "\\\u0669")]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="340" y="153" width="121" height="18" forecolor="#000000" uuid="6b1aba8a-b4cf-474e-b699-93b3fa87222f"/>
+				<reportElement x="334" y="153" width="121" height="18" forecolor="#000000" uuid="6b1aba8a-b4cf-474e-b699-93b3fa87222f"/>
 				<textElement textAlignment="Right">
 					<font fontName="Arial" size="12"/>
 				</textElement>
@@ -283,7 +325,7 @@ where s.id =2;]]>
                 .replaceAll("6", "\\\u0666").replaceAll("7", "\\\u0667").replaceAll("8", "\\\u0668").replaceAll("9", "\\\u0669")]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="360" y="191" width="100" height="18" forecolor="#000000" uuid="9ca40f36-2ac8-4d04-aeb7-bf4530fef18a"/>
+				<reportElement x="351" y="191" width="100" height="18" forecolor="#000000" uuid="9ca40f36-2ac8-4d04-aeb7-bf4530fef18a"/>
 				<textElement textAlignment="Right">
 					<font fontName="Arial" size="12"/>
 				</textElement>
@@ -314,6 +356,19 @@ where s.id =2;]]>
                 .replaceAll("2", "\\\u0662").replaceAll("3", "\\\u0663").replaceAll("4", "\\\u0664").replaceAll("5", "\\\u0665")
                 .replaceAll("6", "\\\u0666").replaceAll("7", "\\\u0667").replaceAll("8", "\\\u0668").replaceAll("9", "\\\u0669")]]></textFieldExpression>
 			</textField>
+			<rectangle>
+				<reportElement x="530" y="198" width="14" height="12" uuid="ce4054bc-c674-4557-9b99-706d2a54c891"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="489" y="198" width="14" height="12" uuid="2dc2f82a-437a-49a9-bf12-737f8f895214"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="463" y="194" width="20" height="18" forecolor="#0000FF" uuid="21a1ce8f-1ead-43f6-a68c-deace22be9f3"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[شيك]]></text>
+			</staticText>
 		</band>
 	</detail>
 	<pageFooter>
@@ -323,10 +378,10 @@ where s.id =2;]]>
 			</rectangle>
 			<staticText>
 				<reportElement x="15" y="16" width="530" height="30" forecolor="#FFFCFC" uuid="d315d795-50be-42fc-a819-c836f6c329b5"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
-					<font fontName="Arial" size="16" isBold="true"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle" markup="none">
+					<font fontName="Arial" size="14" isBold="true"/>
 				</textElement>
-				<text><![CDATA[المملكة العربية السعودية - القصيم - البكيرية - ت :  0163364455  ]]></text>
+				<text><![CDATA[المملكة العربية السعودية - القصيم - بريدة - جوال :  0505131800  : Al-Qassim - Buraiah - Mobile]]></text>
 			</staticText>
 		</band>
 	</pageFooter>

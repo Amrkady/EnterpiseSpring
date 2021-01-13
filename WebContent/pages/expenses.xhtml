@@ -1,0 +1,328 @@
+<?xml version="1.0" encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title></title>
+
+</head>
+<h:body>
+	<ui:composition template="/template1.xhtml">
+		<ui:define name="content">
+			<h:form dir="rtl" id="form">
+				<p:messages id="msg" autoUpdate="true" closable="true"></p:messages>
+				<h1 style="color: #1565C0; text-align: center;">المصروفات</h1>
+				<div class="image-box-footer" align="left">
+					<p:commandButton id="cBadd" value="اضافة مصروفات وسند صرف"
+						immediate="true" icon="ui-icon ui-icon-plus"
+						onclick="PF('whsdlAdd').show();">
+					</p:commandButton>
+					<p:spacer width="10" height="10"></p:spacer>
+					<p:commandButton value="طباعة المصروفات"
+						icon="ui-icon ui-icon-print " immediate="true"
+						action="#{expensisBean.printAll}" styleClass="purple-btn"
+						onclick="this.form.target='_blank'" ajax="false">
+					</p:commandButton>
+				</div>
+				<h:panelGroup id="png">
+					<div class="ui-g">
+						<div class="ui-g-2">
+							<p:outputLabel value="نوع المصروفات" />
+						</div>
+						<div class="ui-g-2">
+							<p:selectOneMenu style="width:90%" filter="true"
+								filterMatchMode="contains" value="#{expensisBean.supType}">
+								<f:selectItem itemLabel="الكل" noSelectionOption="true" />
+								<f:selectItems value="#{expensisBean.expensisTypesList}"
+									var="et" itemLabel="#{et.name}" itemValue="#{et.id}" />
+								<p:ajax process="@this" listener="#{expensisBean.filter}"
+									update="myTable" />
+							</p:selectOneMenu>
+						</div>
+						<div class="ui-g-1">
+							<p:outputLabel value="المؤسسة" />
+						</div>
+						<div class="ui-g-2">
+							<p:selectOneMenu style="width:90%" filter="true"
+								filterMatchMode="contains" value="#{expensisBean.enterpriseId}">
+								<f:selectItem itemLabel="الكل" noSelectionOption="true" />
+								<f:selectItems value="#{expensisBean.enterpriseList}" var="st"
+									itemLabel="#{st.name}" itemValue="#{st.id}" />
+								<p:ajax process="@this" listener="#{expensisBean.filter}"
+									update="myTable" />
+							</p:selectOneMenu>
+						</div>
+
+					</div>
+					<div class="ui-g">
+
+						<div class="ui-g-2">
+							<p:outputLabel value="من تاريخ"></p:outputLabel>
+						</div>
+						<div class="ui-g-2">
+							<p:calendar style="width:80%" id="dtfrom" pattern="yyyy-MM-dd"
+								value="#{expensisBean.dateFrom}">
+								<!-- 								<p:ajax process="@form" event="blur" immediate="true" delay="100" update="vcs:cnt,vcs:calc"  -->
+								<!-- 									listener="#{billReceiveBean.update}"></p:ajax> -->
+							</p:calendar>
+						</div>
+						<div class="ui-g-1">
+							<p:outputLabel value="الي تاريخ"></p:outputLabel>
+						</div>
+						<div class="ui-g-2">
+							<p:calendar style="width:80%" id="dtto" pattern="yyyy-MM-dd"
+								value="#{expensisBean.dateTo}">
+							</p:calendar>
+
+						</div>
+						<div class="ui-g-1">
+							<p:commandButton styleClass="green-btn" process="png"
+								action="#{expensisBean.filter}" value="استعلام" update="myTable">
+							</p:commandButton>
+						</div>
+
+					</div>
+				</h:panelGroup>
+				<div class="ui-g">
+					<div class="ui-g-1">
+						<p:outputLabel value="هجري" />
+					</div>
+					<div class="ui-g-4">
+						<p:selectBooleanCheckbox value="#{expensisBean.dateBoolean}">
+							<p:ajax process="@this" update="myTable"></p:ajax>
+						</p:selectBooleanCheckbox>
+					</div>
+				</div>
+				<p:dataTable id="myTable" var="exp"
+					value="#{expensisBean.expensisList}" emptyMessage="لايوجد بيانات"
+					rowIndexVar="rowIndex" editable="true" paginatorPosition="bottom"
+					sortBy="#{exp.sndDate}" sortOrder="descending"
+					paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+					paginator="true" rows="10">
+					<p:column headerText="رقم" style="width: 5%">
+						<h:outputText value="#{rowIndex+1}" />
+					</p:column>
+					<p:column headerText="التاريخ" style="width: 20%">
+						<h:outputText value="#{exp.sndDate}"
+							rendered="#{!expensisBean.dateBoolean}">
+							<f:convertDateTime pattern="dd/MM/yyyy" />
+						</h:outputText>
+						<h:outputText value="#{exp.monthhDate}"
+							rendered="#{expensisBean.dateBoolean}">
+							<f:convertDateTime pattern="yyyy/MM/dd" />
+						</h:outputText>
+					</p:column>
+					<p:column headerText="نوع المصروفات" style="width: 20%"
+						filterBy="#{exp.expensisTypesName}" filterMatchMode="contains">
+						<h:outputText value="#{exp.expensisTypesName}" />
+					</p:column>
+
+					<p:column headerText="المبلغ" style="width: 20%"
+						filterBy="#{exp.amount}" filterMatchMode="contains">
+						<h:outputLabel value="#{exp.amount}">
+							<f:convertNumber pattern="##################.##"></f:convertNumber>
+						</h:outputLabel>
+					</p:column>
+					<p:column headerText="المؤسسة" style="width: 20%"
+						filterBy="#{exp.entName}" filterMatchMode="contains">
+						<h:outputText
+							value="#{exp.entName == null ? 'مؤسسة المطوع':exp.entName}" />
+					</p:column>
+					<p:column headerText="طباعة سند" style="width: 8%">
+						<p:commandButton value="طباعة سند" immediate="true"
+							action="#{expensisBean.printSandQabd(exp)}"
+							styleClass="purple-btn" onclick="this.form.target='_blank'"
+							icon="ui-icon ui-icon-print" ajax="false">
+						</p:commandButton>
+					</p:column>
+					<p:column headerText="تعديل" style="width:5%">
+						<p:commandButton update="dlgfrom:panelGroupAdd"
+							style="background-color:green" icon="ui-icon ui-icon-edit"
+							title="تعديل" action="#{expensisBean.update(exp)}">
+						</p:commandButton>
+					</p:column>
+
+					<p:column headerText="حذف" style="width:5%">
+						<p:commandButton update=":form:myTable"
+							style="background-color:red" icon="ui-icon ui-icon-remove"
+							title="حذف" action="#{expensisBean.deleteCompany(exp)}">
+						</p:commandButton>
+					</p:column>
+					<p:columnGroup type="footer">
+						<p:row>
+							<p:column colspan="3" footerText="اجمالى المصروفات"
+								style="FONT-WEIGHT:bold ;color : #F85F3E " />
+							<p:column colspan="4"
+								style="FONT-WEIGHT:bold ;color : #F85F3E ; text-align: right; "
+								footerText="#{expensisBean.listTotalSumDecimal}" />
+						</p:row>
+					</p:columnGroup>
+
+				</p:dataTable>
+			</h:form>
+			<h:form id="dlgfrom">
+				<p:dialog position="center" height="400" widgetVar="whsdlAdd"
+					responsive="true" dynamic="true" hideEffect="explode"
+					showEffect="fade" width="80%" closable="true" resizable="true"
+					modal="true" dir="rtl">
+					<h:panelGroup id="panelGroupAdd" width="100%">
+						<p:fieldset legend="بيانات المصروفات وسند الصرف " width="100%">
+							<div class="ui-g">
+								<div class="ui-g-2">
+									<p:outputLabel value="هجري" />
+								</div>
+								<div class="ui-g-3">
+									<p:selectBooleanCheckbox value="#{expensisBean.dateAddBoolean}">
+										<p:ajax process="@this" update="dlgfrom:strtDate"></p:ajax>
+									</p:selectBooleanCheckbox>
+								</div>
+								<div class="ui-g-2">
+									<p:outputLabel value="المؤسسة" />
+								</div>
+								<div class="ui-g-3">
+									<p:selectOneMenu style="width:100%"
+										value="#{expensisBean.expensisAdd.enterpriseId}">
+										<f:selectItem itemLabel="الكل" noSelectionOption="true" />
+										<f:selectItems value="#{expensisBean.enterpriseList}" var="st"
+											itemLabel="#{st.name}" itemValue="#{st.id}" />
+										<p:ajax process="@this" />
+									</p:selectOneMenu>
+								</div>
+
+							</div>
+							<div class="ui-g">
+								<div class="ui-g-2">
+									<h:outputLabel value="التاريخ " />
+								</div>
+								<div class="ui-g-3">
+									<h:panelGroup id="strtDate">
+										<p:calendar style="width:100%" pattern="yyyy/MM/dd"
+											rendered="#{!expensisBean.dateAddBoolean}" required="true"
+											requiredMessage="ادخل التاريخ"
+											value="#{expensisBean.expensisAdd.sndDate}">
+										</p:calendar>
+										<p:inputText rendered="#{expensisBean.dateAddBoolean}"
+											value="#{expensisBean.expensisAdd.monthhDate}"
+											onfocus="loadCalendar();" required="true"
+											requiredMessage="ادخل التاريخ"
+											styleClass="form-control form-controlCal" />
+									</h:panelGroup>
+
+								</div>
+								<p:spacer height="10" width="10"></p:spacer>
+								<div class="ui-g-2">
+									<h:outputLabel value="نوع المصروفات" />
+								</div>
+								<div class="ui-g-3">
+									<p:selectOneMenu style="width:100%"
+										value="#{expensisBean.expensisAdd.expensisTypesId}"
+										required="true" requiredMessage="نوع المصروفات مطلوب ">
+										<f:selectItem itemLabel="اختر....." noSelectionOption="true" />
+										<f:selectItems value="#{expensisBean.expensisTypesList}"
+											var="et" itemLabel="#{et.name}" itemValue="#{et.id}" />
+										<p:ajax process="@this" />
+									</p:selectOneMenu>
+								</div>
+							</div>
+							<div class="ui-g">
+								<div class="ui-g-2">
+									<h:outputLabel value="المبلغ" />
+								</div>
+								<div class="ui-g-3">
+									<p:inputText  required="true"
+										requiredMessage="ادخل المبلغ"
+										value="#{expensisBean.expensisAdd.amount}">
+										<p:ajax process="@this" update="dlgfrom:d2 dlgfrom:d3"
+											listener="#{expensisBean.updateCom}"></p:ajax>
+									</p:inputText>
+								</div>
+								<p:spacer height="10" width="10"></p:spacer>
+								<div class="ui-g-2">
+									<h:outputLabel value="صرف الي " />
+								</div>
+								<div class="ui-g-3">
+									<p:inputText style="width:100%" required="true"
+										requiredMessage="ادخل الاسم"
+										value="#{expensisBean.expensisAdd.name}">
+									</p:inputText>
+								</div>
+							</div>
+							<div class="ui-g">
+								<div class="ui-g-2">
+									<h:outputLabel value="طريقة الدفع" />
+								</div>
+								<div class="ui-g-3">
+									<p:selectOneMenu style="width:80%;" required="true"
+										requiredMessage="اختر طريقة الدفع"
+										value="#{expensisBean.expensisAdd.payType}">
+										<f:selectItem itemLabel="اختر طريقة الدفع"
+											noSelectionOption="true"></f:selectItem>
+										<f:selectItem itemLabel="بنك" itemValue="1"></f:selectItem>
+										<f:selectItem itemLabel="صندوق" itemValue="2"></f:selectItem>
+										<f:selectItem itemLabel="تحويل" itemValue="1"></f:selectItem>
+										<f:selectItem itemLabel="أجل" itemValue="3"></f:selectItem>
+										<p:ajax process="@this"></p:ajax>
+									</p:selectOneMenu>
+
+								</div>
+								<div class="ui-g-2">
+									<h:outputLabel value="ذلك مقابل" />
+								</div>
+								<div class="ui-g-5">
+									<p:inputTextarea style="width:100%" rows="3"
+										value="#{expensisBean.expensisAdd.forReason}">
+									</p:inputTextarea>
+								</div>
+							</div>
+							<div class="ui-g">
+								<div class="ui-g-2">
+									<p:outputLabel value="غير شامل الضريبة ؟"></p:outputLabel>
+								</div>
+								<div class="ui-g-3">
+									<p:selectBooleanCheckbox value="#{expensisBean.vat}">
+										<p:ajax update="dlgfrom:d2 dlgfrom:d3"
+											disabled="#{expensisBean.vatDisabled}"
+											listener="#{expensisBean.updateCom}" />
+									</p:selectBooleanCheckbox>
+								</div>
+								<div class="ui-g-2">
+									<p:outputLabel value="قيمة الضريبة"></p:outputLabel>
+								</div>
+								<div class="ui-g-3">
+									<p:outputLabel id="d2"
+										value="#{expensisBean.expensisAdd.taxAmoun}"></p:outputLabel>
+								</div>
+							</div>
+							<div class="ui-g">
+								<div class="ui-g-2">
+									<p:outputLabel value="المبلغ الكلى"></p:outputLabel>
+								</div>
+								<div class="ui-g-3">
+									<p:outputLabel id="d3" value="#{expensisBean.totalValue}"></p:outputLabel>
+								</div>
+							</div>
+							<div class="iamge-box-footer" align="left">
+								<p:commandButton value="حفظ" onsuccess="PF('whsdlAdd').hide();"
+									icon="ui-icon ui-icon-save" process="@all"
+									oncomplete="PF('whsdlAdd').hide();"
+									action="#{expensisBean.addCompany}" update="form panelGroupAdd">
+								</p:commandButton>
+								<p:spacer height="4"></p:spacer>
+								<p:commandButton styleClass="orange-btn" value="عودة"
+									icon="ui-icon ui-icon-arrow-back" immediate="true"
+									onclick="PF('whsdlAdd').hide();" />
+							</div>
+						</p:fieldset>
+					</h:panelGroup>
+				</p:dialog>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

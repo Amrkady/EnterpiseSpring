@@ -1,0 +1,467 @@
+<?xml version="1.0" encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title></title>
+
+</head>
+<h:body>
+	<ui:composition template="/template1.xhtml">
+		<ui:define name="content">
+			<style type="text/css">
+.test.ui-selectcheckboxmenu-panel .ui-selectcheckboxmenu-list-item .ui-chkbox
+	{
+	right: 10px;
+}
+
+.test.ui-selectcheckboxmenu-panel .ui-selectcheckboxmenu-header .ui-chkbox
+	{
+	margin: 0px 20px 0 1px;
+	direction: rtl;
+	float: right;
+}
+
+.test  .ui-selectcheckboxmenu-filter-container {
+	float: right;
+}
+
+.test .ui-selectcheckboxmenu-header .ui-chkbox {
+	float: right;
+}
+
+.test .ui-selectcheckboxmenu-header .ui-selectcheckboxmenu-close {
+	float: left;
+}
+
+.test.ui-selectcheckboxmenu-panel .ui-selectcheckboxmenu-list-item {
+	text-align: right;
+}
+
+.test.ui-selectcheckboxmenu-panel .ui-selectcheckboxmenu-list-item label
+	{
+	padding-left: 0px;
+	padding-right: 3em;
+}
+</style>
+
+			<h:form dir="rtl" id="form">
+				<p:messages id="msg" autoUpdate="true" closable="true"></p:messages>
+				<h1 style="color: #1565C0; text-align: center;">التعاقدات</h1>
+				<div class="image-box-footer" align="left">
+					<p:commandButton value="اضافة" immediate="true"
+						icon="ui-icon ui-icon-plus" onclick="PF('whsdlAdd').show();">
+					</p:commandButton>
+
+				</div>
+				<div class="ui-g">
+					<div class="ui-g-1">
+						<p:outputLabel value="الشركة" />
+					</div>
+					<div class="ui-g-2">
+						<p:selectOneMenu style="width:80%" filter="true"
+							filterMatchMode="contains" value="#{contractBean.companyId}">
+							<f:selectItem itemLabel="الكل" noSelectionOption="true" />
+							<f:selectItems value="#{contractBean.companiesList}" var="st"
+								itemLabel="#{st.name}" itemValue="#{st.id}" />
+							<p:ajax process="@this" listener="#{contractBean.filter}"
+								update="myTable" />
+						</p:selectOneMenu>
+					</div>
+				</div>
+				<div class="ui-g">
+					<div class="ui-g-1">
+						<p:outputLabel value="هجري" />
+					</div>
+					<div class="ui-g-4">
+						<p:selectBooleanCheckbox value="#{contractBean.dateBoolean}">
+							<p:ajax process="@this" update="myTable"></p:ajax>
+						</p:selectBooleanCheckbox>
+					</div>
+				</div>
+				<p:dataTable id="myTable" var="com"
+					value="#{contractBean.contractsList}" emptyMessage="لايوجد بيانات"
+					rowIndexVar="rowIndex" editable="true" paginatorPosition="bottom"
+					paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+					paginator="true" rows="10"
+					filteredValue="#{contractBean.contractsFilterList}">
+					<p:ajax event="rowEdit" listener="#{contractBean.onRowEdit}"
+						update=":form:msg  :form:myTable" />
+					<p:ajax event="rowEditCancel"
+						listener="#{contractBean.onRowCancel}" update=":form:msg" />
+					<p:column headerText="رقم" style="width: 5%">
+						<h:outputText value="#{rowIndex+1}" />
+					</p:column>
+					<p:column headerText="اسم الشركة"
+						style="width: 10% ; text-align: center;" filterBy="#{com.comName}"
+						filterMatchMode="contains">
+						<h:outputText value="#{com.comName}" />
+					</p:column>
+					<p:column headerText="تاريخ البداية"
+						style="width: 10% ; text-align: center;">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{com.startmDate}"
+									rendered="#{!contractBean.dateBoolean}">
+									<f:convertDateTime pattern="dd/MM/yyyy" />
+								</h:outputText>
+								<h:outputText value="#{com.starthDate}"
+									rendered="#{contractBean.dateBoolean}">
+									<f:convertDateTime pattern="yyyy/MM/dd" />
+								</h:outputText>
+							</f:facet>
+							<f:facet name="input">
+								<p:calendar disabled="true" style="width:100%"
+									pattern="yyyy/MM/dd" rendered="#{!contractBean.dateBoolean}"
+									value="#{com.startmDate}">
+								</p:calendar>
+								<p:inputText disabled="true"
+									rendered="#{contractBean.dateBoolean}"
+									value="#{com.starthDate}" onfocus="loadCalendar();"
+									styleClass="form-control form-controlCal" />
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+					<p:column headerText="تاريخ النهاية"
+						style="width: 10% ; text-align: center;">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{com.endmDate}"
+									rendered="#{!contractBean.dateBoolean}">
+									<f:convertDateTime pattern="dd/MM/yyyy" />
+								</h:outputText>
+								<h:outputText value="#{com.endhDate}"
+									rendered="#{contractBean.dateBoolean}">
+									<f:convertDateTime pattern="yyyy/MM/dd" />
+								</h:outputText>
+							</f:facet>
+							<f:facet name="input">
+								<p:calendar disabled="true" style="width:100%"
+									pattern="yyyy/MM/dd" rendered="#{!contractBean.dateBoolean}"
+									value="#{com.endmDate}">
+								</p:calendar>
+								<p:inputText disabled="true"
+									rendered="#{contractBean.dateBoolean}" value="#{com.endhDate}"
+									onfocus="loadCalendar();"
+									styleClass="form-control form-controlCal" />
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+					<!-- 					<p:column headerText="رقم اخر فاتورة" -->
+					<!-- 						style="width: 10% ; text-align: center;" filterBy="#{com.loction}" -->
+					<!-- 						filterMatchMode="contains"> -->
+					<!-- 						<p:cellEditor> -->
+					<!-- 							<f:facet name="output"> -->
+					<!-- 								<h:outputText value="#{com.lastbillNo}" /> -->
+					<!-- 							</f:facet> -->
+					<!-- 							<f:facet name="input"> -->
+					<!-- 								<p:inputText value="#{com.lastbillNo}" style="width:100%" /> -->
+					<!-- 							</f:facet> -->
+					<!-- 						</p:cellEditor> -->
+					<!-- 					</p:column> -->
+					<p:column headerText="نوع الدوام"
+						style="width: 10% ; text-align: center;"
+						filterBy="#{com.workType == 1 ? 'يومي':'بالساعات'}"
+						filterMatchMode="contains">
+						<h:outputText value="#{com.workType == 1 ? 'يومي':'بالساعات'}" />
+
+					</p:column>
+					<!-- 					<p:column headerText="عدد ساعات الدوام" -->
+					<!-- 						style="width: 10% ; text-align: center;" filterBy="#{com.phone}" -->
+					<!-- 						filterMatchMode="contains"> -->
+					<!-- 						<p:cellEditor> -->
+					<!-- 							<f:facet name="output"> -->
+					<!-- 								<h:outputText value="#{com.hourNo}" /> -->
+					<!-- 							</f:facet> -->
+					<!-- 							<f:facet name="input"> -->
+					<!-- 								<p:inputText value="#{com.hourNo}" style="width:100%" /> -->
+					<!-- 							</f:facet> -->
+					<!-- 						</p:cellEditor> -->
+					<!-- 					</p:column> -->
+					<p:column headerText="قيمة الدوام"
+						style="width: 10% ;text-align: center;" filterBy="#{com.email}"
+						filterMatchMode="contains">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{com.conAmount}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{com.conAmount}" style="width:100%" />
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+					<!-- 					<p:column headerText="الباقى" -->
+					<!-- 						style="width: 10% ;text-align: center;" filterBy="#{com.email}" -->
+					<!-- 						filterMatchMode="contains"> -->
+					<!-- 						<p:cellEditor> -->
+					<!-- 							<f:facet name="output"> -->
+					<!-- 								<h:outputText value="#{com.restAmount}" /> -->
+					<!-- 							</f:facet> -->
+					<!-- 							<f:facet name="input"> -->
+					<!-- 								<p:inputText value="#{com.restAmount}" style="width:100%" /> -->
+					<!-- 							</f:facet> -->
+					<!-- 						</p:cellEditor> -->
+					<!-- 					</p:column> -->
+					<p:column headerText="الموظفين"
+						style="width:8% ; text-align: center;">
+						<p:commandButton value="تفاصيل" icon="ui-icon ui-icon-search"
+							style="background-color:green" title="تفاصيل"
+							update="pngform:png"
+							action="#{contractBean.findEmpsByConId(com)}">
+						</p:commandButton>
+					</p:column>
+
+					<p:column headerText="تعديل" style="width:5% ; text-align: center;">
+						<p:rowEditor />
+					</p:column>
+					<p:column headerText="حذف" style="width:5% ;text-align: center;">
+						<p:commandButton update=":form:myTable"
+							style="background-color:red" icon="ui-icon ui-icon-remove"
+							title="حذف" action="#{contractBean.deleteCompany(com)}">
+						</p:commandButton>
+					</p:column>
+					<!-- 					<p:columnGroup type="footer"> -->
+					<!-- 						<p:row> -->
+					<!-- 							<p:column colspan="6" footerText="الاجمالى" -->
+					<!-- 								style="FONT-WEIGHT:bold ;color : #F85F3E " /> -->
+					<!-- 							<p:column -->
+					<!-- 								style="FONT-WEIGHT:bold ;color : #F85F3E ;text-align:center " -->
+					<!-- 								footerText="#{contractBean.listTotalSumDecimal}" /> -->
+					<!-- 							<p:column -->
+					<!-- 								style="FONT-WEIGHT:bold ;color : #F85F3E ;text-align:center " -->
+					<!-- 								footerText="#{contractBean.listTotalRestDecimal}" /> -->
+					<!-- 						<p:column colspan="3" /> -->
+
+					<!-- 						</p:row> -->
+					<!-- 					</p:columnGroup> -->
+				</p:dataTable>
+			</h:form>
+			<h:form id="pngform">
+				<p:dialog position="center" widgetVar="showdlg" responsive="true"
+					id="dlgEmp" dynamic="true" hideEffect="explode" showEffect="fade"
+					width="60%" closable="true" resizable="true" modal="true" dir="rtl">
+					<h:panelGroup id="png" width="60%">
+						<p:fieldset legend="الموظفين" width="100%">
+							<p:messages autoUpdate="true" closable="true"></p:messages>
+							<div class="ui-g">
+								<div class="ui-g-2">
+									<h:outputLabel value="الموظفين"></h:outputLabel>
+								</div>
+								<div class="ui-g-3" style="text-align: center">
+									<p:selectCheckboxMenu style="width:100%" dir="rtl"
+										required="true" requiredMessage="اختر الموظفين" id="lics"
+										filter="true" filterMatchMode="contains" label="اختر"
+										panelStyleClass="test" value="#{contractBean.empsAdd}">
+										<f:selectItems value="#{contractBean.employeesList}" var="emp"
+											itemValue="#{emp.id}" itemLabel="#{emp.name} - #{emp.empNo}" />
+										<p:ajax process="@this" />
+									</p:selectCheckboxMenu>
+								</div>
+								<div class="ui-g-2">
+									<p:outputLabel value="تاريخ البداية " />
+								</div>
+								<div class="ui-g-3">
+									<p:calendar style="width:100%" pattern="yyyy/MM/dd"
+										required="true" requiredMessage="تاريخ البداية مطلوب"
+										value="#{contractBean.startEmpDate}">
+									</p:calendar>
+								</div>
+							</div>
+							<div class="ui-g">
+								<div class="ui-g-10"></div>
+								<div class="image-box-footer ui-g-2" align="left">
+									<p:commandButton value="حفظ" icon="ui-icon ui-icon-save"
+										process="@all" action="#{contractBean.addEmpToContract}"
+										update="png ble">
+									</p:commandButton>
+								</div>
+							</div>
+							<br />
+							<p:dataTable var="emp" value="#{contractBean.empConList}"
+								emptyMessage="لايوجد بيانات" rowIndexVar="rowIndex"
+								editable="true" paginatorPosition="bottom" id="ble"
+								paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+								paginator="true" rows="10"
+								filteredValue="#{contractBean.empConFilterList}">
+								<p:column headerText="رقم" style="width: 5%">
+									<h:outputText value="#{rowIndex+1}" />
+								</p:column>
+								<p:column headerText="الرقم الوظيفى" filterBy="#{emp.empNo}"
+									filterMatchMode="contains"
+									style="width: 20% ; text-align: center;">
+									<h:outputText value="#{emp.empNo}" />
+								</p:column>
+								<p:column headerText="اسم الموظف" filterBy="#{emp.empName}"
+									filterMatchMode="contains" style="width: 60%">
+									<h:outputText value="#{emp.empName}" />
+								</p:column>
+								<p:column headerText="حذف"
+									style="width:10% ;text-align: center;">
+									<p:commandButton update=":form:myTable"
+										style="background-color:red" icon="ui-icon ui-icon-remove"
+										title="حذف" action="#{contractBean.deleteEmp(emp)}">
+									</p:commandButton>
+								</p:column>
+							</p:dataTable>
+							<br />
+							<div class="iamge-box-footer" align="left">
+								<p:spacer height="4"></p:spacer>
+								<p:commandButton styleClass="orange-btn" value="عودة"
+									icon="ui-icon ui-icon-arrow-back" immediate="true"
+									onclick="PF('showdlg').hide();" />
+							</div>
+						</p:fieldset>
+					</h:panelGroup>
+				</p:dialog>
+			</h:form>
+
+			<h:form>
+				<p:dialog position="center" widgetVar="whsdlAdd" responsive="true"
+					dynamic="true" hideEffect="explode" showEffect="fade" width="60%"
+					closable="true" resizable="true" modal="true" dir="rtl">
+					<h:panelGroup id="panelGroupAdd" width="60%">
+						<p:fieldset legend="بيانات العقد" width="100%">
+							<div class="ui-g">
+								<div class="ui-g-2">
+									<p:outputLabel value="هجري" />
+								</div>
+								<div class="ui-g-4">
+									<p:selectBooleanCheckbox value="#{contractBean.dateAddBoolean}">
+										<p:ajax process="@this" update="strtDate endDate"></p:ajax>
+									</p:selectBooleanCheckbox>
+								</div>
+							</div>
+							<div class="ui-g">
+								<div class="ui-g-2">
+									<p:outputLabel value="الشركة" />
+								</div>
+								<div class="ui-g-3">
+									<p:selectOneMenu style="width:80%" required="true"
+										requiredMessage="من فضلك اختر الشركة"
+										value="#{contractBean.conAdd.companyId}">
+										<f:selectItem itemLabel="اختر الشركة" noSelectionOption="true" />
+										<f:selectItems value="#{contractBean.companiesList}" var="st"
+											itemLabel="#{st.name}" itemValue="#{st.id}" />
+										<p:ajax process="@this" />
+									</p:selectOneMenu>
+								</div>
+								<p:spacer height="10" width="10"></p:spacer>
+								<div class="ui-g-2">
+									<h:outputLabel value="الموظفين"></h:outputLabel>
+								</div>
+								<div class="ui-g-3" style="text-align: center">
+									<p:selectCheckboxMenu style="width:100%" dir="rtl"
+										required="true" requiredMessage="اختر الموظفين" id="lics"
+										filter="true" filterMatchMode="contains" label="اختر"
+										panelStyleClass="test" value="#{contractBean.empsAddIds}">
+										<!-- 										<f:selectItem itemLabel="اختر " noSelectionOption="true" /> -->
+										<f:selectItems value="#{contractBean.employeesList}" var="emp"
+											itemValue="#{emp.id}" itemLabel="#{emp.name} - #{emp.empNo}" />
+										<p:ajax process="@this" />
+									</p:selectCheckboxMenu>
+								</div>
+							</div>
+							<div class="ui-g">
+								<div class="ui-g-2">
+									<p:outputLabel value="تاريخ بداية العقد" />
+								</div>
+								<div class="ui-g-3">
+									<h:panelGroup id="strtDate">
+										<p:calendar style="width:100%" pattern="yyyy/MM/dd"
+											rendered="#{!contractBean.dateAddBoolean}"
+											value="#{contractBean.conAdd.startmDate}">
+										</p:calendar>
+										<p:inputText rendered="#{contractBean.dateAddBoolean}"
+											value="#{contractBean.conAdd.starthDate}"
+											onfocus="loadCalendar();"
+											styleClass="form-control form-controlCal" />
+									</h:panelGroup>
+								</div>
+								<p:spacer height="10" width="10"></p:spacer>
+								<div class="ui-g-2">
+									<p:outputLabel value="تاريخ نهاية العقد" />
+								</div>
+								<div class="ui-g-3">
+									<h:panelGroup id="endDate">
+										<p:calendar style="width:100%" pattern="yyyy/MM/dd"
+											rendered="#{!contractBean.dateAddBoolean}"
+											value="#{contractBean.conAdd.endmDate}">
+										</p:calendar>
+										<p:inputText rendered="#{contractBean.dateAddBoolean}"
+											value="#{contractBean.conAdd.endhDate}"
+											onfocus="loadCalendar();"
+											styleClass="form-control form-controlCal" />
+									</h:panelGroup>
+								</div>
+							</div>
+
+							<div class="ui-g">
+								<div class="ui-g-2">
+									<h:outputLabel value="عدد ساعات الدوام" />
+								</div>
+								<div class="ui-g-3">
+									<p:inputText value="#{contractBean.conAdd.hourNo}" />
+								</div>
+								<p:spacer height="10" width="10"></p:spacer>
+								<div class="ui-g-2">
+									<h:outputLabel value="قيمة الدوام" />
+								</div>
+								<div class="ui-g-3">
+									<p:inputText value="#{contractBean.conAdd.conAmount}" />
+								</div>
+
+								<!-- 								<div class="ui-g-2"> -->
+								<!-- 									<h:outputLabel value="رقم اخر فاتورة" /> -->
+								<!-- 								</div> -->
+								<!-- 								<div class="ui-g-3"> -->
+								<!-- 									<p:inputText value="#{contractBean.conAdd.lastbillNo}" /> -->
+								<!-- 								</div> -->
+
+							</div>
+							<div class="ui-g">
+								<div class="ui-g-2">
+									<p:outputLabel value="نوع الدوام" />
+								</div>
+								<div class="ui-g-3">
+									<p:selectOneMenu style="width:80%;" required="true"
+										requiredMessage="نوع الدوام مطلوب"
+										value="#{contractBean.conAdd.workType}">
+										<f:selectItem itemLabel="يومي" itemValue="1"></f:selectItem>
+										<f:selectItem itemLabel="بالساعات" itemValue="2"></f:selectItem>
+										<p:ajax process="@this" />
+									</p:selectOneMenu>
+								</div>
+								<!-- 								<p:spacer height="10" width="10"></p:spacer> -->
+								<!-- 								<div class="ui-g-2"> -->
+								<!-- 									<h:outputLabel value="الباقى" /> -->
+								<!-- 								</div> -->
+								<!-- 								<div class="ui-g-3"> -->
+								<!-- 									<p:inputText value="#{contractBean.conAdd.restAmount}" /> -->
+								<!-- 								</div> -->
+							</div>
+
+							<br />
+							<div class="iamge-box-footer" align="left">
+								<p:commandButton value="حفظ" onsuccess="PF('whsdlAdd').hide();"
+									icon="ui-icon ui-icon-save" process="@all"
+									action="#{contractBean.addCompany}" update="form panelGroupAdd">
+								</p:commandButton>
+								<p:spacer height="4"></p:spacer>
+								<p:commandButton styleClass="orange-btn" value="عودة"
+									icon="ui-icon ui-icon-arrow-back" immediate="true"
+									onclick="PF('whsdlAdd').hide();" />
+							</div>
+						</p:fieldset>
+					</h:panelGroup>
+				</p:dialog>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

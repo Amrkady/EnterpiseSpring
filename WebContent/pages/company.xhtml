@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title></title>
+
+</head>
+<h:body>
+	<ui:composition template="/template1.xhtml">
+		<ui:define name="content">
+			<h:form dir="rtl" id="form">
+				<p:messages id="msg" autoUpdate="true" closable="true"></p:messages>
+				<h1 style="color: #1565C0; text-align: center;">الشركات
+					المتعاقدة</h1>
+				<div class="image-box-footer" align="left">
+					<p:commandButton value="اضافة" immediate="true"
+						icon="ui-icon ui-icon-plus" onclick="PF('whsdlAdd').show();">
+					</p:commandButton>
+				</div>
+				<br />
+				<br />
+				<p:dataTable id="myTable" var="com"
+					value="#{companyBean.companiesList}" emptyMessage="لايوجد بيانات"
+					rowIndexVar="rowIndex" editable="true" paginatorPosition="bottom"
+					paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+					paginator="true" rows="10"
+					filteredValue="#{companyBean.companiestFilterList}">
+					<p:ajax event="rowEdit" listener="#{companyBean.onRowEdit}"
+						update=":form:msg  :form:myTable" />
+					<p:ajax event="rowEditCancel" listener="#{companyBean.onRowCancel}"
+						update=":form:msg" />
+					<p:column headerText="رقم" style="width: 5%">
+						<h:outputText value="#{rowIndex+1}" />
+					</p:column>
+					<p:column headerText="اسم الشركة"
+						style="width: 10% ; text-align: center;" filterBy="#{com.name}"
+						filterMatchMode="contains">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{com.name}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText id="nameInput" value="#{com.name}" required="true"
+									requiredMessage="الاسم مطلوب" style="width:100%" />
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+					<p:column headerText=" السجل التجارى"
+						style="width: 10% ; text-align: center;"
+						filterBy="#{com.commercialNo}" filterMatchMode="contains">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{com.commercialNo}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{com.commercialNo}" style="width:100%" />
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+					<p:column headerText="الشخص المسؤول "
+						style="width: 10% ; text-align: center;" filterBy="#{com.manager}"
+						filterMatchMode="contains">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{com.manager}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{com.manager}" style="width:100%" />
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+					<p:column headerText="موقع الشركة"
+						style="width: 10% ; text-align: center;" filterBy="#{com.loction}"
+						filterMatchMode="contains">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{com.loction}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{com.loction}" style="width:100%" />
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+					<p:column headerText="رقم الجوال"
+						style="width: 10% ; text-align: center;" filterBy="#{com.phone}"
+						filterMatchMode="contains">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{com.phone}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{com.phone}" style="width:100%" />
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+					<p:column headerText="البريد الالكتروني"
+						style="width: 10% ;text-align: center;" filterBy="#{com.email}"
+						filterMatchMode="contains">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{com.email}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{com.email}" style="width:100%" />
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+					<p:column headerText="التعاقدات"
+						style="width:8% ; text-align: center;">
+						<p:commandButton value="تفاصيل" icon="ui-icon ui-icon-search"
+							style="background-color:green" title="تفاصيل"
+							action="#{companyBean.infoCompany(com)}">
+						</p:commandButton>
+					</p:column>
+
+					<p:column headerText="تعديل" style="width:5% ; text-align: center;">
+						<p:rowEditor />
+					</p:column>
+					<p:column headerText="حذف" style="width:5% ;text-align: center;">
+						<p:commandButton update=":form:myTable"
+							style="background-color:red" icon="ui-icon ui-icon-remove"
+							title="حذف" action="#{companyBean.deleteCompany(com)}">
+						</p:commandButton>
+					</p:column>
+				</p:dataTable>
+			</h:form>
+			<h:form>
+				<p:dialog position="center" widgetVar="whsdlAdd" responsive="true"
+					dynamic="true" hideEffect="explode" showEffect="fade" width="60%"
+					closable="true" resizable="true" modal="true" dir="rtl">
+					<h:panelGroup id="panelGroupAdd" width="60%">
+						<p:fieldset legend="بيانات الشركة" width="100%">
+							<div class="ui-g">
+								<div class="ui-g-2">
+									<h:outputLabel value=" اسم الشركة" />
+								</div>
+								<div class="ui-g-3">
+									<p:inputText value="#{companyBean.comAdd.name}" required="true"
+										requiredMessage="اسم الشركة مطلوب" />
+								</div>
+								<p:spacer height="10" width="10"></p:spacer>
+								<div class="ui-g-3">
+									<h:outputLabel value="رقم السجل التجاري" />
+								</div>
+								<div class="ui-g-2">
+									<p:inputText value="#{companyBean.comAdd.commercialNo}" />
+								</div>
+							</div>
+							<div class="ui-g">
+								<div class="ui-g-2">
+									<h:outputLabel value="الشخص المسؤول" />
+								</div>
+								<div class="ui-g-3">
+									<p:inputText value="#{companyBean.comAdd.manager}" />
+								</div>
+								<p:spacer height="10" width="10"></p:spacer>
+								<div class="ui-g-3">
+									<h:outputLabel value="موقع الشركة " />
+								</div>
+								<div class="ui-g-2">
+									<p:inputText value="#{companyBean.comAdd.loction}" />
+								</div>
+							</div>
+							<div class="ui-g">
+								<div class="ui-g-2">
+									<h:outputLabel value="الجوال " />
+								</div>
+								<div class="ui-g-3">
+									<p:inputText value="#{companyBean.comAdd.phone}" />
+								</div>
+								<p:spacer height="10" width="10"></p:spacer>
+								<div class="ui-g-3">
+									<h:outputLabel value="البريد الالكتروني" />
+								</div>
+								<div class="ui-g-2">
+									<p:inputText value="#{companyBean.comAdd.email}">
+										<f:validator validatorId="utilities.EmailValidator" />
+									</p:inputText>
+								</div>
+							</div>
+							<br />
+							<div class="iamge-box-footer" align="left">
+								<p:commandButton value="حفظ" onsuccess="PF('whsdlAdd').hide();"
+									icon="ui-icon ui-icon-save" process="@all"
+									action="#{companyBean.addCompany}" update="form panelGroupAdd">
+								</p:commandButton>
+								<p:spacer height="4"></p:spacer>
+								<p:commandButton styleClass="orange-btn" value="عودة"
+									icon="ui-icon ui-icon-arrow-back" immediate="true"
+									onclick="PF('whsdlAdd').hide();" />
+							</div>
+						</p:fieldset>
+					</h:panelGroup>
+				</p:dialog>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

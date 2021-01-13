@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title></title>
+<f:metadata>
+	<f:viewAction action="#{employeesBean.initAddEdit}" />
+</f:metadata>
+</head>
+<h:body>
+	<ui:composition template="/template1.xhtml">
+		<ui:define name="content">
+			<h:form dir="rtl" id="form">
+				<p:messages id="msg" autoUpdate="true" closable="true"></p:messages>
+				<h1 style="color: #1565C0; text-align: center;">اضافة او تعديل
+					موظف</h1>
+				<div class="image-box-footer" align="left">
+					<p:commandButton value="رجوع" styleClass="orange-btn"
+						immediate="true" icon="ui-icon ui-icon-arrow-back"
+						action="employees">
+					</p:commandButton>
+				</div>
+				<br />
+
+				<p:fieldset>
+					<p:panel id="panel" header="التفاصيل">
+						<div class="ui-g">
+							<div class="ui-g-2">
+								<p:outputLabel value="هجري" />
+							</div>
+							<div class="ui-g-4">
+								<p:selectBooleanCheckbox value="#{employeesBean.dateBoolean}">
+									<p:ajax process="@this"
+										update="birthDate enteranceDate workStartDate  iqamaEndDate"></p:ajax>
+								</p:selectBooleanCheckbox>
+							</div>
+						</div>
+						<div class="ui-g">
+							<div class="ui-g-2">
+								<p:outputLabel value="الرقم الوظيفى *" />
+							</div>
+							<div class="ui-g-2">
+								<p:inputText value="#{employeesBean.employee.empNo}"
+									required="true" requiredMessage="الرقم الوظيفى مطلوب" />
+							</div>
+							<div class="ui-g-2">
+								<p:outputLabel value="اسم الموظف *" />
+							</div>
+							<div class="ui-g-2">
+								<p:inputText value="#{employeesBean.employee.name}"
+									required="true" requiredMessage="اسم الموظف مطلوب" />
+							</div>
+							<div class="ui-g-2">
+								<p:outputLabel value="تاريخ الميلاد" />
+							</div>
+							<div class="ui-g-2">
+								<h:panelGroup id="birthDate">
+									<p:calendar style="width:100%" pattern="yyyy/MM/dd"
+										rendered="#{!employeesBean.dateBoolean}"
+										value="#{employeesBean.employee.birthmDate}">
+									</p:calendar>
+									<p:inputText rendered="#{employeesBean.dateBoolean}"
+										value="#{employeesBean.employee.birthhDate}"
+										onfocus="loadCalendar();"
+										styleClass="form-control form-controlCal" />
+								</h:panelGroup>
+							</div>
+						</div>
+						<div class="ui-g">
+							<div class="ui-g-2">
+								<p:outputLabel value="تاريخ الدخول " />
+							</div>
+							<div class="ui-g-2">
+								<h:panelGroup id="enteranceDate">
+									<p:calendar style="width:100%" pattern="yyyy/MM/dd"
+										rendered="#{!employeesBean.dateBoolean}"
+										value="#{employeesBean.employee.enterancemDate}">
+									</p:calendar>
+									<p:inputText rendered="#{employeesBean.dateBoolean}"
+										value="#{employeesBean.employee.enterancehDate}"
+										onfocus="loadCalendar();"
+										styleClass="form-control form-controlCal" />
+								</h:panelGroup>
+							</div>
+							<div class="ui-g-2">
+								<p:outputLabel value="تاريخ بداية العمل " />
+							</div>
+							<div class="ui-g-2">
+								<h:panelGroup id="workStartDate">
+									<p:calendar style="width:100%" pattern="yyyy/MM/dd"
+										rendered="#{!employeesBean.dateBoolean}"
+										value="#{employeesBean.employee.workStartmDate}"
+										required="true" requiredMessage="تاريخ بداية العمل  مطلوب">
+									</p:calendar>
+									<p:inputText rendered="#{employeesBean.dateBoolean}"
+										value="#{employeesBean.employee.workStarthDate}"
+										required="true" requiredMessage="تاريخ بداية العمل  مطلوب"
+										onfocus="loadCalendar();"
+										styleClass="form-control form-controlCal" />
+								</h:panelGroup>
+							</div>
+							<div class="ui-g-2">
+								<p:outputLabel value="موقع العمل الحالى " />
+							</div>
+							<div class="ui-g-2">
+								<p:inputText value="#{employeesBean.employee.workLocation}" />
+							</div>
+						</div>
+						<div class="ui-g">
+							<div class="ui-g-2">
+								<p:outputLabel value="رقم الاقامة  " />
+							</div>
+							<div class="ui-g-2">
+								<p:inputText value="#{employeesBean.employee.iqamaNO}" />
+							</div>
+							<div class="ui-g-2">
+								<p:outputLabel value="تاريخ انتهاء الاقامة" />
+							</div>
+							<div class="ui-g-2">
+								<h:panelGroup id="iqamaEndDate">
+									<p:calendar style="width:100%" pattern="yyyy/MM/dd"
+										rendered="#{!employeesBean.dateBoolean}"
+										value="#{employeesBean.employee.iqamaEndmDate}">
+									</p:calendar>
+
+									<p:inputText rendered="#{employeesBean.dateBoolean}"
+										value="#{employeesBean.employee.iqamaEndhDate}"
+										onfocus="loadCalendar();"
+										styleClass="form-control form-controlCal" />
+								</h:panelGroup>
+							</div>
+							<div class="ui-g-2">
+								<p:outputLabel value="الراتب" />
+							</div>
+							<div class="ui-g-2">
+								<p:inputText value="#{employeesBean.employee.salary}"
+									required="true" requiredMessage="الراتب  مطلوب" />
+							</div>
+						</div>
+						<div class="ui-g">
+							<div class="ui-g-2">
+								<p:outputLabel value="رقم الايبان البنكى " />
+							</div>
+							<div class="ui-g-2">
+								<p:inputText value="#{employeesBean.employee.bankNo}" />
+							</div>
+							<div class="ui-g-2">
+								<p:outputLabel value="الجنسية" />
+							</div>
+							<div class="ui-g-2">
+								<p:inputText value="#{employeesBean.employee.nationality}"
+									required="true" requiredMessage="الجنسية  مطلوبة" />
+							</div>
+							<div class="ui-g-2">
+								<h:outputLabel value="حالة الموظف" />
+							</div>
+							<div class="ui-g-2">
+								<p:selectOneRadio style="width:100%;" columns="1" layout="grid"
+									value="#{employeesBean.employee.active}">
+									<f:selectItem itemLabel="فعال" itemValue="0" />
+									<f:selectItem itemLabel="غير فعال" itemValue="1" />
+									<f:ajax execute="@this"></f:ajax>
+								</p:selectOneRadio>
+							</div>
+						</div>
+						<div class="ui-g">
+							<div class="ui-g-2">
+								<p:outputLabel value="المؤسسة" />
+							</div>
+							<div class="ui-g-2">
+								<p:selectOneMenu style="width:100%" id="lt2"
+									value="#{employeesBean.employee.enterpriseId}">
+									<f:selectItem itemLabel=" اختر  المؤسسة "
+										noSelectionOption="true" />
+									<f:selectItems value="#{employeesBean.enterpriseList}" var="st"
+										itemLabel="#{st.name}" itemValue="#{st.id}" />
+									<p:ajax process="@this" />
+								</p:selectOneMenu>
+							</div>
+						</div>
+						<br />
+					</p:panel>
+					<div class="iamge-box-footer" align="left">
+						<p:commandButton update="form" value="حفظ"
+							icon="ui-icon ui-icon-save" process="@all"
+							action="#{employeesBean.addEmployee}">
+						</p:commandButton>
+						<p:spacer height="4"></p:spacer>
+
+						<p:commandButton value="تفريغ" update="panel" process="@this"
+							icon="ui-icon ui-icon-cancel" immediate="true"
+							styleClass="red-btn" style="margin-right:20px;">
+							<p:resetInput target="panel" />
+						</p:commandButton>
+						<!-- 						<p:commandButton styleClass="orange-btn" value="مسح" -->
+						<!-- 							icon="ui-icon ui-icon-arrow-back" immediate="true" -->
+						<!-- 							onclick="PF('whsdlAdd').hide();" /> -->
+					</div>
+
+					<br />
+					<p:dataTable id="myTable" var="emp"
+						rendered="#{employeesBean.tableRend}"
+						value="#{employeesBean.empMovList}" emptyMessage="لايوجد بيانات"
+						rowIndexVar="rowIndex" editable="true" paginatorPosition="bottom"
+						paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+						paginator="true" rows="5">
+						<p:column headerText="رقم" style="width: 5%">
+							<h:outputText value="#{rowIndex+1}" />
+						</p:column>
+						<p:column headerText="الحركة" style="width: 5%">
+							<h:outputText value="#{emp.moveType == '0'? emp.comName:'اجازة'}" />
+						</p:column>
+						<p:column headerText="تاريخ البداية ميلادي"
+							style="width: 10% ; text-align: center;">
+							<h:outputText value="#{emp.startmDate}">
+								<f:convertDateTime pattern="dd/MM/yyyy" />
+							</h:outputText>
+						</p:column>
+						<p:column headerText="تاريخ النهاية ميلادي"
+							style="width: 10% ; text-align: center;">
+							<h:outputText value="#{emp.endmDate}">
+								<f:convertDateTime pattern="dd/MM/yyyy" />
+							</h:outputText>
+						</p:column>
+						<p:column headerText="تاريخ البداية هجري"
+							style="width: 10% ; text-align: center;">
+							<h:outputText value="#{emp.starthDate}">
+								<f:convertDateTime pattern="yyyy/MM/dd" />
+							</h:outputText>
+						</p:column>
+
+						<p:column headerText="تاريخ النهاية هجرى"
+							style="width: 10% ; text-align: center;">
+							<h:outputText value="#{emp.endhDate}">
+								<f:convertDateTime pattern="yyyy/MM/dd" />
+							</h:outputText>
+						</p:column>
+					</p:dataTable>
+				</p:fieldset>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</h:body>
+
+</html>

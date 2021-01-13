@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title></title>
+<f:metadata>
+	<f:viewAction action="#{employeesBean.initSalarys}" />
+</f:metadata>
+</head>
+<h:body>
+	<ui:composition template="/template1.xhtml">
+		<ui:define name="content">
+			<h:form dir="rtl" id="form">
+				<p:messages id="msg" autoUpdate="true" closable="true"></p:messages>
+				<h1 style="color: #1565C0; text-align: center;">ملف المرتبات</h1>
+				<div class="image-box-footer" align="left">
+					<p:commandButton value="طباعة ملف الشركة"
+						icon="ui-icon ui-icon-print " immediate="true"
+						styleClass="purple-btn" onclick="this.form.target='_blank'"
+						ajax="false">
+					</p:commandButton>
+					<p:spacer width="10" height="10"></p:spacer>
+					<p:commandButton value="طباعة ملف البنك"
+						icon="ui-icon ui-icon-print " immediate="true"
+						styleClass="purple-btn" onclick="this.form.target='_blank'"
+						ajax="false">
+					</p:commandButton>
+				</div>
+				<br />
+
+				<div class="ui-g">
+					<div class="ui-g-1">
+						<p:outputLabel value="المؤسسة" />
+					</div>
+					<div class="ui-g-2">
+						<p:selectOneMenu style="width:80%" filter="true"
+							filterMatchMode="contains" value="#{employeesBean.enterpriseId}">
+							<f:selectItem itemLabel="الكل" noSelectionOption="true" />
+							<f:selectItems value="#{employeesBean.enterpriseList}" var="st"
+								itemLabel="#{st.name}" itemValue="#{st.id}" />
+							<p:ajax process="@this" listener="#{employeesBean.initSalarys}"
+								update="myTable" />
+						</p:selectOneMenu>
+					</div>
+					<div class="ui-g-1">
+						<p:outputLabel value="الشركة" />
+					</div>
+					<div class="ui-g-2">
+						<p:selectOneMenu style="width:80%" filter="true"
+							filterMatchMode="contains" value="#{employeesBean.companyId}">
+							<f:selectItem itemLabel="الكل" noSelectionOption="true" />
+							<f:selectItems value="#{employeesBean.companiesList}" var="st"
+								itemLabel="#{st.name}" itemValue="#{st.id}" />
+							<p:ajax process="@this" listener="#{employeesBean.initSalarys}"
+								update="myTable" />
+						</p:selectOneMenu>
+					</div>
+				</div>
+				<br />
+				<p:dataTable id="myTable" var="emp"
+					value="#{employeesBean.employeesList}" emptyMessage="لايوجد بيانات"
+					rowIndexVar="rowIndex" paginatorPosition="bottom"
+					paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+					paginator="true" rows="10">
+					<p:column headerText="التسلسل" style="width: 5%">
+						<h:outputText value="#{rowIndex+1}" />
+					</p:column>
+					<p:column headerText="الرقم الوظيفى"
+						style="width: 10% ; text-align: center;" filterBy="#{emp.empNo}"
+						filterMatchMode="contains">
+						<h:outputText value="#{emp.empNo}" />
+					</p:column>
+					<p:column headerText="اسم الموظف"
+						style="width: 15% ;text-align: center;" filterBy="#{emp.name}"
+						filterMatchMode="contains">
+						<h:outputText value="#{emp.name}" />
+					</p:column>
+					<p:column headerText="تابع لمؤسسة"
+						style="width:10% ; text-align: center;" filterBy="#{emp.entName}"
+						filterMatchMode="contains">
+						<h:outputText value="#{emp.entName}" />
+					</p:column>
+					<p:column headerText="راتب الموظف بنك"
+						style="width: 10% ; text-align: center;">
+						<h:outputText value="#{emp.salary}" />
+					</p:column>
+					<p:column headerText="المكافأة"
+						style="width: 10% ; text-align:center">
+						<p:inputNumber value="#{emp.bonus}">
+							<p:ajax event="blur" process="@this"
+								listener="#{employeesBean.calcBonusSum(emp)}" update="total" />
+						</p:inputNumber>
+					</p:column>
+					<p:column headerText="عدد ساعات الاضافية"
+						style="width: 15% ; text-align:center">
+						<p:inputText value="#{emp.hourNoAdd}">
+							<f:convertNumber pattern="##################.##">
+							</f:convertNumber>
+							<p:ajax event="blur" process="@this"
+								listener="#{employeesBean.calcValSum(emp)}" update="total" />
+						</p:inputText>
+					</p:column>
+					<p:column headerText="عدد ساعات الخصم"
+						style="width: 15% ; text-align:center">
+						<p:inputText value="#{emp.hourMinus}">
+							<f:convertNumber pattern="##################.##">
+							</f:convertNumber>
+							<p:ajax event="blur" process="@this"
+								listener="#{employeesBean.calcFineValSum(emp)}" update="total" />
+						</p:inputText>
+					</p:column>
+					<p:column headerText="الراتب الكلى"
+						style="width: 30% ; text-align: center;">
+						<h:outputLabel id="total"
+							value="#{emp.salary + emp.bonus + emp.hourNoAdd - emp.hourMinus}">
+							<f:convertNumber pattern="##################.##"></f:convertNumber>
+						</h:outputLabel>
+					</p:column>
+					<!-- 					<p:columnGroup id="totalAfter" type="footer"> -->
+					<!-- 						<p:row> -->
+					<!-- 							<p:column colspan="4" footerText="الاجمالى" -->
+					<!-- 								style="FONT-WEIGHT:bold ;color : #F85F3E " /> -->
+					<!-- 							<p:column -->
+					<!-- 								style="FONT-WEIGHT:bold ;color : #F85F3E ;text-align:center " -->
+					<!-- 								footerText="#{employeesBean.totalSalary}" /> -->
+					<!-- 							<p:column colspan="3" /> -->
+					<!-- 							<p:column -->
+					<!-- 								style="FONT-WEIGHT:bold ;color : #F85F3E ;text-align:center " -->
+					<!-- 								footerText="#{employeesBean.totalSalaryAfter}" /> -->
+
+					<!-- 						</p:row> -->
+					<!-- 					</p:columnGroup> -->
+				</p:dataTable>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</h:body>
+
+</html>

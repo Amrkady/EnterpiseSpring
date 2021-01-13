@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title></title>
+
+</head>
+<h:body>
+	<ui:composition template="/template1.xhtml">
+		<ui:define name="content">
+			<h:form dir="rtl" id="form">
+				<p:messages id="msg" autoUpdate="true" closable="true"></p:messages>
+				<h1 style="color: #1565C0; text-align: center;">الموظفين</h1>
+				<div class="image-box-footer" align="left">
+					<p:commandButton id="cBadd" value="اضافة" immediate="true"
+						icon="ui-icon ui-icon-plus" action="addEditEmp">
+					</p:commandButton>
+				</div>
+				<div class="ui-g">
+					<div class="ui-g-1">
+						<p:outputLabel value="المؤسسة" />
+					</div>
+					<div class="ui-g-2">
+						<p:selectOneMenu style="width:80%" filter="true"
+							filterMatchMode="contains" value="#{employeesBean.enterpriseId}">
+							<f:selectItem itemLabel="الكل" noSelectionOption="true" />
+							<f:selectItems value="#{employeesBean.enterpriseList}" var="st"
+								itemLabel="#{st.name}" itemValue="#{st.id}" />
+							<p:ajax process="@this" listener="#{employeesBean.search}"
+								update="myTable" />
+						</p:selectOneMenu>
+					</div>
+					<div class="ui-g-1">
+						<p:outputLabel value="حالة الاقامة" />
+					</div>
+					<div class="ui-g-2">
+						<p:selectOneMenu style="width:80%" id="lt2"
+							value="#{employeesBean.active}">
+							<f:selectItem itemLabel="الكل" noSelectionOption="true" />
+							<f:selectItem itemLabel="سارية" itemValue="3" />
+							<f:selectItem itemLabel="قاربت الانتهاء" itemValue="2" />
+							<f:selectItem itemLabel="منتهية" itemValue="1" />
+							<p:ajax process="@this" listener="#{employeesBean.search}"
+								update="myTable" />
+						</p:selectOneMenu>
+					</div>
+				</div>
+				<br />
+				<div class="ui-g">
+					<div class="ui-g-1">
+						<p:outputLabel value="هجري" />
+					</div>
+					<div class="ui-g-4">
+						<p:selectBooleanCheckbox value="#{employeesBean.dateTableBoolean}">
+							<p:ajax process="@this" update="myTable"></p:ajax>
+						</p:selectBooleanCheckbox>
+					</div>
+				</div>
+				<p:dataTable id="myTable" var="emp" widgetVar="carsTable1"
+					value="#{employeesBean.employeesList}" emptyMessage="لايوجد بيانات"
+					rowIndexVar="rowIndex" paginatorPosition="bottom"
+					paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+					paginator="true" rows="10"  rowKey="#{emp.id}"
+					filteredValue="#{employeesBean.employeesFilterList}">
+					<p:column headerText="التسلسل" style="width: 5%">
+						<h:outputText value="#{rowIndex+1}" />
+					</p:column>
+					<p:column headerText="الرقم الوظيفى"
+						style="width: 10% ; text-align: center;" filterBy="#{emp.empNo}"
+						filterMatchMode="contains">
+						<h:outputText value="#{emp.empNo}" />
+					</p:column>
+					<p:column headerText="اسم الموظف"
+						style="width: 15% ;text-align: center;" filterBy="#{emp.name}"
+						filterMatchMode="contains">
+						<h:outputText value="#{emp.name}" />
+					</p:column>
+					<p:column headerText="تابع لمؤسسة"
+						style="width:10% ; text-align: center;" filterBy="#{emp.entName}"
+						filterMatchMode="contains">
+						<h:outputText value="#{emp.entName}" />
+					</p:column>
+					<p:column headerText="رقم الاقامة"
+						style="width: 10% ; text-align: center;" filterBy="#{emp.iqamaNO}"
+						filterMatchMode="contains">
+						<h:outputText value="#{emp.iqamaNO}" />
+					</p:column>
+					<p:column headerText="راتب الموظف"
+						style="width: 10% ; text-align: center;">
+						<h:outputText value="#{emp.salary}" />
+					</p:column>
+					<p:column headerText="تاريخ بداية العمل"
+						style="width: 10% ; text-align: center;">
+						<h:outputText value="#{emp.workStartmDate}"
+							rendered="#{!employeesBean.dateTableBoolean}">
+							<f:convertDateTime pattern="yyyy/MM/dd" />
+						</h:outputText>
+						<h:outputText value="#{emp.workStarthDate}"
+							rendered="#{employeesBean.dateTableBoolean}">
+							<f:convertDateTime pattern="yyyy/MM/dd" />
+						</h:outputText>
+
+					</p:column>
+					<p:column headerText="تاريخ انتهاء الاقامة"
+						style="width: 10% ; text-align: center;">
+						<h:outputText value="#{emp.iqamaEndmDate}"
+							rendered="#{!employeesBean.dateTableBoolean}">
+							<f:convertDateTime pattern="yyyy/MM/dd" />
+						</h:outputText>
+						<h:outputText value="#{emp.iqamaEndhDate}"
+							rendered="#{employeesBean.dateTableBoolean}">
+							<f:convertDateTime pattern="yyyy/MM/dd" />
+						</h:outputText>
+					</p:column>
+					<p:column headerText="حالة الاقامة"
+						style="width: 10% ; text-align: center;FONT-WEIGHT :bold ">
+						<h:outputText value="#{emp.iqamaStatus}"
+							style="color: #{emp.colorStatus== 1? 'red':(emp.colorStatus== 2 ? 'orange':'green')};">
+						</h:outputText>
+					</p:column>
+					<p:column headerText="تفاصيل"
+						style="width:8% ; text-align: center;">
+						<p:commandButton style="background-color:green"
+							icon="ui-icon ui-icon-search" title="تفاصيل"
+							action="#{employeesBean.updateEmployee(emp)}">
+						</p:commandButton>
+					</p:column>
+					<p:column headerText="حذف" style="width:5% ; text-align: center;">
+						<p:commandButton update=":form:myTable"
+							style="background-color:red" icon="ui-icon ui-icon-remove"
+							title="حذف" action="#{employeesBean.deleteEmployee(emp)}">
+						</p:commandButton>
+					</p:column>
+					<p:columnGroup type="footer">
+						<p:row>
+							<p:column colspan="5" footerText="الاجمالى"
+								style="FONT-WEIGHT:bold ;color : #F85F3E " />
+							<p:column
+								style="FONT-WEIGHT:bold ;color : #F85F3E ;text-align:center "
+								footerText="#{employeesBean.totalSalary}" />
+							<p:column colspan="5" />
+
+						</p:row>
+					</p:columnGroup>
+				</p:dataTable>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</h:body>
+
+</html>

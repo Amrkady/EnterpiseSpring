@@ -30,6 +30,7 @@
 				<p:dataTable id="myTable" var="user" value="#{userBean.users}"
 					emptyMessage="لايوجد بيانات" rowIndexVar="rowIndex"
 					 paginatorPosition="bottom" editable="true"
+					 filteredValue="#{userBean.usersFilter}"
 					paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
 					paginator="true" rows="10">
 					

@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title></title>
+
+</head>
+<h:body>
+	<ui:composition template="/template1.xhtml">
+		<ui:define name="content">
+			<h:form dir="rtl" id="form">
+				<p:messages id="msg" autoUpdate="true" closable="true"></p:messages>
+				<h1 style="color: #1565C0; text-align: center;">انواع المصروفات
+				</h1>
+				<div class="image-box-footer" align="left">
+					<p:commandButton id="cBadd" value="اضافة نوع مصروفات"
+						immediate="true" icon="ui-icon ui-icon-plus"
+						onclick="PF('whsdlAdd').show();">
+					</p:commandButton>
+				</div>
+				<br />
+				<br />
+				<p:dataTable id="myTable" var="rent"
+					value="#{expTypeBean.expensisTypesList}"
+					emptyMessage="لايوجد بيانات" rowIndexVar="rowIndex" editable="true"
+					paginatorPosition="bottom"
+					filteredValue="#{expTypeBean.expensisFilterList}"
+					paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+					paginator="true" rows="10">
+					<p:ajax event="rowEdit" listener="#{expTypeBean.onRowEdit}"
+						update=":form:msg  :form:myTable" />
+					<p:ajax event="rowEditCancel" listener="#{expTypeBean.onRowCancel}"
+						update=":form:msg" />
+					<p:column headerText="رقم" style="width: 5%">
+						<h:outputText value="#{rowIndex+1}" />
+					</p:column>
+					<p:column headerText="اسم المصروفات" style="width: 20%"
+						filterBy="#{rent.name}" filterMatchMode="contains">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{rent.name}">
+
+								</h:outputText>
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText style="width:100%" required="true"
+									requiredMessage="ادخل اسم المصروفات " value="#{rent.name}">
+								</p:inputText>
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+					<p:column headerText="نوع المصروفات" style="width: 20%"
+						filterBy="#{rent.general}" filterMatchMode="contains">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText
+									value="#{rent.general == 0  ? 'مصروفات لكل مؤسسة':'مصروفات عمومية '}" />
+							</f:facet>
+							<f:facet name="input">
+								<h:outputText value="عمومية ؟" />
+								<p:selectBooleanCheckbox value="#{rent.generalType}" />
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+					<p:column headerText="تعديل" style="width:5%">
+						<p:rowEditor />
+					</p:column>
+					<p:column headerText="حذف" style="width:5%">
+						<p:commandButton update=":form:myTable"
+							style="background-color:red" icon="ui-icon ui-icon-remove"
+							title="حذف" action="#{expTypeBean.deleteGas(rent)}">
+						</p:commandButton>
+					</p:column>
+				</p:dataTable>
+			</h:form>
+			<h:form>
+				<p:dialog position="center" widgetVar="whsdlAdd" responsive="true"
+					dynamic="true" hideEffect="explode" showEffect="fade" width="60%"
+					closable="true" resizable="true" modal="true" dir="rtl">
+					<h:panelGroup id="panelGroupAdd" width="60%">
+						<p:fieldset legend="بيانات المصروفات " width="100%">
+							<div class="ui-g">
+								<div class="ui-g-2">
+									<h:outputLabel value="اسم المصروفات" />
+								</div>
+								<div class="ui-g-3">
+									<p:inputText style="width:100%" required="true"
+										requiredMessage="ادخل  المصروفات"
+										value="#{expTypeBean.exAdd.name}">
+									</p:inputText>
+								</div>
+								<p:spacer height="10" width="10"></p:spacer>
+								<div class="ui-g-3">
+									<h:outputLabel value="نوع المصروف(عمومي ؟)" />
+								</div>
+								<div class="ui-g-3">
+									<p:selectBooleanCheckbox
+										value="#{expTypeBean.exAdd.generalType}" />
+
+								</div>
+							</div>
+							<div class="iamge-box-footer" align="left">
+								<p:commandButton value="حفظ" onsuccess="PF('whsdlAdd').hide();"
+									icon="ui-icon ui-icon-save" process="@all"
+									action="#{expTypeBean.addGas}" update="form panelGroupAdd">
+								</p:commandButton>
+								<p:spacer height="4"></p:spacer>
+								<p:commandButton styleClass="orange-btn" value="عودة"
+									icon="ui-icon ui-icon-arrow-back" immediate="true"
+									onclick="PF('whsdlAdd').hide();" />
+							</div>
+						</p:fieldset>
+					</h:panelGroup>
+				</p:dialog>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

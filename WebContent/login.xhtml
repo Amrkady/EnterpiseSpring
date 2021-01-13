@@ -15,25 +15,25 @@
 
 </h:head>
 <h:body
-	style="background-image: url('resources/images/login2-bg.jpg'); height: 100%; background-position: center; background-repeat: no-repeat; background-size: cover;">
+	style="background-image: url('resources/images/login2-bg.jpg'); height: 100%;  background-position: center; background-repeat: repeat; background-size: cover;">
 	<!-- <form class="login-form"> -->
-	<h:form >
+	<h:form>
 
 		<div class="login-page">
-			<div  class="form">
+			<div class="form">
 
 
-				<h:inputText style="margin-bottom:10px" class="aa"
+				<h:inputText style="margin-bottom:10px ;text-align: center;" class="aa"
 					value="#{loginBean.userName}" a:placeholder="كود الدخول" />
 				<br /> <br />
-				<h:inputSecret style="margin-bottom:10px" class="aa"
+				<h:inputSecret style="margin-bottom:10px;text-align: center;" class="aa"
 					value="#{loginBean.password}" a:placeholder="الرقم السري" />
+				<br />
+
+				<!-- 				<p:captcha label="Captcha" /> -->
 				<br /> 
-				
-<!-- 				<p:captcha label="Captcha" /> -->
-				<br /> 
-				<h:commandButton style="font-size:20px" value="تسجيل دخول" action="#{loginBean.login}"
-					class="bb"></h:commandButton>
+				<h:commandButton style="font-size:20px" value="تسجيل دخول"
+					action="#{loginBean.login}" class="bb"></h:commandButton>
 
 
 			</div>
