@@ -61,11 +61,17 @@ public class SndSrfQbd {
 	@Formula("(select s.name from companies s where s.id = company_Id)")
 	private String comName;
 
+	@Formula("(select s.loction from companies s where s.id = company_Id)")
+	private String comAddress;
+
 	@Formula("(select s.name from enterprise s where s.id = enterprise_Id)")
 	private String entName;
 
+	@Formula("(select s.nameEn from enterprise s where s.id = enterprise_Id)")
+	private String entNameEn;
+
 	@Column(name = "taxAmoun")
-	private Double taxAmoun;
+	private double taxAmoun;
 
 	@Column(name = "billNo")
 	private String billNo;
@@ -190,11 +196,11 @@ public class SndSrfQbd {
 		this.tax = tax;
 	}
 
-	public Double getTaxAmoun() {
+	public double getTaxAmoun() {
 		return taxAmoun;
 	}
 
-	public void setTaxAmoun(Double taxAmoun) {
+	public void setTaxAmoun(double taxAmoun) {
 		this.taxAmoun = taxAmoun;
 	}
 
@@ -206,4 +212,25 @@ public class SndSrfQbd {
 		this.billNo = billNo;
 	}
 
+	public String getEntNameEn() {
+		return entNameEn;
+	}
+
+	public void setEntNameEn(String entNameEn) {
+		this.entNameEn = entNameEn;
+	}
+
+	public String getComAddress() {
+		return comAddress;
+	}
+
+	public void setComAddress(String comAddress) {
+		this.comAddress = comAddress;
+	}
+
+	public double getAmountAndTaxs() {
+		double amoun = this.amount + this.taxAmoun;
+		amoun = Math.round(amoun * 100) / 100.00d;
+		return amoun;
+	}
 }

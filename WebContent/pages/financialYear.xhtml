@@ -74,25 +74,25 @@
 								</p:column>
 								<p:column style="width: 15%">
 									<h:outputText
-										value="#{(rev.sndType == 2 and rev.payType == '2') ? rev.amount : ' ' }">
+										value="#{(rev.sndType == 2 and rev.payType == '2') ? rev.getAmountAndTaxs() : ' ' }">
 										<f:convertNumber pattern="##################.##" />
 									</h:outputText>
 								</p:column>
 								<p:column style="width: 15%">
 									<h:outputText
-										value="#{(rev.sndType == 1 and rev.payType == '2') ? rev.amount : ' ' }">
+										value="#{(rev.sndType == 1 and rev.payType == '2') ? rev.getAmountAndTaxs() : ' ' }">
 										<f:convertNumber pattern="##################.##" />
 									</h:outputText>
 								</p:column>
 								<p:column style="width: 15%">
 									<h:outputText
-										value="#{(rev.sndType == 2 and rev.payType == '1') ? rev.amount : ' ' }">
+										value="#{(rev.sndType == 2 and rev.payType == '1') ? rev.getAmountAndTaxs() : ' ' }">
 										<f:convertNumber pattern="##################.##" />
 									</h:outputText>
 								</p:column>
 								<p:column style="width: 15%">
 									<h:outputText
-										value="#{(rev.sndType == 1 and rev.payType == '1') ? rev.amount : ' ' }">
+										value="#{(rev.sndType == 1 and rev.payType == '1') ? rev.getAmountAndTaxs() : ' ' }">
 										<f:convertNumber pattern="##################.##" />
 									</h:outputText>
 								</p:column>
@@ -102,7 +102,7 @@
 									</h:outputText>
 								</p:column>
 								<p:column style="width: 15%">
-									<h:outputText value="#{(rev.sndType == 2) ? rev.amount : ' ' }">
+									<h:outputText value="#{(rev.sndType == 2) ? rev.getAmountAndTaxs() : ' ' }">
 										<f:convertNumber pattern="##################.##" />
 									</h:outputText>
 								</p:column>
@@ -113,7 +113,7 @@
 									</h:outputText>
 								</p:column>
 								<p:column style="width: 15%">
-									<h:outputText value="#{(rev.sndType == 1) ? rev.amount : ' ' }">
+									<h:outputText value="#{(rev.sndType == 1) ? rev.getAmountAndTaxs() : ' ' }">
 										<f:convertNumber pattern="##################.##" />
 									</h:outputText>
 								</p:column>
@@ -129,27 +129,27 @@
 											footerText="الاجمالى">
 										</p:column>
 										<p:column
-											footerText="#{financailBean.sndList.stream().filter(fdet->fdet.sndType == 2 and fdet.payType == '2').map(fdet->fdet.amount).sum()}"
+											footerText="#{financailBean.sndList.stream().filter(fdet->fdet.sndType == 2 and fdet.payType == '2').map(fdet->fdet.getAmountAndTaxs()).sum()}"
 											style="FONT-WEIGHT:bold ;color : #F85F3E ;text-align:center " />
 
 										<p:column
-											footerText="#{financailBean.sndList.stream().filter(fdet->fdet.sndType == 1 and fdet.payType == '2').map(fdet->fdet.amount).sum()}"
+											footerText="#{financailBean.sndList.stream().filter(fdet->fdet.sndType == 1 and fdet.payType == '2').map(fdet->fdet.getAmountAndTaxs()).sum()}"
 											style="FONT-WEIGHT:bold ;color : #F85F3E ;text-align:center " />
 
 										<p:column
-											footerText="#{financailBean.sndList.stream().filter(fdet->fdet.sndType == 2 and fdet.payType == '1').map(fdet->fdet.amount).sum()}"
+											footerText="#{financailBean.sndList.stream().filter(fdet->fdet.sndType == 2 and fdet.payType == '1').map(fdet->fdet.getAmountAndTaxs()).sum()}"
 											style="FONT-WEIGHT:bold ;color : #F85F3E ;text-align:center " />
 
 
 										<p:column
-											footerText="#{financailBean.sndList.stream().filter(fdet->fdet.sndType == 1 and fdet.payType == '1').map(fdet->fdet.amount).sum()}"
+											footerText="#{financailBean.sndList.stream().filter(fdet->fdet.sndType == 1 and fdet.payType == '1').map(fdet->fdet.getAmountAndTaxs()).sum()}"
 											style="FONT-WEIGHT:bold ;color : #F85F3E ;text-align:center " />
 
 										<p:column colspan="2"
-											footerText="#{financailBean.sndList.stream().filter(fdet->fdet.sndType == 2).map(fdet->fdet.amount).sum()}"
+											footerText="#{financailBean.sndList.stream().filter(fdet->fdet.sndType == 2).map(fdet->fdet.getAmountAndTaxs()).sum()}"
 											style="FONT-WEIGHT:bold ;color : #F85F3E ; text-align:center; " />
 										<p:column colspan="3"
-											footerText="#{financailBean.sndList.stream().filter(fdet->fdet.sndType == 1).map(fdet->fdet.amount).sum()}"
+											footerText="#{financailBean.sndList.stream().filter(fdet->fdet.sndType == 1).map(fdet->fdet.getAmountAndTaxs()).sum()}"
 											style="FONT-WEIGHT:bold ;color : #F85F3E ;text-align:center " />
 
 									</p:row>
@@ -201,15 +201,15 @@
 							</div>
 						</div>
 						<br />
-						<!-- 						<div class="image-box-footer" align="left"> -->
-						<!-- 							<p:commandButton class="bb" value="طباعة" -->
-						<!-- 								rendered="#{financailBean.enablePrint}" -->
-						<!-- 								style="width:10%; align:left" icon="ui-icon ui-icon-print " -->
-						<!-- 								onclick="this.form.target='_blank'" ajax="false" -->
-						<!-- 								action="#{financailBean.printReviewSystem}"> -->
-						<!-- 							</p:commandButton> -->
+						<div class="image-box-footer" align="left">
+							<p:commandButton class="bb" value="طباعة"
+								rendered="#{financailBean.enablePrint}"
+								style="width:10%; align:left" icon="ui-icon ui-icon-print "
+								onclick="this.form.target='_blank'" ajax="false"
+								action="#{financailBean.printReviewSystem}">
+							</p:commandButton>
 
-						<!-- 						</div> -->
+						</div>
 					</p:tab>
 
 					<p:tab title="الميزانية العمومية " style="font-width : bold;">

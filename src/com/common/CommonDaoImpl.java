@@ -246,7 +246,7 @@ public class CommonDaoImpl extends HibernateTemplate implements CommonDao {
 		query.setParameter("conId", con.getId());
 		query.executeUpdate();
 
-		String hql2 = "delete FROM  EmployeesMovements  Where contractId = :conId";
+		String hql2 = "delete FROM  EmployeesMovements  Where moveType ='0' and contractId = :conId";
 		Query query2 = sessionFactory.getCurrentSession().createQuery(hql2);
 		query2.setParameter("conId", con.getId());
 		query2.executeUpdate();
@@ -292,9 +292,9 @@ public class CommonDaoImpl extends HibernateTemplate implements CommonDao {
 	@Transactional
 	public void deleteVacation(Vacations com) {
 		deleteObject(com);
-		String hql = "delete FROM  EmployeesMovements  Where contractId = :conId";
+		String hql = "delete FROM  EmployeesMovements  Where moveType = '1' and  typeId = :vacId";
 		Query query = sessionFactory.getCurrentSession().createQuery(hql);
-		query.setParameter("conId", com.getId());
+		query.setParameter("typeId", com.getId());
 		query.executeUpdate();
 	}
 
@@ -308,8 +308,8 @@ public class CommonDaoImpl extends HibernateTemplate implements CommonDao {
 		if (conId == null) {
 			return null;
 		}
-		Contracts con = new Contracts();
-		con.setId(conId);
+
+		Contracts con = (Contracts) findEntityById(Contracts.class, conId);
 		return con;
 	}
 

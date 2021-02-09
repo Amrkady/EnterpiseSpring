@@ -4,6 +4,8 @@
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
 	<parameter name="dateF" class="java.lang.String"/>
 	<parameter name="dateT" class="java.lang.String"/>
+	<parameter name="nameAr" class="java.lang.String"/>
+	<parameter name="nameEn" class="java.lang.String"/>
 	<queryString language="SQL">
 		<![CDATA[select 1 from  dual ;]]>
 	</queryString>
@@ -18,10 +20,10 @@
 		<variableExpression><![CDATA[$F{taxAmoun}]]></variableExpression>
 	</variable>
 	<variable name="WithoutTax" class="java.math.BigDecimal" calculation="Sum">
-		<variableExpression><![CDATA[$F{amount} - $F{taxAmoun}]]></variableExpression>
+		<variableExpression><![CDATA[$F{amount} +  $F{taxAmoun}]]></variableExpression>
 	</variable>
 	<variable name="amountWithoutTax" class="java.lang.Double">
-		<variableExpression><![CDATA[$F{amount} - $F{taxAmoun}]]></variableExpression>
+		<variableExpression><![CDATA[$F{amount} + $F{taxAmoun}]]></variableExpression>
 	</variable>
 	<background>
 		<band splitType="Stretch"/>
@@ -38,13 +40,13 @@
 				</textElement>
 				<text><![CDATA[مؤسسة]]></text>
 			</staticText>
-			<staticText>
-				<reportElement x="300" y="30" width="266" height="28" forecolor="#0000FF" uuid="24171968-9b8e-42ed-b70c-c92623865d8b"/>
+			<textField>
+				<reportElement x="300" y="30" width="266" height="28" forecolor="#0000FF" uuid="9f4ad170-b605-4ad2-822b-04262b1125d5"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Arial" size="22" isBold="true" isUnderline="false"/>
 				</textElement>
-				<text><![CDATA[وليد محمد المطوع]]></text>
-			</staticText>
+				<textFieldExpression><![CDATA[$P{nameAr}]]></textFieldExpression>
+			</textField>
 			<staticText>
 				<reportElement x="300" y="58" width="266" height="28" forecolor="#0000FF" uuid="cad217bb-afd5-4103-a5da-bd4289981068"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
@@ -66,13 +68,13 @@
 				</textElement>
 				<text><![CDATA[ص . ب : ٥٥٤۹]]></text>
 			</staticText>
-			<staticText>
-				<reportElement x="-9" y="29" width="289" height="28" forecolor="#0000FF" uuid="909778c3-3087-4b17-b996-6b27ab44b7f7"/>
-				<textElement textAlignment="Left" verticalAlignment="Middle">
+			<textField>
+				<reportElement x="-9" y="29" width="289" height="28" forecolor="#0000FF" uuid="106ce1b3-adf7-46c4-84b1-ef5ba4e43c55"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Arial" size="14" isBold="true" isUnderline="false"/>
 				</textElement>
-				<text><![CDATA[WALEED MOHAMED AL-MOTAWWA Est.]]></text>
-			</staticText>
+				<textFieldExpression><![CDATA[$P{nameEn}]]></textFieldExpression>
+			</textField>
 			<staticText>
 				<reportElement x="-9" y="57" width="266" height="28" forecolor="#0000FF" uuid="890fc0da-ee4f-42fb-b02d-cf8346933d8d"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
@@ -85,14 +87,14 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Arial" size="14" isBold="false" isUnderline="false"/>
 				</textElement>
-				<text><![CDATA[س . ت :1136000697]]></text>
+				<text><![CDATA[C.R. :1136000697]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="-9" y="114" width="266" height="28" forecolor="#0000FF" uuid="c2887bac-60ea-41c2-8d11-f99c4dc90664"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Arial" size="14" isBold="false" isUnderline="false"/>
 				</textElement>
-				<text><![CDATA[ص . ب :5549]]></text>
+				<text><![CDATA[P.O.Box :5549]]></text>
 			</staticText>
 		</band>
 	</pageHeader>
@@ -187,7 +189,7 @@
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="21" splitType="Stretch">
+		<band height="20" splitType="Stretch">
 			<textField isBlankWhenNull="true">
 				<reportElement x="460" y="0" width="100" height="20" uuid="b70f67be-4bfe-41de-9fec-c5cf160dadf3"/>
 				<box>
@@ -212,7 +214,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Arial" size="12"/>
 				</textElement>
-				<textFieldExpression><![CDATA[(""+$F{amount}).replaceAll("0", "\\\u0660").replaceAll("1", "\\\u0661") .replaceAll("2", "\\\u0662").replaceAll("3", "\\\u0663").replaceAll("4", "\\\u0664").replaceAll("5", "\\\u0665").replaceAll("6", "\\\u0666").replaceAll("7", "\\\u0667").replaceAll("8", "\\\u0668").replaceAll("9", "\\\u0669")]]></textFieldExpression>
+				<textFieldExpression><![CDATA[(""+$V{amountWithoutTax}).replaceAll("0", "\\\u0660").replaceAll("1", "\\\u0661") .replaceAll("2", "\\\u0662").replaceAll("3", "\\\u0663").replaceAll("4", "\\\u0664").replaceAll("5", "\\\u0665").replaceAll("6", "\\\u0666").replaceAll("7", "\\\u0667").replaceAll("8", "\\\u0668").replaceAll("9", "\\\u0669")]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement x="126" y="0" width="100" height="20" uuid="81255935-4cbf-4654-b22f-f2354e14b05c"/>
@@ -238,7 +240,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Arial" size="12"/>
 				</textElement>
-				<textFieldExpression><![CDATA[(""+$V{amountWithoutTax}).replaceAll("0", "\\\u0660").replaceAll("1", "\\\u0661") .replaceAll("2", "\\\u0662").replaceAll("3", "\\\u0663").replaceAll("4", "\\\u0664").replaceAll("5", "\\\u0665").replaceAll("6", "\\\u0666").replaceAll("7", "\\\u0667").replaceAll("8", "\\\u0668").replaceAll("9", "\\\u0669")]]></textFieldExpression>
+				<textFieldExpression><![CDATA[(""+$F{amount}).replaceAll("0", "\\\u0660").replaceAll("1", "\\\u0661") .replaceAll("2", "\\\u0662").replaceAll("3", "\\\u0663").replaceAll("4", "\\\u0664").replaceAll("5", "\\\u0665").replaceAll("6", "\\\u0666").replaceAll("7", "\\\u0667").replaceAll("8", "\\\u0668").replaceAll("9", "\\\u0669")]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement x="336" y="0" width="124" height="20" uuid="c1580f0a-c0b3-49ab-aade-6554ad053ac6"/>
@@ -270,7 +272,7 @@
 		</band>
 	</pageFooter>
 	<summary>
-		<band height="217">
+		<band height="22">
 			<staticText>
 				<reportElement x="336" y="0" width="124" height="22" forecolor="#0000FF" uuid="179002c2-4c6e-4c8f-b7ab-81dff06fc00c"/>
 				<box>
@@ -295,7 +297,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Arial" size="12"/>
 				</textElement>
-				<textFieldExpression><![CDATA[(""+$V{WithoutTax}.setScale(2 , RoundingMode.HALF_UP)).replaceAll("0", "\\\u0660").replaceAll("1", "\\\u0661") .replaceAll("2", "\\\u0662").replaceAll("3", "\\\u0663").replaceAll("4", "\\\u0664").replaceAll("5", "\\\u0665").replaceAll("6", "\\\u0666").replaceAll("7", "\\\u0667").replaceAll("8", "\\\u0668").replaceAll("9", "\\\u0669")]]></textFieldExpression>
+				<textFieldExpression><![CDATA[(""+$V{amounts}.setScale(2 , RoundingMode.HALF_UP)).replaceAll("0", "\\\u0660").replaceAll("1", "\\\u0661") .replaceAll("2", "\\\u0662").replaceAll("3", "\\\u0663").replaceAll("4", "\\\u0664").replaceAll("5", "\\\u0665").replaceAll("6", "\\\u0666").replaceAll("7", "\\\u0667").replaceAll("8", "\\\u0668").replaceAll("9", "\\\u0669")]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement x="126" y="0" width="99" height="22" uuid="c70ea7f4-d3e6-46f5-886a-2341b1031a56"/>
@@ -321,7 +323,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Arial" size="12"/>
 				</textElement>
-				<textFieldExpression><![CDATA[(""+$V{amounts}.setScale(2 , RoundingMode.HALF_UP)).replaceAll("0", "\\\u0660").replaceAll("1", "\\\u0661") .replaceAll("2", "\\\u0662").replaceAll("3", "\\\u0663").replaceAll("4", "\\\u0664").replaceAll("5", "\\\u0665").replaceAll("6", "\\\u0666").replaceAll("7", "\\\u0667").replaceAll("8", "\\\u0668").replaceAll("9", "\\\u0669")]]></textFieldExpression>
+				<textFieldExpression><![CDATA[(""+$V{WithoutTax}.setScale(2 , RoundingMode.HALF_UP)).replaceAll("0", "\\\u0660").replaceAll("1", "\\\u0661") .replaceAll("2", "\\\u0662").replaceAll("3", "\\\u0663").replaceAll("4", "\\\u0664").replaceAll("5", "\\\u0665").replaceAll("6", "\\\u0666").replaceAll("7", "\\\u0667").replaceAll("8", "\\\u0668").replaceAll("9", "\\\u0669")]]></textFieldExpression>
 			</textField>
 		</band>
 	</summary>

@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title></title>
+
+</head>
+<h:body>
+	<ui:composition template="/template1.xhtml">
+		<ui:define name="content">
+			<h:form dir="rtl" id="form">
+				<p:messages id="msg" autoUpdate="true" closable="true"></p:messages>
+				<h1 style="color: #1565C0; text-align: center;">الضريبة المضافة</h1>
+				<div class="image-box-footer" align="left">
+					<p:commandButton id="cBadd" value="اضافة ضريبة" immediate="true"
+						icon="ui-icon ui-icon-plus" onclick="PF('whsdlAdd').show();">
+					</p:commandButton>
+				</div>
+				<h:panelGroup id="png">
+					<div class="ui-g">
+						<div class="ui-g-1">
+							<p:outputLabel value="المؤسسة" />
+						</div>
+						<div class="ui-g-2">
+							<p:selectOneMenu style="width:90%" filter="true"
+								filterMatchMode="contains" value="#{taxsBean.enterpriseId}">
+								<f:selectItem itemLabel="الكل" noSelectionOption="true" />
+								<f:selectItems value="#{taxsBean.enterpriseList}" var="st"
+									itemLabel="#{st.name}" itemValue="#{st.id}" />
+								<p:ajax process="@this" listener="#{taxsBean.filter}"
+									update="myTable" />
+							</p:selectOneMenu>
+						</div>
+					</div>
+					<div class="ui-g">
+						<div class="ui-g-1">
+							<p:outputLabel value="من تاريخ"></p:outputLabel>
+						</div>
+						<div class="ui-g-2">
+							<p:calendar style="width:80%" id="dtfrom" pattern="yyyy-MM-dd"
+								value="#{taxsBean.dateFrom}">
+							</p:calendar>
+						</div>
+						<div class="ui-g-1">
+							<p:outputLabel value="الي تاريخ"></p:outputLabel>
+						</div>
+						<div class="ui-g-2">
+							<p:calendar style="width:80%" id="dtto" pattern="yyyy-MM-dd"
+								value="#{taxsBean.dateTo}">
+							</p:calendar>
+
+						</div>
+						<div class="ui-g-1">
+							<p:commandButton styleClass="green-btn" process="png"
+								action="#{taxsBean.filter}" value="استعلام" update="myTable">
+							</p:commandButton>
+						</div>
+
+					</div>
+				</h:panelGroup>
+				<div class="ui-g">
+					<div class="ui-g-1">
+						<p:outputLabel value="هجري" />
+					</div>
+					<div class="ui-g-4">
+						<p:selectBooleanCheckbox value="#{taxsBean.dateBoolean}">
+							<p:ajax process="@this" update="myTable"></p:ajax>
+						</p:selectBooleanCheckbox>
+					</div>
+				</div>
+				<p:dataTable id="myTable" var="exp" value="#{taxsBean.expensisList}"
+					emptyMessage="لايوجد بيانات" rowIndexVar="rowIndex" editable="true"
+					paginatorPosition="bottom" sortBy="#{exp.sndDate}"
+					sortOrder="descending"
+					paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+					paginator="true" rows="10">
+					<p:column headerText="رقم" style="width: 5%">
+						<h:outputText value="#{rowIndex+1}" />
+					</p:column>
+					<p:column headerText="التاريخ"
+						style="width: 15% ; text-align : center;">
+						<h:outputText value="#{exp.sndDate}"
+							rendered="#{!taxsBean.dateBoolean}">
+							<f:convertDateTime pattern="dd/MM/yyyy" />
+						</h:outputText>
+						<h:outputText value="#{exp.monthhDate}"
+							rendered="#{taxsBean.dateBoolean}">
+							<f:convertDateTime pattern="yyyy/MM/dd" />
+						</h:outputText>
+					</p:column>
+					<p:column headerText="ضريبة المصروفات"
+						style="width: 15% ; text-align : center;">
+						<h:outputLabel value="#{exp.sndType != 2 ? exp.taxAmoun :' '}">
+							<f:convertNumber pattern="##################.##"></f:convertNumber>
+						</h:outputLabel>
+					</p:column>
+					<p:column headerText="ضريبة الايرادات"
+						style="width: 15% ; text-align : center;">
+						<h:outputLabel value="#{exp.sndType == 2 ? exp.taxAmoun :' '}">
+							<f:convertNumber pattern="##################.##"></f:convertNumber>
+						</h:outputLabel>
+					</p:column>
+					<p:column headerText="اجمالى الضريبة"
+						style="width: 15% ; text-align : center;">
+						<h:outputLabel
+							value="#{exp.sndType == 2 ? exp.taxAmoun :- exp.taxAmoun}">
+							<f:convertNumber pattern="##################.##"></f:convertNumber>
+						</h:outputLabel>
+					</p:column>
+					<p:column headerText="حذف" style="width:5% ; text-align : center;">
+						<p:commandButton update=":form:myTable"
+							rendered="#{exp.sndType == 4}" style="background-color:red"
+							icon="ui-icon ui-icon-remove" title="حذف"
+							action="#{taxsBean.deleteCompany(exp)}">
+						</p:commandButton>
+					</p:column>
+					<p:columnGroup type="footer">
+						<p:row>
+							<p:column colspan="2" footerText="اجمالى الضريبة"
+								style="FONT-WEIGHT:bold ;color : #F85F3E " />
+							<p:column
+								style="FONT-WEIGHT:bold ;color : #F85F3E ; text-align: center; "
+								footerText="#{taxsBean.listTotalSumDecimal}" />
+							<p:column
+								style="FONT-WEIGHT:bold ;color : #F85F3E ; text-align: center; "
+								footerText="#{taxsBean.totalRevTaxsDecimal}" />
+
+							<p:column
+								style="FONT-WEIGHT:bold ;color : #F85F3E ; text-align: center; "
+								footerText="#{taxsBean.totalDiffDecimal}" />
+							<p:column />
+
+						</p:row>
+					</p:columnGroup>
+
+				</p:dataTable>
+			</h:form>
+			<h:form id="dlgfrom">
+				<p:dialog position="center" height="400" widgetVar="whsdlAdd"
+					responsive="true" dynamic="true" hideEffect="explode"
+					showEffect="fade" width="80%" closable="true" resizable="true"
+					modal="true" dir="rtl">
+					<h:panelGroup id="panelGroupAdd" width="100%">
+						<p:fieldset legend="ضريبة مصروفات" width="100%">
+							<div class="ui-g">
+								<div class="ui-g-2">
+									<p:outputLabel value="هجري" />
+								</div>
+								<div class="ui-g-3">
+									<p:selectBooleanCheckbox value="#{taxsBean.dateAddBoolean}">
+										<p:ajax process="@this" update="dlgfrom:strtDate"></p:ajax>
+									</p:selectBooleanCheckbox>
+								</div>
+								<div class="ui-g-2">
+									<p:outputLabel value="المؤسسة" />
+								</div>
+								<div class="ui-g-3">
+									<p:selectOneMenu style="width:100%"
+										value="#{taxsBean.expensisAdd.enterpriseId}">
+										<f:selectItem itemLabel="الكل" noSelectionOption="true" />
+										<f:selectItems value="#{taxsBean.enterpriseList}" var="st"
+											itemLabel="#{st.name}" itemValue="#{st.id}" />
+										<p:ajax process="@this" />
+									</p:selectOneMenu>
+								</div>
+							</div>
+							<div class="ui-g">
+								<div class="ui-g-2">
+									<h:outputLabel value="التاريخ " />
+								</div>
+								<div class="ui-g-3">
+									<h:panelGroup id="strtDate">
+										<p:calendar style="width:100%" pattern="yyyy/MM/dd"
+											rendered="#{!taxsBean.dateAddBoolean}" required="true"
+											requiredMessage="ادخل التاريخ"
+											value="#{taxsBean.expensisAdd.sndDate}">
+										</p:calendar>
+										<p:inputText rendered="#{taxsBean.dateAddBoolean}"
+											value="#{taxsBean.expensisAdd.monthhDate}"
+											onfocus="loadCalendar();" required="true"
+											requiredMessage="ادخل التاريخ"
+											styleClass="form-control form-controlCal" />
+									</h:panelGroup>
+								</div>
+								<div class="ui-g-2">
+									<p:outputLabel value="قيمة الضريبة"></p:outputLabel>
+								</div>
+								<div class="ui-g-3">
+									<p:inputText required="true"
+										requiredMessage="ادخل قيمة الضريبة"
+										value="#{taxsBean.expensisAdd.taxAmoun}"></p:inputText>
+								</div>
+							</div>
+
+
+							<div class="iamge-box-footer" align="left">
+								<p:commandButton value="حفظ" onsuccess="PF('whsdlAdd').hide();"
+									icon="ui-icon ui-icon-save" process="@all"
+									oncomplete="PF('whsdlAdd').hide();"
+									action="#{taxsBean.addCompany}" update="form panelGroupAdd">
+								</p:commandButton>
+								<p:spacer height="4"></p:spacer>
+								<p:commandButton styleClass="orange-btn" value="عودة"
+									icon="ui-icon ui-icon-arrow-back" immediate="true"
+									onclick="PF('whsdlAdd').hide();" />
+							</div>
+						</p:fieldset>
+					</h:panelGroup>
+				</p:dialog>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

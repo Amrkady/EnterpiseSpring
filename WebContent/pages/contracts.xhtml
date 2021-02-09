@@ -196,6 +196,18 @@
 							</f:facet>
 						</p:cellEditor>
 					</p:column>
+					<p:column headerText="عدد ساعات الدوام"
+						style="width: 10% ;text-align: center;" filterBy="#{com.email}"
+						filterMatchMode="contains">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{com.hourNo}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{com.hourNo}" style="width:100%" />
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
 					<!-- 					<p:column headerText="الباقى" -->
 					<!-- 						style="width: 10% ;text-align: center;" filterBy="#{com.email}" -->
 					<!-- 						filterMatchMode="contains"> -->
@@ -343,6 +355,7 @@
 								</div>
 								<div class="ui-g-3">
 									<p:selectOneMenu style="width:80%" required="true"
+										filter="true" filterMatchMode="contains"
 										requiredMessage="من فضلك اختر الشركة"
 										value="#{contractBean.conAdd.companyId}">
 										<f:selectItem itemLabel="اختر الشركة" noSelectionOption="true" />

@@ -16,8 +16,12 @@
 		<sec:form-login login-page="/login.xhtml"
 			authentication-failure-url="/login.xhtml" />
 		<sec:logout invalidate-session="true"
-			delete-cookies="JSESSIONID,SPRING_SECURITY_REMEMBER_ME_COOKIE" />
-
+			delete-cookies="JSESSIONID,SPRING_SECURITY_REMEMBER_ME_COOKIE"
+			logout-success-url="/login.xhtml" />
+		<sec:session-management
+			invalid-session-url="/login.xhtml">
+			<sec:concurrency-control />
+		</sec:session-management>
 	</sec:http>
 	<sec:authentication-manager
 		alias="authenticationManager">

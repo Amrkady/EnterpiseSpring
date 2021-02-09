@@ -29,7 +29,7 @@
 					</div>
 					<div class="ui-g-2">
 						<p:selectOneMenu style="width:80%" filter="true"
-						filterMatchMode="contains" value="#{vacationBean.empId}">
+							filterMatchMode="contains" value="#{vacationBean.empId}">
 							<f:selectItem itemLabel="الكل" noSelectionOption="true" />
 							<f:selectItems value="#{vacationBean.employeesList}" var="st"
 								itemLabel="#{st.name} - #{st.empNo} " itemValue="#{st.id}" />
@@ -141,7 +141,7 @@
 					dynamic="true" hideEffect="explode" showEffect="fade" width="60%"
 					closable="true" resizable="true" modal="true" dir="rtl">
 					<h:panelGroup id="panelGroupAdd" width="60%">
-						<p:fieldset legend="بيانات العقد" width="100%">
+						<p:fieldset legend="بيانات الاجازة" width="100%">
 							<div class="ui-g">
 								<div class="ui-g-2">
 									<p:outputLabel value="هجري" />
@@ -158,11 +158,12 @@
 								</div>
 								<div class="ui-g-3">
 									<p:selectOneMenu style="width:80%" required="true"
+										filter="true" filterMatchMode="contains"
 										requiredMessage="من فضلك اختر الموظف"
 										value="#{vacationBean.vacAdd.empId}">
 										<f:selectItem itemLabel="اختر الموظف" noSelectionOption="true" />
 										<f:selectItems value="#{vacationBean.employeesList}" var="st"
-											itemLabel="#{st.name}" itemValue="#{st.id}" />
+											itemLabel="#{st.name}- #{st.empNo}" itemValue="#{st.id}" />
 										<p:ajax process="@this" />
 									</p:selectOneMenu>
 								</div>

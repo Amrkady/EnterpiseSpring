@@ -21,6 +21,9 @@ public class Enterprise {
 	@Column(name = "name")
 	private String name;
 
+	@Column(name = "nameEn")
+	private String nameEn;
+
 	public Integer getId() {
 		return id;
 	}
@@ -35,6 +38,14 @@ public class Enterprise {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getNameEn() {
+		return nameEn;
+	}
+
+	public void setNameEn(String nameEn) {
+		this.nameEn = nameEn;
 	}
 
 }

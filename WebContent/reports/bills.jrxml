@@ -16,9 +16,26 @@
 		<band splitType="Stretch"/>
 	</background>
 	<pageHeader>
-		<band height="56">
+		<band height="56"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="96">
 			<staticText>
-				<reportElement x="0" y="16" width="296" height="31" uuid="6ac3d5b4-9a41-4b75-ba19-b1938efa62e0"/>
+				<reportElement x="290" y="56" width="88" height="30" forecolor="#000000" uuid="2237bf4c-3c39-419a-a57f-d0686d977b5d"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" size="20" isBold="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[فـــاتــــورة ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="190" y="56" width="113" height="30" forecolor="#000000" uuid="36554da7-36c7-45e3-b333-decb3d8a488f"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" size="20" isBold="true" isUnderline="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{billNo}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="-10" y="4" width="296" height="31" uuid="6ac3d5b4-9a41-4b75-ba19-b1938efa62e0"/>
 				<box>
 					<pen lineWidth="1.0" lineStyle="Solid"/>
 				</box>
@@ -27,24 +44,6 @@
 				</textElement>
 				<text><![CDATA[الرقم الضريبي 300719272600003]]></text>
 			</staticText>
-		</band>
-	</pageHeader>
-	<columnHeader>
-		<band height="35">
-			<staticText>
-				<reportElement x="290" y="0" width="88" height="30" forecolor="#000000" uuid="2237bf4c-3c39-419a-a57f-d0686d977b5d"/>
-				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="Arial" size="20" isBold="true" isUnderline="false"/>
-				</textElement>
-				<text><![CDATA[فـــاتــــورة ]]></text>
-			</staticText>
-			<textField>
-				<reportElement x="190" y="0" width="113" height="30" forecolor="#000000" uuid="36554da7-36c7-45e3-b333-decb3d8a488f"/>
-				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="Arial" size="20" isBold="true" isUnderline="false"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{billNo}]]></textFieldExpression>
-			</textField>
 		</band>
 	</columnHeader>
 	<detail>

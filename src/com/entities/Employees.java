@@ -87,12 +87,31 @@ public class Employees {
 	private double hourNoAdd;
 
 	@Transient
+	private double totalHour;
+
+	@Transient
+	private double priceHourNoAdd;
+
+	@Transient
+	private double contractHourNo;
+
+	@Transient
 	private double hourMinus;
 
 	@Transient
+	private double priceAbsentDays;
+
+	@Transient
 	private double totalSalary;
+
+	@Transient
+	private double monthSalary;
+
 	@Transient
 	private double bonus;
+
+	@Transient
+	private double hourPrice;
 
 	public Integer getId() {
 		return id;
@@ -329,5 +348,53 @@ public class Employees {
 
 	public void setBonus(double bonus) {
 		this.bonus = bonus;
+	}
+
+	public double getMonthSalary() {
+		return monthSalary;
+	}
+
+	public void setMonthSalary(double monthSalary) {
+		this.monthSalary = monthSalary;
+	}
+
+	public double getPriceHourNoAdd() {
+		return priceHourNoAdd;
+	}
+
+	public void setPriceHourNoAdd(double priceHourNoAdd) {
+		this.priceHourNoAdd = priceHourNoAdd;
+	}
+
+	public double getContractHourNo() {
+		return contractHourNo;
+	}
+
+	public void setContractHourNo(double contractHourNo) {
+		this.contractHourNo = contractHourNo;
+	}
+
+	public double getPriceAbsentDays() {
+		return priceAbsentDays;
+	}
+
+	public void setPriceAbsentDays(double priceAbsentDays) {
+		this.priceAbsentDays = priceAbsentDays;
+	}
+
+	public double getHourPrice() {
+		return hourPrice;
+	}
+
+	public void setHourPrice(double hourPrice) {
+		this.hourPrice = hourPrice;
+	}
+
+	public double getTotalHour() {
+		return totalHour;
+	}
+
+	public void setTotalHour(double totalHour) {
+		this.totalHour = totalHour;
 	}
 }

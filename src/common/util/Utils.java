@@ -1056,12 +1056,6 @@ public class Utils {
 		if (number == 0) {
 			return soFar;
 		}
-		if (number == 1) {
-			return "  ãÇÆÉ" + soFar;
-		}
-		if (number == 2) {
-			return "  ãÇÆÊíä " + soFar;
-		}
 		return numNames[number] + " ãÇÆÉ " + soFar;
 	}
 
@@ -1106,12 +1100,12 @@ public class Utils {
 			tradMillions = "";
 			break;
 		case 1:
-			tradMillions = " ãáíæä ";
+			tradMillions = convertLessThanOneThousand(millions) + " ãáíæä ";
 			break;
 		default:
 			tradMillions = convertLessThanOneThousand(millions) + " ãáíæä ";
 		}
-		result = tradMillions + result;
+		result = result + tradMillions;
 
 		String tradHundredThousands;
 		switch (hundredThousands) {

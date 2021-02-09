@@ -48,6 +48,7 @@ public class RevenueBean {
 	private Date dateFrom;
 	private Date dateTo;
 	private String sadad;
+	private String bill;
 
 	@PostConstruct
 	public void init() {
@@ -55,7 +56,8 @@ public class RevenueBean {
 		revList = ls;
 		ls = departmentServiceImpl.findAll(Companies.class);
 		companiesList = ls;
-		revList = revList.stream().filter(fdet -> fdet.getSndType() == 2).collect(Collectors.toList());
+		bill = "3";
+		revList = revList.stream().filter(fdet -> fdet.getSndType() == 3).collect(Collectors.toList());
 		ls = departmentServiceImpl.findAll(Enterprise.class);
 		enterpriseList = ls;
 		if (revList != null && revList.size() > 0) {
@@ -69,16 +71,48 @@ public class RevenueBean {
 		totalValue = 0.0;
 	}
 
+	public String showAddDlg() {
+		revAdd = new SndSrfQbd();
+		vatDisabled = false;
+		vat = false;
+		totalValue = 0.0d;
+		taxValue = 0.0;
+		Utils.openDialog("whsdlAdd");
+
+		return "";
+	}
+
+	public String showBillDlg() {
+		revAdd = new SndSrfQbd();
+		vatDisabled = false;
+		vat = false;
+		totalValue = 0.0d;
+		taxValue = 0.0;
+		Utils.openDialog("bill");
+		return "";
+	}
+
 	public String filter() {
 		List ls = departmentServiceImpl.findAll(SndSrfQbd.class);
 		revList = ls;
 		listTotalSumDecimal = new BigDecimal(0);
-		revList = revList.stream().filter(fdet -> fdet.getSndType() == 2).collect(Collectors.toList());
+		revList = revList.stream().filter(fdet -> fdet.getSndType() == Integer.parseInt(bill.trim()))
+				.collect(Collectors.toList());
 		if (dateFrom != null) {
-			revList = departmentServiceImpl.LoadAllSands(dateFrom, dateTo, 2);
+
+			revList = departmentServiceImpl.LoadAllSands(dateFrom, dateTo, Integer.parseInt(bill.trim()));
 		}
 		if (dateTo != null) {
-			revList = departmentServiceImpl.LoadAllSands(dateFrom, dateTo, 2);
+			revList = departmentServiceImpl.LoadAllSands(dateFrom, dateTo, Integer.parseInt(bill.trim()));
+		}
+		if (bill != null && !bill.trim().isEmpty()) {
+
+			revList = revList.stream().filter(fdet -> fdet.getSndType() == Integer.parseInt(bill.trim()))
+					.collect(Collectors.toList());
+		}
+		if (enterpriseId != null) {
+			revList = revList.stream().filter(fdet -> fdet.getEnterpriseId().equals(enterpriseId))
+					.collect(Collectors.toList());
 		}
 
 		if (sadad != null && !sadad.isEmpty()) {
@@ -111,7 +145,7 @@ public class RevenueBean {
 		if (revAdd.getAmount() > 0 && vat == true) {
 			revAdd.setTaxAmoun((revAdd.getAmount() / 1.15) * 0.15);
 			revAdd.setTaxAmoun(Math.round(revAdd.getTaxAmoun() * 100) / 100.00d);
-			totalValue = revAdd.getAmount() + revAdd.getTaxAmoun();
+			totalValue = revAdd.getAmount() - revAdd.getTaxAmoun();
 			totalValue = Math.round(totalValue * 100) / 100.00d;
 			revAdd.setTax(1); // have tax
 		} else {
@@ -146,7 +180,49 @@ public class RevenueBean {
 					revAdd = new SndSrfQbd();
 
 				}
+				dateBoolean = false;
+				dateAddBoolean = false;
+				vat = false;
+				taxValue = 0.0d;
+				totalValue = 0.0d;
+			}
+		} catch (Exception e) {
+			MsgEntry.addErrorMessage(Utils.loadMessagesFromFile("error.operation"));
+			e.printStackTrace();
+		}
+		return "";
+	}
 
+	public String addBill() {
+		try {
+			vatDisabled = false;
+			if (revAdd != null) {
+				revAdd.setSndType(3); // 1 srf // 2 qabd // 3 bill
+				revAdd.setAmount(totalValue);
+				revAdd.setExpensisTypesId(-1);
+				if (dateAddBoolean) {
+					revAdd.setSndDate(Utils.convertHDateToGDate(revAdd.getMonthhDate()));
+				} else {
+					revAdd.setMonthhDate(Utils.grigDatesConvert(revAdd.getSndDate()));
+				}
+				if (revAdd.getId() == null) {
+					departmentServiceImpl.save(revAdd);
+					MsgEntry.addInfoMessage(Utils.loadMessagesFromFile("success.operation"));
+					init();
+					revAdd = new SndSrfQbd();
+
+				} else {
+					departmentServiceImpl.update(revAdd);
+					MsgEntry.addInfoMessage(Utils.loadMessagesFromFile("success.operation"));
+					init();
+					revAdd = new SndSrfQbd();
+
+				}
+				dateBoolean = false;
+				dateAddBoolean = false;
+				vat = false;
+				taxValue = 0.0d;
+				totalValue = 0.0d;
 			}
 		} catch (Exception e) {
 			MsgEntry.addErrorMessage(Utils.loadMessagesFromFile("error.operation"));
@@ -160,11 +236,21 @@ public class RevenueBean {
 	public String update(SndSrfQbd com) {
 		revAdd = com;
 		totalValue = revAdd.getAmount();
+		revAdd.setAmount(totalValue + revAdd.getTaxAmoun());
+		revAdd.setAmount(Math.round(revAdd.getAmount() * 100) / 100.00d);
 		vatDisabled = true;
 		if (revAdd.getTax() == 1) {
 			vat = true;
 		}
-		Utils.openDialog("whsdlAdd");
+		else {
+			vat = false;
+		}
+		if (revAdd.getSndType() == 3) {
+			Utils.openDialog("bill");
+		} else {
+			Utils.openDialog("whsdlAdd");
+		}
+
 		return "";
 	}
 
@@ -190,19 +276,20 @@ public class RevenueBean {
 				Map<String, Object> parameters = new HashMap<String, Object>();
 				parameters.put("comName", sm.getComName());
 				parameters.put("billNo", sm.getBillNo());
-				double amountWithoutTaxs = sm.getAmount() - sm.getTaxAmoun();
+				double amountWithoutTaxs = sm.getAmount();
 				amountWithoutTaxs = Utils.formatDouble(amountWithoutTaxs);
 				parameters.put("amount", amountWithoutTaxs);
 				parameters.put("tax", sm.getTaxAmoun());
-				parameters.put("total", sm.getAmount());
+				parameters.put("total", sm.getAmountAndTaxs());
 				SimpleDateFormat sdf = new SimpleDateFormat("MM");
 				String month = sdf.format(sm.getSndDate());
 				sdf = new SimpleDateFormat("yyyy");
 				month = loadMonth(month);
 				String yearM = month + " " + sdf.format(sm.getSndDate());
 				parameters.put("yearMonth", yearM);
-				String amountLitters = NumberToArabic.convertToArabic(new BigDecimal(sm.getAmount()), "SAR");
+				String amountLitters = NumberToArabic.convertToArabic(new BigDecimal(sm.getAmountAndTaxs()), "SAR");
 				parameters.put("amountLitters", amountLitters);
+
 				// String reyal = String.valueOf(sm.getAmount());
 //				if (reyal.contains(".")) {
 //					reyal = reyal.substring(0, reyal.indexOf("."));
@@ -284,6 +371,47 @@ public class RevenueBean {
 		return month;
 	}
 
+	public String billsCustom(SndSrfQbd sm) {
+		if (sm != null) {
+			try {
+				String reportName = "/reports/billsCustom.jasper";
+				Map<String, Object> parameters = new HashMap<String, Object>();
+				parameters.put("comName", sm.getComName());
+				parameters.put("address", sm.getComAddress());
+				parameters.put("billNo", sm.getBillNo());
+				// Contracts con =
+				// departmentServiceImpl.loadContractByCompanyId(sm.getCompanyId());
+				parameters.put("hours", " ");
+				parameters.put("hourPrice", " ");
+				parameters.put("vatNo", " ");
+				double amountWithoutTaxs = sm.getAmount();
+				amountWithoutTaxs = Utils.formatDouble(amountWithoutTaxs);
+				parameters.put("amount", amountWithoutTaxs);
+				parameters.put("tax", sm.getTaxAmoun());
+				parameters.put("total", sm.getAmountAndTaxs());
+				SimpleDateFormat sdf = new SimpleDateFormat("MMMM yyyy");
+				String date = sdf.format(sm.getSndDate());
+				parameters.put("yearMonth", date);
+
+				sdf = new SimpleDateFormat("dd MMMM yyyy");
+				date = sdf.format(sm.getSndDate());
+				parameters.put("date", date);
+
+				String amountLitters = NumberToArabic.convertToEnglish(new BigDecimal(sm.getAmountAndTaxs()), "SAR");
+//				MoneyConverters converter = MoneyConverters.ENGLISH_BANKING_MONEY_VALUE;
+//				amountLitters = converter.asWords(new BigDecimal(sm.getAmount()));
+//
+				parameters.put("amountLitters", amountLitters);
+
+				Utils.printPdfReport(reportName, parameters);
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return "";
+	}
+
 	public String printSandQabd(SndSrfQbd sm) {
 
 		if (sm != null) {
@@ -291,11 +419,11 @@ public class RevenueBean {
 				String reportName = "/reports/sand_qabd.jasper";
 				Map<String, Object> parameters = new HashMap<String, Object>();
 				parameters.put("custName", sm.getName());
-				String reyal = String.valueOf(sm.getAmount());
+				String reyal = String.valueOf(sm.getAmountAndTaxs());
 				if (reyal.contains(".")) {
 					reyal = reyal.substring(0, reyal.indexOf("."));
 					parameters.put("reyal", Integer.parseInt(reyal));
-					String hall = String.valueOf(sm.getAmount());
+					String hall = String.valueOf(sm.getAmountAndTaxs());
 					hall = hall.substring(hall.indexOf(".") + 1);
 					parameters.put("halaa", Integer.parseInt(hall));
 				} else {
@@ -309,7 +437,9 @@ public class RevenueBean {
 				String grigDate = sdf.format(sm.getSndDate());
 				parameters.put("date", grigDate);
 				parameters.put("dateH", sm.getMonthhDate());
-				parameters.put("costByLet", sm.getAmount());
+				parameters.put("costByLet", sm.getAmountAndTaxs());
+				parameters.put("nameAr", sm.getEntName());
+				parameters.put("nameEn", sm.getEntNameEn());
 				Utils.printPdfReport(reportName, parameters);
 
 			} catch (Exception e) {
@@ -332,7 +462,14 @@ public class RevenueBean {
 			if (dateTo != null) {
 				toD = sdf.format(dateTo);
 			}
-
+			if (enterpriseId != null) {
+				Enterprise ent = (Enterprise) departmentServiceImpl.findEntityById(Enterprise.class, enterpriseId);
+				parameters.put("nameAr", ent.getName());
+				parameters.put("nameEn", ent.getNameEn());
+			} else {
+				parameters.put("nameAr", "ÇáãØæÚ");
+				parameters.put("nameEn", "AL-MOTAWWA Est.");
+			}
 			parameters.put("dateF", fromD);
 			parameters.put("dateT", toD);
 			Utils.printPdfReportFromListDataSource(reportName, parameters, revList);
@@ -341,6 +478,40 @@ public class RevenueBean {
 			e.printStackTrace();
 		}
 
+		return "";
+	}
+
+	public String accountStatement() {
+		if (companyId != null) {
+			try {
+				String reportName = "/reports/Account_statement.jasper";
+				Map<String, Object> parameters = new HashMap<String, Object>();
+				String fromDate = "1";
+				String toDate = "1";
+				String fromD = "1";
+				String toD = "1";
+				if (dateTo == null || dateFrom == null) {
+					dateTo = null;
+					dateFrom = null;
+				} else {
+					SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+					fromDate = sdf.format(dateFrom);
+					toDate = sdf.format(dateTo);
+					sdf = new SimpleDateFormat("dd/MM/yyyy");
+					fromD = sdf.format(dateFrom);
+					toD = sdf.format(dateTo);
+				}
+				parameters.put("dateFrom", fromDate);
+				parameters.put("dateTo", toDate);
+				parameters.put("dateF", fromD);
+				parameters.put("dateT", toD);
+				parameters.put("comId", companyId);
+				Utils.printPdfReport(reportName, parameters);
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 		return "";
 	}
 
@@ -494,6 +665,14 @@ public class RevenueBean {
 
 	public void setSadad(String sadad) {
 		this.sadad = sadad;
+	}
+
+	public String getBill() {
+		return bill;
+	}
+
+	public void setBill(String bill) {
+		this.bill = bill;
 	}
 
 }

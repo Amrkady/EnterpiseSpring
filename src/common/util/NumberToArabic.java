@@ -637,10 +637,10 @@ public class NumberToArabic {
 				currencyID = currency;
 				currencyCode = currency.toString();
 				isCurrencyNameFeminine = false;
-				englishCurrencyName = "Saudi Riyal";
-				englishPluralCurrencyName = "Saudi Riyals";
-				englishCurrencyPartName = "Halala";
-				englishPluralCurrencyPartName = "Halalas";
+				englishCurrencyName = "S.R";
+				englishPluralCurrencyName = "S.R";
+				englishCurrencyPartName = "H";
+				englishPluralCurrencyPartName = "H";
 				arabic1CurrencyName = "ÑíÇá ÓÚæÏí";
 				arabic2CurrencyName = "ÑíÇáÇä ÓÚæÏíÇä";
 				arabic310CurrencyName = "ÑíÇáÇÊ ÓÚæÏíÉ";

@@ -4,7 +4,9 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -14,6 +16,8 @@ import javax.faces.bean.ViewScoped;
 import com.entities.SndSrfQbd;
 import com.services.AccountsService;
 import com.services.DepartmentService;
+
+import common.util.Utils;
 
 @ManagedBean(name = "financailBean")
 @ViewScoped
@@ -72,27 +76,40 @@ public class FinancailYearBean {
 
 			}
 			// 1 srf // 2 qabd
-
+			sndList = new ArrayList<SndSrfQbd>();
 			sandsList = departmentServiceImpl.LoadAllSands(dateFrom, dateTo, 2);
 			sndList.addAll(sandsList);
 			// pay type = 1 bank
 			bankSum = sandsList.stream().filter(fdet -> fdet.getPayType().equalsIgnoreCase("1"))
 					.mapToDouble(fdet -> fdet.getAmount()).sum();
+			bankSum += sandsList.stream().filter(fdet -> fdet.getPayType().equalsIgnoreCase("1"))
+					.mapToDouble(fdet -> fdet.getTaxAmoun()).sum();
 			// pay type = 2 box
 			boxSum = sandsList.stream().filter(fdet -> fdet.getPayType().equalsIgnoreCase("2"))
 					.mapToDouble(fdet -> fdet.getAmount()).sum();
-			paysTotalSum = sandsList.stream().mapToDouble(fdet -> fdet.getAmount()).sum();
+			boxSum += sandsList.stream().filter(fdet -> fdet.getPayType().equalsIgnoreCase("2"))
+					.mapToDouble(fdet -> fdet.getTaxAmoun()).sum();
 
+			paysTotalSum = sandsList.stream().mapToDouble(fdet -> fdet.getAmount()).sum();
+			paysTotalSum += sandsList.stream().mapToDouble(fdet -> fdet.getTaxAmoun()).sum();
 			// 1 srf // 2 qabd
+			// sndList = new ArrayList<SndSrfQbd>();
 			sandsList = departmentServiceImpl.LoadAllSands(dateFrom, dateTo, 1);
 			sndList.addAll(sandsList);
 			// pay type = 1 bank
 			bankSumSrf = sandsList.stream().filter(fdet -> fdet.getPayType().equalsIgnoreCase("1"))
 					.mapToDouble(fdet -> fdet.getAmount()).sum();
+			bankSumSrf += sandsList.stream().filter(fdet -> fdet.getPayType().equalsIgnoreCase("1"))
+					.mapToDouble(fdet -> fdet.getTaxAmoun()).sum();
+
 			// pay type = 2 box
 			boxSumSrf = sandsList.stream().filter(fdet -> fdet.getPayType().equalsIgnoreCase("2"))
 					.mapToDouble(fdet -> fdet.getAmount()).sum();
+			boxSumSrf += sandsList.stream().filter(fdet -> fdet.getPayType().equalsIgnoreCase("2"))
+					.mapToDouble(fdet -> fdet.getTaxAmoun()).sum();
+
 			expensisTotalSum = sandsList.stream().mapToDouble(fdet -> fdet.getAmount()).sum();
+			expensisTotalSum += sandsList.stream().mapToDouble(fdet -> fdet.getTaxAmoun()).sum();
 			//////////////// totalBankSum ////////////////
 			totalBankSum = bankSum - bankSumSrf;
 			totalBoxSum = boxSum - boxSumSrf;
@@ -106,30 +123,32 @@ public class FinancailYearBean {
 
 	}
 
-//	public String printReviewSystem() {
-//		System.out.print("print >>>>>>>.");
-//		try {
-//			String reportName = "/reports/review_system.jasper";
-//			Map<String, Object> parameters = new HashMap<String, Object>();
-//			parameters.put("boxqbd", boxSum);
-//			parameters.put("bankqbd", bankSum);
-//			parameters.put("boxsrf", boxSumSrf);
-//			parameters.put("banksrf", bankSumSrf);
-//			parameters.put("income", paysTotalSum);
-//			parameters.put("outcome", expensisTotalSum);
-//			parameters.put("year", year.toString());
-//			parameters.put("asoulSum", asoulSum);
-//			parameters.put("suppliersSum", suppliersSum);
-//			String headerPath = FacesContext.getCurrentInstance().getExternalContext()
-//					.getRealPath("/reports/logoreport.png");
-//			parameters.put("header", headerPath);
-//			Utils.printPdfReport(reportName, parameters);
-//
-//		} catch (Exception e) {
-//			// TODO: handle exception
-//		}
-//		return "";
-//	}
+	public String printReviewSystem() {
+		System.out.print("print >>>>>>>.");
+		try {
+			String reportName = "/reports/review_system.jasper";
+			Map<String, Object> parameters = new HashMap<String, Object>();
+			boxSum = Math.round(boxSum * 100) / 100.00d;
+			parameters.put("boxqbd", boxSum);
+			bankSum = Math.round(bankSum * 100) / 100.00d;
+			parameters.put("bankqbd", bankSum);
+			boxSumSrf = Math.round(boxSumSrf * 100) / 100.00d;
+			parameters.put("boxsrf", boxSumSrf);
+			bankSumSrf = Math.round(bankSumSrf * 100) / 100.00d;
+			parameters.put("banksrf", bankSumSrf);
+			paysTotalSum = Math.round(paysTotalSum * 100) / 100.00d;
+			parameters.put("income", paysTotalSum);
+			expensisTotalSum = Math.round(expensisTotalSum * 100) / 100.00d;
+			parameters.put("outcome", expensisTotalSum);
+			parameters.put("year", year.toString());
+			Utils.printPdfReport(reportName, parameters);
+
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return "";
+	}
+
 //
 //	public String printGenaralMouzna() {
 //		System.out.print("print >>>>>>>.");

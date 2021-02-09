@@ -13,116 +13,231 @@
 <f:metadata>
 	<f:viewAction action="#{employeesBean.initSalarys}" />
 </f:metadata>
+
 </head>
 <h:body>
 	<ui:composition template="/template1.xhtml">
 		<ui:define name="content">
 			<h:form dir="rtl" id="form">
+				<style type="text/css">
+.test.ui-selectcheckboxmenu-panel .ui-selectcheckboxmenu-list-item .ui-chkbox
+	{
+	right: 10px;
+}
+
+.test.ui-selectcheckboxmenu-panel .ui-selectcheckboxmenu-header .ui-chkbox
+	{
+	margin: 0px 20px 0 1px;
+	direction: rtl;
+	float: right;
+}
+
+.test  .ui-selectcheckboxmenu-filter-container {
+	float: right;
+}
+
+.test .ui-selectcheckboxmenu-header .ui-chkbox {
+	float: right;
+}
+
+.test .ui-selectcheckboxmenu-header .ui-selectcheckboxmenu-close {
+	float: left;
+}
+
+.test.ui-selectcheckboxmenu-panel .ui-selectcheckboxmenu-list-item {
+	text-align: right;
+}
+
+.test.ui-selectcheckboxmenu-panel .ui-selectcheckboxmenu-list-item label
+	{
+	padding-left: 0px;
+	padding-right: 3em;
+}
+</style>
 				<p:messages id="msg" autoUpdate="true" closable="true"></p:messages>
 				<h1 style="color: #1565C0; text-align: center;">ملف المرتبات</h1>
 				<div class="image-box-footer" align="left">
 					<p:commandButton value="طباعة ملف الشركة"
 						icon="ui-icon ui-icon-print " immediate="true"
-						styleClass="purple-btn" onclick="this.form.target='_blank'"
-						ajax="false">
+						action="#{employeesBean.printAll}" styleClass="purple-btn"
+						onclick="this.form.target='_blank'" ajax="false">
 					</p:commandButton>
 					<p:spacer width="10" height="10"></p:spacer>
-					<p:commandButton value="طباعة ملف البنك"
-						icon="ui-icon ui-icon-print " immediate="true"
-						styleClass="purple-btn" onclick="this.form.target='_blank'"
-						ajax="false">
+					<p:commandButton value="طباعة اكسيل" ajax="false"
+						styleClass="orange-btn" icon="fa fa-fw fa-file-excel-o"
+						immediate="true">
+						<p:dataExporter encoding="UTF-8" type="xls"
+							postProcessor="#{employeesBean.postProcessXLS}" target="myTable"
+							fileName="BankFile" ></p:dataExporter>
 					</p:commandButton>
 				</div>
 				<br />
+				<h:panelGroup id="pngs">
+					<div class="ui-g">
+						<div class="ui-g-1">
+							<p:outputLabel value="المؤسسة" />
+						</div>
+						<div class="ui-g-2">
+							<p:selectCheckboxMenu style="width:100%" dir="rtl" id="lics"
+								filter="true" filterMatchMode="contains" label="اختر"
+								panelStyleClass="test" value="#{employeesBean.enterpriseAdd}">
+								<f:selectItems value="#{employeesBean.enterpriseList}" var="st"
+									itemLabel="#{st.name}" itemValue="#{st.id}" />
+								<p:ajax process="@this" listener="#{employeesBean.initSalarys}"
+									update="myTable" event="change" />
+								<p:ajax event="toggleSelect" update="myTable"
+									partialSubmit="true" listener="#{employeesBean.initSalarys}" />
+							</p:selectCheckboxMenu>
+						</div>
+						<div class="ui-g-1">
+							<p:outputLabel value="الشركة" />
+						</div>
+						<div class="ui-g-2">
+							<p:selectOneMenu style="width:80%" filter="true"
+								filterMatchMode="contains" value="#{employeesBean.companyId}">
+								<!-- 							<f:selectItem itemLabel="الكل" noSelectionOption="true" /> -->
+								<f:selectItems value="#{employeesBean.companiesList}" var="st"
+									itemLabel="#{st.name}" itemValue="#{st.id}" />
+								<p:ajax process="@this" listener="#{employeesBean.initSalarys}"
+									update="myTable" />
+							</p:selectOneMenu>
+						</div>
+					</div>
+					<div class="ui-g">
 
-				<div class="ui-g">
-					<div class="ui-g-1">
-						<p:outputLabel value="المؤسسة" />
+						<div class="ui-g-1">
+							<p:outputLabel value="من تاريخ"></p:outputLabel>
+						</div>
+						<div class="ui-g-2">
+							<p:calendar style="width:80%" id="dtfrom" pattern="yyyy-MM-dd"
+								value="#{employeesBean.dateFrom}"
+								maxdate="#{employeesBean.dateTo}">
+								<p:ajax process="@this dtto" update="dtto"></p:ajax>
+							</p:calendar>
+						</div>
+						<div class="ui-g-1">
+							<p:outputLabel value="الي تاريخ"></p:outputLabel>
+						</div>
+						<div class="ui-g-2">
+							<p:calendar style="width:80%" id="dtto" pattern="yyyy-MM-dd"
+								value="#{employeesBean.dateTo}"
+								mindate="#{employeesBean.dateFrom}">
+								<p:ajax process="@this dtfrom" update="dtfrom"></p:ajax>
+							</p:calendar>
+
+						</div>
+						<div class="ui-g-1">
+							<p:commandButton styleClass="green-btn" process="pngs"
+								action="#{employeesBean.initSalarys}" value="بحث"
+								update="myTable">
+							</p:commandButton>
+						</div>
+
 					</div>
-					<div class="ui-g-2">
-						<p:selectOneMenu style="width:80%" filter="true"
-							filterMatchMode="contains" value="#{employeesBean.enterpriseId}">
-							<f:selectItem itemLabel="الكل" noSelectionOption="true" />
-							<f:selectItems value="#{employeesBean.enterpriseList}" var="st"
-								itemLabel="#{st.name}" itemValue="#{st.id}" />
-							<p:ajax process="@this" listener="#{employeesBean.initSalarys}"
-								update="myTable" />
-						</p:selectOneMenu>
-					</div>
-					<div class="ui-g-1">
-						<p:outputLabel value="الشركة" />
-					</div>
-					<div class="ui-g-2">
-						<p:selectOneMenu style="width:80%" filter="true"
-							filterMatchMode="contains" value="#{employeesBean.companyId}">
-							<f:selectItem itemLabel="الكل" noSelectionOption="true" />
-							<f:selectItems value="#{employeesBean.companiesList}" var="st"
-								itemLabel="#{st.name}" itemValue="#{st.id}" />
-							<p:ajax process="@this" listener="#{employeesBean.initSalarys}"
-								update="myTable" />
-						</p:selectOneMenu>
-					</div>
-				</div>
+				</h:panelGroup>
 				<br />
 				<p:dataTable id="myTable" var="emp"
 					value="#{employeesBean.employeesList}" emptyMessage="لايوجد بيانات"
 					rowIndexVar="rowIndex" paginatorPosition="bottom"
 					paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
 					paginator="true" rows="10">
+					<f:facet name="header">
+						<div class="ui-g">
+							<div class="ui-g-3"></div>
+							<div class="ui-g-6" align="center">
+								
+							</div>
+							<div align="left" class="ui-g-3">
+								<p:commandButton id="toggler" type="button" value="الاعمدة"
+									icon="pi pi-align-justify" />
+								<p:columnToggler datasource="myTable" trigger="toggler" />
+							</div>
+
+						</div>
+					</f:facet>
 					<p:column headerText="التسلسل" style="width: 5%">
 						<h:outputText value="#{rowIndex+1}" />
 					</p:column>
 					<p:column headerText="الرقم الوظيفى"
-						style="width: 10% ; text-align: center;" filterBy="#{emp.empNo}"
+						style="width: 8% ; text-align: center;" filterBy="#{emp.empNo}"
 						filterMatchMode="contains">
 						<h:outputText value="#{emp.empNo}" />
+					</p:column>
+					<p:column headerText="رقم الايبان"
+						style="width: 12% ; text-align: center;" filterBy="#{emp.bankNo}"
+						filterMatchMode="contains">
+						<h:outputText value="#{emp.bankNo}" />
 					</p:column>
 					<p:column headerText="اسم الموظف"
 						style="width: 15% ;text-align: center;" filterBy="#{emp.name}"
 						filterMatchMode="contains">
 						<h:outputText value="#{emp.name}" />
 					</p:column>
-					<p:column headerText="تابع لمؤسسة"
-						style="width:10% ; text-align: center;" filterBy="#{emp.entName}"
+					<p:column headerText=" رقم الاقامة"
+						style="width:10% ; text-align: center;" filterBy="#{emp.iqamaNO}"
 						filterMatchMode="contains">
-						<h:outputText value="#{emp.entName}" />
+						<h:outputText value="#{emp.iqamaNO}" />
 					</p:column>
-					<p:column headerText="راتب الموظف بنك"
+					<p:column headerText="راتب الموظف"
 						style="width: 10% ; text-align: center;">
-						<h:outputText value="#{emp.salary}" />
+						<h:outputText value="#{emp.monthSalary}" />
 					</p:column>
 					<p:column headerText="المكافأة"
 						style="width: 10% ; text-align:center">
 						<p:inputNumber value="#{emp.bonus}">
 							<p:ajax event="blur" process="@this"
-								listener="#{employeesBean.calcBonusSum(emp)}" update="total" />
+								listener="#{employeesBean.calcBonusSum(emp)}"
+								update="total total2" />
 						</p:inputNumber>
 					</p:column>
-					<p:column headerText="عدد ساعات الاضافية"
-						style="width: 15% ; text-align:center">
+					<p:column headerText="الافر تايم"
+						style="width: 10% ; text-align:center">
 						<p:inputText value="#{emp.hourNoAdd}">
 							<f:convertNumber pattern="##################.##">
 							</f:convertNumber>
 							<p:ajax event="blur" process="@this"
-								listener="#{employeesBean.calcValSum(emp)}" update="total" />
+								listener="#{employeesBean.calcValSum(emp)}"
+								update="total total2 hours" />
 						</p:inputText>
 					</p:column>
-					<p:column headerText="عدد ساعات الخصم"
-						style="width: 15% ; text-align:center">
+					<p:column headerText="سعر الساعة"
+						style="width: 5% ; text-align: center;">
+						<h:outputText value="#{emp.hourPrice}" />
+					</p:column>
+					<p:column headerText="اجمالى الاوفر"
+						style="width: 9% ; text-align: center;">
+						<h:outputText id="hours" value="#{emp.hourNoAdd *  emp.hourPrice}" />
+					</p:column>
+					<p:column headerText="الغياب(الايام)"
+						style="width: 10% ; text-align:center">
 						<p:inputText value="#{emp.hourMinus}">
 							<f:convertNumber pattern="##################.##">
 							</f:convertNumber>
 							<p:ajax event="blur" process="@this"
-								listener="#{employeesBean.calcFineValSum(emp)}" update="total" />
+								listener="#{employeesBean.calcFineValSum(emp)}"
+								update="total total2" />
 						</p:inputText>
 					</p:column>
 					<p:column headerText="الراتب الكلى"
-						style="width: 30% ; text-align: center;">
+						style="width: 10% ; text-align: center;">
 						<h:outputLabel id="total"
-							value="#{emp.salary + emp.bonus + emp.hourNoAdd - emp.hourMinus}">
-							<f:convertNumber pattern="##################.##"></f:convertNumber>
+							value="#{emp.monthSalary + emp.bonus + emp.priceHourNoAdd - emp.priceAbsentDays}">
+							<f:convertNumber pattern="#######.##"></f:convertNumber>
+<!-- 							<f:convertNumber type="currency" currencySymbol="SAR" /> -->
 						</h:outputLabel>
 					</p:column>
+					<p:column headerText="الاساسي"
+						style="width:5% ; text-align: center;">
+						<h:outputText value="400" />
+					</p:column>
+					<p:column headerText="اخرى"
+						style="width: 10% ; text-align: center;">
+						<h:outputLabel id="total2"
+							value="#{emp.monthSalary + emp.bonus + emp.priceHourNoAdd - emp.priceAbsentDays - 400}">
+							<f:convertNumber pattern="#######.##"></f:convertNumber>
+						</h:outputLabel>
+					</p:column>
+
 					<!-- 					<p:columnGroup id="totalAfter" type="footer"> -->
 					<!-- 						<p:row> -->
 					<!-- 							<p:column colspan="4" footerText="الاجمالى" -->

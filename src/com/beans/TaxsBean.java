@@ -2,22 +2,15 @@ package com.beans;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
-
-import org.primefaces.event.RowEditEvent;
 
 import com.entities.Enterprise;
 import com.entities.ExpensisTypes;
@@ -27,9 +20,9 @@ import com.services.DepartmentService;
 import common.util.MsgEntry;
 import common.util.Utils;
 
-@ManagedBean(name = "expensisBean")
+@ManagedBean(name = "taxsBean")
 @ViewScoped
-public class ExpensisBean {
+public class TaxsBean {
 	@ManagedProperty(value = "#{departmentServiceImpl}")
 	private DepartmentService departmentServiceImpl;
 	private List<SndSrfQbd> expensisList = new ArrayList<SndSrfQbd>();
@@ -45,53 +38,73 @@ public class ExpensisBean {
 	private Integer enterpriseId;
 	private double listTotalSum;
 	private BigDecimal listTotalSumDecimal;
+	private double totalRevTaxs;
+	private BigDecimal totalRevTaxsDecimal;
+	private double totalDiff;
+	private BigDecimal totalDiffDecimal;
 	private Date dateFrom;
 	private Date dateTo;
 	private boolean vatDisabled;
 
 	@PostConstruct
 	public void init() {
+		listTotalSum = 0.0d;
+		listTotalSumDecimal = new BigDecimal(0);
+		totalRevTaxs = 0.0d;
+		totalRevTaxsDecimal = new BigDecimal(0);
+		totalDiff = 0.0d;
+		totalDiffDecimal = new BigDecimal(0);
 		List ls = departmentServiceImpl.findAll(SndSrfQbd.class);
 		expensisList = ls;
-		expensisList = expensisList.stream().filter(fdet -> fdet.getSndType() == 1).collect(Collectors.toList());
+		expensisList = expensisList.stream().filter(fdet -> fdet.getSndType() != 3 && fdet.getTax() == 1)
+				.collect(Collectors.toList());
 		expensisTypesList = departmentServiceImpl.loadExpTypes();
 		ls = departmentServiceImpl.findAll(Enterprise.class);
 		enterpriseList = ls;
 		if (expensisList != null && expensisList.size() > 0) {
-			listTotalSum = expensisList.stream().filter(fdet -> fdet.getAmount() != 0.0d)
-					.mapToDouble(fdet -> fdet.getAmount()).sum();
+			listTotalSum = expensisList.stream()
+					.filter(fdet -> fdet.getTax() == 1 && (fdet.getSndType() == 1 || fdet.getSndType() == 4))
+					.mapToDouble(fdet -> fdet.getTaxAmoun()).sum();
 
-			listTotalSumDecimal = new BigDecimal(listTotalSum).setScale(3, RoundingMode.HALF_UP);
+			listTotalSumDecimal = new BigDecimal(listTotalSum).setScale(2, RoundingMode.HALF_UP);
+			totalRevTaxs = expensisList.stream().filter(fdet -> fdet.getTax() == 1 && fdet.getSndType() == 2)
+					.mapToDouble(fdet -> fdet.getTaxAmoun()).sum();
+			totalRevTaxsDecimal = new BigDecimal(totalRevTaxs).setScale(2, RoundingMode.HALF_UP);
+			totalDiff = totalRevTaxs - listTotalSum;
+			totalDiffDecimal = new BigDecimal(totalDiff).setScale(2, RoundingMode.HALF_UP);
 		}
-		vat = false;
-		taxValue = 0.0;
-		totalValue = 0.0;
-	}
 
-	public String showAddDlg() {
-		expensisAdd = new SndSrfQbd();
-		vatDisabled = false;
-		taxValue = 0.0;
-		vat = false;
-		totalValue = 0.0d;
-		Utils.openDialog("whsdlAdd");
-		return "";
 	}
 
 	public String filter() {
+		listTotalSum = 0.0d;
+		listTotalSumDecimal = new BigDecimal(0);
+		totalRevTaxs = 0.0d;
+		totalRevTaxsDecimal = new BigDecimal(0);
+		totalDiff = 0.0d;
+		totalDiffDecimal = new BigDecimal(0);
 		List ls = departmentServiceImpl.findAll(SndSrfQbd.class);
 		expensisList = ls;
-		expensisList = expensisList.stream().filter(fdet -> fdet.getSndType() == 1).collect(Collectors.toList());
-		if (dateFrom != null) {
-			expensisList = departmentServiceImpl.LoadAllSands(dateFrom, dateTo, 1);
-		}
-		if (dateTo != null) {
-			expensisList = departmentServiceImpl.LoadAllSands(dateFrom, dateTo, 1);
-		}
+		expensisList = expensisList.stream().filter(fdet -> fdet.getSndType() != 3 && fdet.getTax() == 1)
+				.collect(Collectors.toList());
+		if (dateFrom != null || dateTo != null) {
+			expensisList = new ArrayList<SndSrfQbd>();
+			List<SndSrfQbd> valList = new ArrayList<SndSrfQbd>();
+			valList = departmentServiceImpl.LoadAllSands(dateFrom, dateTo, 1);
+			if (valList != null && valList.size() > 0) {
+				expensisList.addAll(valList);
+			}
 
-		if (supType != null) {
-			expensisList = expensisList.stream()
-					.filter(fdet -> fdet.getExpensisTypesId() != null && fdet.getExpensisTypesId().equals(supType))
+			valList = departmentServiceImpl.LoadAllSands(dateFrom, dateTo, 2);
+			if (valList != null && valList.size() > 0) {
+				expensisList.addAll(valList);
+			}
+
+			valList = departmentServiceImpl.LoadAllSands(dateFrom, dateTo, 4);
+			if (valList != null && valList.size() > 0) {
+				expensisList.addAll(valList);
+			}
+			expensisList = expensisList.stream().filter(fdet -> fdet.getSndType() != 3 && fdet.getTax() == 1)
 					.collect(Collectors.toList());
 		}
 		if (enterpriseId != null) {
@@ -100,33 +113,27 @@ public class ExpensisBean {
 					.collect(Collectors.toList());
 		}
 		if (expensisList != null && expensisList.size() > 0) {
-			listTotalSum = expensisList.stream().filter(fdet -> fdet.getAmount() != 0.0d)
-					.mapToDouble(fdet -> fdet.getAmount()).sum();
+			listTotalSum = expensisList.stream()
+					.filter(fdet -> fdet.getTax() == 1 && (fdet.getSndType() == 1 || fdet.getSndType() == 4))
+					.mapToDouble(fdet -> fdet.getTaxAmoun()).sum();
 
-			listTotalSumDecimal = new BigDecimal(listTotalSum).setScale(3, RoundingMode.HALF_UP);
+			listTotalSumDecimal = new BigDecimal(listTotalSum).setScale(2, RoundingMode.HALF_UP);
+			totalRevTaxs = expensisList.stream().filter(fdet -> fdet.getTax() == 1 && fdet.getSndType() == 2)
+					.mapToDouble(fdet -> fdet.getTaxAmoun()).sum();
+
+			totalRevTaxsDecimal = new BigDecimal(totalRevTaxs).setScale(2, RoundingMode.HALF_UP);
+			totalDiff = totalRevTaxs - listTotalSum;
+			totalDiffDecimal = new BigDecimal(totalDiff).setScale(2, RoundingMode.HALF_UP);
 		}
 		return "";
-	}
-
-	public void updateCom() {
-		if (expensisAdd.getAmount() > 0 && vat == true) {
-			expensisAdd.setTaxAmoun((expensisAdd.getAmount() / 1.15) * 0.15);
-			expensisAdd.setTaxAmoun(Math.round(expensisAdd.getTaxAmoun() * 100) / 100.00d);
-			totalValue = expensisAdd.getAmount() - expensisAdd.getTaxAmoun();
-			totalValue = Math.round(totalValue * 100) / 100.00d;
-			expensisAdd.setTax(1); // have tax
-		} else {
-			expensisAdd.setTaxAmoun(0.0);
-			totalValue = expensisAdd.getAmount();
-			expensisAdd.setTax(0); // not have tax
-		}
 	}
 
 	public String addCompany() {
 		try {
 			if (expensisAdd != null) {
-				expensisAdd.setSndType(1); // 1 srf // 2 qabd
-				expensisAdd.setAmount(totalValue);
+				expensisAdd.setSndType(4); // 1 srf // 2 qabd // 3 bill // 4 expensis taxs
+				expensisAdd.setExpensisTypesId(-1);
+				expensisAdd.setTax(1);
 				if (dateAddBoolean) {
 					expensisAdd.setSndDate(Utils.convertHDateToGDate(expensisAdd.getMonthhDate()));
 				} else {
@@ -154,23 +161,6 @@ public class ExpensisBean {
 		return "";
 	}
 
-//
-
-	public String update(SndSrfQbd com) {
-		expensisAdd = com;
-		totalValue = expensisAdd.getAmount();
-		expensisAdd.setAmount(totalValue + expensisAdd.getTaxAmoun());
-		expensisAdd.setAmount(Math.round(expensisAdd.getAmount() * 100) / 100.00d);
-		vatDisabled = true;
-		if (expensisAdd.getTax() == 1) {
-			vat = true;
-		} else {
-			vat = false;
-		}
-		Utils.openDialog("whsdlAdd");
-		return "";
-	}
-
 	public String deleteCompany(SndSrfQbd com) {
 		if (com != null) {
 			try {
@@ -182,103 +172,6 @@ public class ExpensisBean {
 				e.printStackTrace();
 			}
 		}
-		return "";
-	}
-
-//
-	public void onEdit() {
-		try {
-			expensisAdd.setAmount(totalValue);
-			if (dateAddBoolean) {
-				expensisAdd.setSndDate(Utils.convertHDateToGDate(expensisAdd.getMonthhDate()));
-			} else {
-				expensisAdd.setMonthhDate(Utils.grigDatesConvert(expensisAdd.getSndDate()));
-			}
-			departmentServiceImpl.update(expensisAdd);
-			MsgEntry.addInfoMessage(Utils.loadMessagesFromFile("success.update"));
-			init();
-			expensisAdd = new SndSrfQbd();
-		} catch (Exception e) {
-			MsgEntry.addErrorMessage(Utils.loadMessagesFromFile("error.update"));
-			e.printStackTrace();
-		}
-
-	}
-
-//
-	public void onRowCancel(RowEditEvent event) {
-//		
-		FacesMessage msg = new FacesMessage("·„ Ì „ «· ⁄œÌ·", "");
-		FacesContext.getCurrentInstance().addMessage(null, msg);
-
-	}
-
-	public String printSandQabd(SndSrfQbd sm) {
-
-		if (sm != null) {
-			try {
-				String reportName = "/reports/sand_sarf.jasper";
-				Map<String, Object> parameters = new HashMap<String, Object>();
-				parameters.put("custName", sm.getName());
-				String reyal = String.valueOf(sm.getAmountAndTaxs());
-				if (reyal.contains(".")) {
-					reyal = reyal.substring(0, reyal.indexOf("."));
-					parameters.put("reyal", Integer.parseInt(reyal));
-					String hall = String.valueOf(sm.getAmountAndTaxs());
-					hall = hall.substring(hall.indexOf(".") + 1);
-					parameters.put("halaa", Integer.parseInt(hall));
-				} else {
-					parameters.put("reyal", (int) sm.getAmount());
-					parameters.put("halaa", 00);
-				}
-				parameters.put("for", sm.getForReason() == null ? " " : sm.getForReason());
-				parameters.put("payType", sm.getPayType() == null ? "" : sm.getPayType());
-
-				SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-				String grigDate = sdf.format(sm.getSndDate());
-				parameters.put("date", grigDate);
-				parameters.put("dateH", sm.getMonthhDate());
-				parameters.put("costByLet", sm.getAmountAndTaxs());
-				parameters.put("nameAr", sm.getEntName());
-				parameters.put("nameEn", sm.getEntNameEn());
-				Utils.printPdfReport(reportName, parameters);
-
-			} catch (Exception e) {
-				// TODO: handle exception
-			}
-		}
-		return "";
-	}
-
-	public String printAll() {
-		try {
-			String reportName = "/reports/expensis.jasper";
-			Map<String, Object> parameters = new HashMap<String, Object>();
-			String fromD = "1";
-			String toD = "1";
-			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-			if (dateFrom != null) {
-				fromD = sdf.format(dateFrom);
-			}
-			if (dateTo != null) {
-				toD = sdf.format(dateTo);
-			}
-			if (enterpriseId != null) {
-				Enterprise ent = (Enterprise) departmentServiceImpl.findEntityById(Enterprise.class, enterpriseId);
-				parameters.put("nameAr", ent.getName());
-				parameters.put("nameEn", ent.getNameEn());
-			} else {
-				parameters.put("nameAr", "«·„ÿÊ⁄");
-				parameters.put("nameEn", "AL-MOTAWWA Est.");
-			}
-			parameters.put("dateF", fromD);
-			parameters.put("dateT", toD);
-			Utils.printPdfReportFromListDataSource(reportName, parameters, expensisList);
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
 		return "";
 	}
 
@@ -416,6 +309,38 @@ public class ExpensisBean {
 
 	public void setVatDisabled(boolean vatDisabled) {
 		this.vatDisabled = vatDisabled;
+	}
+
+	public double getTotalRevTaxs() {
+		return totalRevTaxs;
+	}
+
+	public void setTotalRevTaxs(double totalRevTaxs) {
+		this.totalRevTaxs = totalRevTaxs;
+	}
+
+	public BigDecimal getTotalRevTaxsDecimal() {
+		return totalRevTaxsDecimal;
+	}
+
+	public void setTotalRevTaxsDecimal(BigDecimal totalRevTaxsDecimal) {
+		this.totalRevTaxsDecimal = totalRevTaxsDecimal;
+	}
+
+	public double getTotalDiff() {
+		return totalDiff;
+	}
+
+	public void setTotalDiff(double totalDiff) {
+		this.totalDiff = totalDiff;
+	}
+
+	public BigDecimal getTotalDiffDecimal() {
+		return totalDiffDecimal;
+	}
+
+	public void setTotalDiffDecimal(BigDecimal totalDiffDecimal) {
+		this.totalDiffDecimal = totalDiffDecimal;
 	}
 
 }

@@ -11,6 +11,8 @@
 	<parameter name="costByLet" class="java.lang.Double"/>
 	<parameter name="halaa" class="java.lang.Integer"/>
 	<parameter name="header" class="java.lang.String"/>
+	<parameter name="nameAr" class="java.lang.String"/>
+	<parameter name="nameEn" class="java.lang.String"/>
 	<parameter name="tax" class="java.lang.Float"/>
 	<queryString language="SQL">
 		<![CDATA[SELECT 1 from dual ;]]>
@@ -30,13 +32,13 @@
 				</textElement>
 				<text><![CDATA[مؤسسة]]></text>
 			</staticText>
-			<staticText>
-				<reportElement x="300" y="30" width="266" height="28" forecolor="#0000FF" uuid="d2c9e42e-70d9-4be4-b3b8-5a98482f1c0c"/>
+			<textField>
+				<reportElement x="300" y="30" width="266" height="28" forecolor="#0000FF" uuid="d53c0cfc-ea46-438e-b62f-b095fc185c78"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Arial" size="22" isBold="true" isUnderline="false"/>
 				</textElement>
-				<text><![CDATA[وليد محمد المطوع]]></text>
-			</staticText>
+				<textFieldExpression><![CDATA[$P{nameAr}]]></textFieldExpression>
+			</textField>
 			<staticText>
 				<reportElement x="300" y="58" width="266" height="28" forecolor="#0000FF" uuid="cd1749bd-9921-495c-8d8e-2d6e41b9118f"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
@@ -62,13 +64,13 @@
 				</textElement>
 				<text><![CDATA[ص . ب : ٥٥٤۹]]></text>
 			</staticText>
-			<staticText>
-				<reportElement x="-9" y="29" width="289" height="28" forecolor="#0000FF" uuid="053e2137-ae5d-4333-95b6-de6f93899c52"/>
-				<textElement textAlignment="Left" verticalAlignment="Middle">
+			<textField>
+				<reportElement x="-9" y="29" width="289" height="28" forecolor="#0000FF" uuid="6cfedc36-c14e-4712-96a9-86a60d3699f8"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Arial" size="14" isBold="true" isUnderline="false"/>
 				</textElement>
-				<text><![CDATA[WALEED MOHAMED AL-MOTAWWA Est.]]></text>
-			</staticText>
+				<textFieldExpression><![CDATA[$P{nameEn}]]></textFieldExpression>
+			</textField>
 			<staticText>
 				<reportElement x="-9" y="57" width="266" height="28" forecolor="#0000FF" uuid="74375661-e740-411f-a0a4-2da358891e6c"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
@@ -83,7 +85,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Arial" size="14" isBold="false" isUnderline="false"/>
 				</textElement>
-				<text><![CDATA[س . ت :1136000697]]></text>
+				<text><![CDATA[C.R. :1136000697]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="-9" y="114" width="266" height="28" forecolor="#0000FF" uuid="1739c485-7c68-478a-8b33-127f459d7011">
@@ -92,7 +94,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Arial" size="14" isBold="false" isUnderline="false"/>
 				</textElement>
-				<text><![CDATA[ص . ب :5549]]></text>
+				<text><![CDATA[P.O.Box :5549]]></text>
 			</staticText>
 		</band>
 	</pageHeader>
@@ -393,7 +395,4 @@
 			</staticText>
 		</band>
 	</pageFooter>
-	<summary>
-		<band height="39"/>
-	</summary>
 </jasperReport>
