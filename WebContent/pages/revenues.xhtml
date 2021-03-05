@@ -25,7 +25,7 @@
 					</p:commandButton>
 					<p:spacer width="10" height="10"></p:spacer>
 					<p:commandButton value="اضافة فاتورة" styleClass="orange-btn"
-						immediate="true" icon="ui-icon ui-icon-plus"
+						immediate="true" icon="ui-icon ui-icon-plus" update=":billfrom"
 						action="#{revenueBean.showBillDlg}">
 					</p:commandButton>
 				</div>
@@ -374,7 +374,7 @@
 							</div>
 							<div class="ui-g">
 								<div class="ui-g-2">
-									<p:outputLabel value="المبلغ بدون الضريبة"></p:outputLabel>
+									<p:outputLabel value="المبلغ الكلى "></p:outputLabel>
 								</div>
 								<div class="ui-g-3">
 									<p:outputLabel id="d3" value="#{revenueBean.totalValue}"></p:outputLabel>
@@ -509,7 +509,7 @@
 							</div>
 							<div class="ui-g">
 								<div class="ui-g-2">
-									<p:outputLabel value="المبلغ بدون الضريبة"></p:outputLabel>
+									<p:outputLabel value="المبلغ الكلى "></p:outputLabel>
 								</div>
 								<div class="ui-g-3">
 									<p:outputLabel id="d13" value="#{revenueBean.totalValue}"></p:outputLabel>

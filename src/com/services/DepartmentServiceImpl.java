@@ -131,4 +131,9 @@ public class DepartmentServiceImpl implements DepartmentService {
 
 	}
 
+	@Override
+	public List<Contracts> loadContractsByCompanyId(Integer companyId) {
+		return commonDao.loadContractsByCompanyId(companyId);
+	}
+
 }

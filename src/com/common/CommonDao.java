@@ -60,4 +60,6 @@ public interface CommonDao {
 
 	public void InsertEmpToContract(Contracts conAdd, List<String> empsAddIds);
 
+	public List<Contracts> loadContractsByCompanyId(Integer companyId);
+
 }

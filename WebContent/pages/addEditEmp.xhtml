@@ -96,12 +96,10 @@
 								<h:panelGroup id="workStartDate">
 									<p:calendar style="width:100%" pattern="yyyy/MM/dd"
 										rendered="#{!employeesBean.dateBoolean}"
-										value="#{employeesBean.employee.workStartmDate}"
-										required="true" requiredMessage="تاريخ بداية العمل  مطلوب">
+										value="#{employeesBean.employee.workStartmDate}">
 									</p:calendar>
 									<p:inputText rendered="#{employeesBean.dateBoolean}"
 										value="#{employeesBean.employee.workStarthDate}"
-										required="true" requiredMessage="تاريخ بداية العمل  مطلوب"
 										onfocus="loadCalendar();"
 										styleClass="form-control form-controlCal" />
 								</h:panelGroup>
@@ -126,12 +124,14 @@
 							<div class="ui-g-2">
 								<h:panelGroup id="iqamaEndDate">
 									<p:calendar style="width:100%" pattern="yyyy/MM/dd"
-										rendered="#{!employeesBean.dateBoolean}"
+										rendered="#{!employeesBean.dateBoolean}" required="true"
+										requiredMessage="تاريخ انتهاء الاقامة   مطلوب"
 										value="#{employeesBean.employee.iqamaEndmDate}">
 									</p:calendar>
 
 									<p:inputText rendered="#{employeesBean.dateBoolean}"
 										value="#{employeesBean.employee.iqamaEndhDate}"
+										required="true" requiredMessage="تاريخ انتهاء الاقامة   مطلوب"
 										onfocus="loadCalendar();"
 										styleClass="form-control form-controlCal" />
 								</h:panelGroup>
@@ -155,8 +155,7 @@
 								<p:outputLabel value="الجنسية" />
 							</div>
 							<div class="ui-g-2">
-								<p:inputText value="#{employeesBean.employee.nationality}"
-									required="true" requiredMessage="الجنسية  مطلوبة" />
+								<p:inputText value="#{employeesBean.employee.nationality}" />
 							</div>
 							<div class="ui-g-2">
 								<h:outputLabel value="حالة الموظف" />
@@ -175,7 +174,8 @@
 								<p:outputLabel value="المؤسسة" />
 							</div>
 							<div class="ui-g-2">
-								<p:selectOneMenu style="width:100%" id="lt2"
+								<p:selectOneMenu style="width:100%" id="lt2" required="true"
+									requiredMessage="ادخل المؤسسة مطلوب"
 									value="#{employeesBean.employee.enterpriseId}">
 									<f:selectItem itemLabel=" اختر  المؤسسة "
 										noSelectionOption="true" />

@@ -11,7 +11,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title></title>
 <f:metadata>
-	<f:viewAction action="#{employeesBean.initSalarys}" />
+	<f:viewAction action="#{employeesBean.initSalary}" />
 </f:metadata>
 
 </head>
@@ -68,7 +68,7 @@
 						immediate="true">
 						<p:dataExporter encoding="UTF-8" type="xls"
 							postProcessor="#{employeesBean.postProcessXLS}" target="myTable"
-							fileName="BankFile" ></p:dataExporter>
+							fileName="BankFile"></p:dataExporter>
 					</p:commandButton>
 				</div>
 				<br />
@@ -95,9 +95,23 @@
 						<div class="ui-g-2">
 							<p:selectOneMenu style="width:80%" filter="true"
 								filterMatchMode="contains" value="#{employeesBean.companyId}">
-								<!-- 							<f:selectItem itemLabel="الكل" noSelectionOption="true" /> -->
+								<f:selectItem itemLabel="اختر...." noSelectionOption="true" />
 								<f:selectItems value="#{employeesBean.companiesList}" var="st"
 									itemLabel="#{st.name}" itemValue="#{st.id}" />
+								<p:ajax process="@this"
+									listener="#{employeesBean.loadContracts}" update="cons" />
+							</p:selectOneMenu>
+						</div>
+						<div class="ui-g-1">
+							<p:outputLabel value="التعاقدات" />
+						</div>
+						<div class="ui-g-2">
+							<p:selectOneMenu style="width:80%" filter="true" id="cons"
+								filterMatchMode="contains" value="#{employeesBean.conId}">
+								<f:selectItem itemLabel="اختر...." noSelectionOption="true" />
+								<f:selectItems value="#{employeesBean.consList}" var="st"
+									itemLabel="#{st.starthDate} - #{st.workType}"
+									itemValue="#{st.id}" />
 								<p:ajax process="@this" listener="#{employeesBean.initSalarys}"
 									update="myTable" />
 							</p:selectOneMenu>
@@ -144,9 +158,7 @@
 					<f:facet name="header">
 						<div class="ui-g">
 							<div class="ui-g-3"></div>
-							<div class="ui-g-6" align="center">
-								
-							</div>
+							<div class="ui-g-6" align="center"></div>
 							<div align="left" class="ui-g-3">
 								<p:commandButton id="toggler" type="button" value="الاعمدة"
 									icon="pi pi-align-justify" />
@@ -223,7 +235,7 @@
 						<h:outputLabel id="total"
 							value="#{emp.monthSalary + emp.bonus + emp.priceHourNoAdd - emp.priceAbsentDays}">
 							<f:convertNumber pattern="#######.##"></f:convertNumber>
-<!-- 							<f:convertNumber type="currency" currencySymbol="SAR" /> -->
+							<!-- 							<f:convertNumber type="currency" currencySymbol="SAR" /> -->
 						</h:outputLabel>
 					</p:column>
 					<p:column headerText="الاساسي"

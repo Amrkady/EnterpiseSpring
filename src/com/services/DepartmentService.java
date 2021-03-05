@@ -51,4 +51,6 @@ public interface DepartmentService {
 	public void deleteEmployeeFromContract(ContractsEmployees emp);
 
 	public void InsertEmpToContract(Contracts conAdd, List<String> empsAddIds);
+
+	public List<Contracts> loadContractsByCompanyId(Integer companyId);
 }

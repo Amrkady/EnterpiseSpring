@@ -73,6 +73,8 @@ public class EmployeesBean {
 	private Date dateTo;
 	private Contracts con;
 	private long days;
+	private Integer conId;
+	private List<Contracts> consList = new ArrayList<>();
 
 	@PostConstruct
 	public void init() {
@@ -144,16 +146,32 @@ public class EmployeesBean {
 		if (employee != null) {
 			try {
 				if (dateBoolean) {
-					employee.setBirthmDate(Utils.convertHDateToGDate(employee.getBirthhDate()));
-					employee.setEnterancemDate(Utils.convertHDateToGDate(employee.getEnterancehDate()));
-					employee.setIqamaEndmDate(Utils.convertHDateToGDate(employee.getIqamaEndhDate()));
-					employee.setWorkStartmDate(Utils.convertHDateToGDate(employee.getWorkStarthDate()));
+					if (employee.getBirthhDate() != null && !employee.getBirthhDate().isEmpty()) {
+						employee.setBirthmDate(Utils.convertHDateToGDate(employee.getBirthhDate()));
+					}
+					if (employee.getEnterancehDate() != null && !employee.getEnterancehDate().isEmpty()) {
+						employee.setEnterancemDate(Utils.convertHDateToGDate(employee.getEnterancehDate()));
+					}
+					if (employee.getIqamaEndhDate() != null && !employee.getIqamaEndhDate().isEmpty()) {
+						employee.setIqamaEndmDate(Utils.convertHDateToGDate(employee.getIqamaEndhDate()));
+					}
+					if (employee.getWorkStarthDate() != null && !employee.getWorkStarthDate().isEmpty()) {
+						employee.setWorkStartmDate(Utils.convertHDateToGDate(employee.getWorkStarthDate()));
+					}
 				} else {
 					// SimpleDateFormat localDateFormat = new SimpleDateFormat("dd/MM/yyyy");
-					employee.setBirthhDate(Utils.grigDatesConvert(employee.getBirthmDate()));
-					employee.setEnterancehDate(Utils.grigDatesConvert(employee.getEnterancemDate()));
-					employee.setIqamaEndhDate(Utils.grigDatesConvert(employee.getIqamaEndmDate()));
-					employee.setWorkStarthDate(Utils.grigDatesConvert(employee.getWorkStartmDate()));
+					if (employee.getBirthmDate() != null) {
+						employee.setBirthhDate(Utils.grigDatesConvert(employee.getBirthmDate()));
+					}
+					if (employee.getEnterancemDate() != null) {
+						employee.setEnterancehDate(Utils.grigDatesConvert(employee.getEnterancemDate()));
+					}
+					if (employee.getIqamaEndmDate() != null) {
+						employee.setIqamaEndhDate(Utils.grigDatesConvert(employee.getIqamaEndmDate()));
+					}
+					if (employee.getWorkStartmDate() != null) {
+						employee.setWorkStarthDate(Utils.grigDatesConvert(employee.getWorkStartmDate()));
+					}
 
 				}
 				if (employee.getId() == null) {
@@ -204,31 +222,50 @@ public class EmployeesBean {
 		return "addEditEmp";
 	}
 
+	public String loadContracts() {
+
+		if (companyId != null) {
+			// con = departmentServiceImpl.loadContractByCompanyId(companyId);
+
+			consList = departmentServiceImpl.loadContractsByCompanyId(companyId);
+		} else {
+			consList = new ArrayList<Contracts>();
+		}
+		return "";
+	}
+
+	public void initSalary() {
+		employeesList = new ArrayList<Employees>();
+	}
+
 	public void initSalarys() {
 //		LocalDate date = new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 //		int days = date.lengthOfMonth();
 //		System.out.println("////////////" + days);
 		// Long days =ChronoUnit.DAYS.between(new Date().toInstant(), new
 		// Date().toInstant());
+//		List ls = departmentServiceImpl.findAll(Companies.class);
+//		companiesList = ls;
+		// companyId = null;
 		List ls = departmentServiceImpl.findAll(Employees.class);
 		employeesList = ls;
 		employeesList = employeesList.stream().filter(fdet -> "0".equalsIgnoreCase(fdet.getActive()))
 				.collect(Collectors.toList());
 		totalSalary = new BigDecimal(0);
 		totalSalaryAfter = new BigDecimal(0);
-		con = new Contracts();
-		if (companyId != null) {
+
+		if (conId != null) {
 			employeesList = new ArrayList<Employees>();
-			con = departmentServiceImpl.loadContractByCompanyId(companyId);
-			if (con != null) {
-				List<ContractsEmployees> empIds = departmentServiceImpl.loadEmpByContractId(con.getId());
-				for (ContractsEmployees id : empIds) {
-					Employees emp = (Employees) departmentServiceImpl.findEntityById(Employees.class, id.getEmpId());
-					employeesList.add(emp);
-					employeesList = employeesList.stream().filter(fdet -> "0".equalsIgnoreCase(fdet.getActive()))
-							.collect(Collectors.toList());
-				}
+			con = new Contracts();
+			con = (Contracts) departmentServiceImpl.findEntityById(Contracts.class, conId);
+			List<ContractsEmployees> empIds = departmentServiceImpl.loadEmpByContractId(conId);
+			for (ContractsEmployees id : empIds) {
+				Employees emp = (Employees) departmentServiceImpl.findEntityById(Employees.class, id.getEmpId());
+				employeesList.add(emp);
+				employeesList = employeesList.stream().filter(fdet -> "0".equalsIgnoreCase(fdet.getActive()))
+						.collect(Collectors.toList());
 			}
+
 		}
 
 		if (enterpriseAdd != null && enterpriseAdd.size() > 0) {
@@ -661,6 +698,22 @@ public class EmployeesBean {
 
 	public void setDays(long days) {
 		this.days = days;
+	}
+
+	public Integer getConId() {
+		return conId;
+	}
+
+	public void setConId(Integer conId) {
+		this.conId = conId;
+	}
+
+	public List<Contracts> getConsList() {
+		return consList;
+	}
+
+	public void setConsList(List<Contracts> consList) {
+		this.consList = consList;
 	}
 
 }

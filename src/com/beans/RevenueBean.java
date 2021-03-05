@@ -143,9 +143,9 @@ public class RevenueBean {
 
 	public void updateCom() {
 		if (revAdd.getAmount() > 0 && vat == true) {
-			revAdd.setTaxAmoun((revAdd.getAmount() / 1.15) * 0.15);
+			revAdd.setTaxAmoun(revAdd.getAmount() * 0.15);
 			revAdd.setTaxAmoun(Math.round(revAdd.getTaxAmoun() * 100) / 100.00d);
-			totalValue = revAdd.getAmount() - revAdd.getTaxAmoun();
+			totalValue = revAdd.getAmount() + revAdd.getTaxAmoun();
 			totalValue = Math.round(totalValue * 100) / 100.00d;
 			revAdd.setTax(1); // have tax
 		} else {
@@ -160,7 +160,6 @@ public class RevenueBean {
 			vatDisabled = false;
 			if (revAdd != null) {
 				revAdd.setSndType(2); // 1 srf // 2 qabd
-				revAdd.setAmount(totalValue);
 				revAdd.setExpensisTypesId(-1);
 				if (dateAddBoolean) {
 					revAdd.setSndDate(Utils.convertHDateToGDate(revAdd.getMonthhDate()));
@@ -198,7 +197,6 @@ public class RevenueBean {
 			vatDisabled = false;
 			if (revAdd != null) {
 				revAdd.setSndType(3); // 1 srf // 2 qabd // 3 bill
-				revAdd.setAmount(totalValue);
 				revAdd.setExpensisTypesId(-1);
 				if (dateAddBoolean) {
 					revAdd.setSndDate(Utils.convertHDateToGDate(revAdd.getMonthhDate()));

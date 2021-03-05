@@ -352,4 +352,14 @@ public class CommonDaoImpl extends HibernateTemplate implements CommonDao {
 		saveConEmp(conAdd, empsAddIds);
 	}
 
+	@Override
+	@Transactional
+	public List<Contracts> loadContractsByCompanyId(Integer companyId) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Contracts.class);
+		criteria.add(Restrictions.eq("companyId", companyId));
+		// criteria.setProjection(Projections.max("id"));
+		List<Contracts> list = criteria.list();
+		return list;
+	}
+
 }

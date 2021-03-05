@@ -259,6 +259,7 @@
 					id="dlgEmp" dynamic="true" hideEffect="explode" showEffect="fade"
 					width="60%" closable="true" resizable="true" modal="true" dir="rtl">
 					<h:panelGroup id="png" width="60%">
+						<p:messages autoUpdate="true" closable="true"></p:messages>
 						<p:fieldset legend="الموظفين" width="100%">
 							<p:messages autoUpdate="true" closable="true"></p:messages>
 							<div class="ui-g">
@@ -338,6 +339,7 @@
 					dynamic="true" hideEffect="explode" showEffect="fade" width="60%"
 					closable="true" resizable="true" modal="true" dir="rtl">
 					<h:panelGroup id="panelGroupAdd" width="60%">
+						<p:messages autoUpdate="true" closable="true"></p:messages>
 						<p:fieldset legend="بيانات العقد" width="100%">
 							<div class="ui-g">
 								<div class="ui-g-2">
@@ -387,11 +389,13 @@
 								<div class="ui-g-3">
 									<h:panelGroup id="strtDate">
 										<p:calendar style="width:100%" pattern="yyyy/MM/dd"
-											rendered="#{!contractBean.dateAddBoolean}"
+											rendered="#{!contractBean.dateAddBoolean}" required="true"
+											requiredMessage="تاريخ بداية العقد مطلوب"
 											value="#{contractBean.conAdd.startmDate}">
 										</p:calendar>
 										<p:inputText rendered="#{contractBean.dateAddBoolean}"
-											value="#{contractBean.conAdd.starthDate}"
+											value="#{contractBean.conAdd.starthDate}" required="true"
+											requiredMessage="تاريخ بداية العقد مطلوب"
 											onfocus="loadCalendar();"
 											styleClass="form-control form-controlCal" />
 									</h:panelGroup>
@@ -403,11 +407,13 @@
 								<div class="ui-g-3">
 									<h:panelGroup id="endDate">
 										<p:calendar style="width:100%" pattern="yyyy/MM/dd"
-											rendered="#{!contractBean.dateAddBoolean}"
+											rendered="#{!contractBean.dateAddBoolean}" required="true"
+											requiredMessage="تاريخ نهاية العقد مطلوب"
 											value="#{contractBean.conAdd.endmDate}">
 										</p:calendar>
 										<p:inputText rendered="#{contractBean.dateAddBoolean}"
-											value="#{contractBean.conAdd.endhDate}"
+											value="#{contractBean.conAdd.endhDate}" required="true"
+											requiredMessage="تاريخ نهاية العقد مطلوب"
 											onfocus="loadCalendar();"
 											styleClass="form-control form-controlCal" />
 									</h:panelGroup>

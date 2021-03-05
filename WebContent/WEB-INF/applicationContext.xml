@@ -58,10 +58,11 @@
 		class="com.mchange.v2.c3p0.ComboPooledDataSource"
 		destroy-method="close">
 		<property name="driverClass" value="com.mysql.jdbc.Driver" />
-<!-- 		<property name="jdbcUrl" -->
-<!-- 			value="jdbc:mysql://localhost:3306/enterprisedb?zeroDateTimeBehavior=convertToNull" /> -->
-<!-- 		<property name="user" value="root" /> -->
-<!-- 		<property name="password" value="root" /> -->
+		<!-- <property name="jdbcUrl" -->
+		<!-- value="jdbc:mysql://localhost:3306/enterprisedb?zeroDateTimeBehavior=convertToNull" 
+			/> -->
+		<!-- <property name="user" value="root" /> -->
+		<!-- <property name="password" value="root" /> -->
 		<property name="jdbcUrl"
 			value="jdbc:mysql://almotawwa.com:3306/almotaww_db?useUnicode=true&amp;characterEncoding=UTF-8" />
 		<property name="user" value="almotaww_dba" />

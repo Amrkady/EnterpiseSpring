@@ -141,6 +141,7 @@
 					dynamic="true" hideEffect="explode" showEffect="fade" width="60%"
 					closable="true" resizable="true" modal="true" dir="rtl">
 					<h:panelGroup id="panelGroupAdd" width="60%">
+					<p:messages autoUpdate="true" closable="true"></p:messages>
 						<p:fieldset legend="بيانات الاجازة" width="100%">
 							<div class="ui-g">
 								<div class="ui-g-2">
@@ -182,11 +183,13 @@
 								<div class="ui-g-3">
 									<h:panelGroup id="strtDate">
 										<p:calendar style="width:100%" pattern="yyyy/MM/dd"
-											rendered="#{!vacationBean.dateAddBoolean}"
+											rendered="#{!vacationBean.dateAddBoolean}" required="true"
+											requiredMessage="تاريخ بداية الاجازة مطلوب"
 											value="#{vacationBean.vacAdd.vacmDate}">
 										</p:calendar>
 										<p:inputText rendered="#{vacationBean.dateAddBoolean}"
-											value="#{vacationBean.vacAdd.vachDate}"
+											value="#{vacationBean.vacAdd.vachDate}" 
+											required="true" requiredMessage="تاريخ بداية الاجازة مطلوب"
 											onfocus="loadCalendar();"
 											styleClass="form-control form-controlCal" />
 									</h:panelGroup>
@@ -198,11 +201,13 @@
 								<div class="ui-g-3">
 									<h:panelGroup id="endDate">
 										<p:calendar style="width:100%" pattern="yyyy/MM/dd"
-											rendered="#{!vacationBean.dateAddBoolean}"
+											rendered="#{!vacationBean.dateAddBoolean}" required="true"
+											requiredMessage="تاريخ نهاية الاجازة مطلوب"
 											value="#{vacationBean.vacAdd.vacEndmDate}">
 										</p:calendar>
 										<p:inputText rendered="#{vacationBean.dateAddBoolean}"
-											value="#{vacationBean.vacAdd.vacEndhDate}"
+											value="#{vacationBean.vacAdd.vacEndhDate}" required="true"
+											requiredMessage="تاريخ نهاية الاجازة مطلوب"
 											onfocus="loadCalendar();"
 											styleClass="form-control form-controlCal" />
 									</h:panelGroup>
